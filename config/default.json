@@ -1,0 +1,11 @@
+{
+    "tokenKey": "pakistan_zindabad",
+    "DB": {
+        "host": "localhost",
+        "port": "27017",
+        "database": "result-square",
+        "username": "",
+        "password": ""
+    },
+    "appUrl": "http://localhost:4200"
+}
