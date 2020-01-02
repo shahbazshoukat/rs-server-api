@@ -73,7 +73,7 @@ class ResultHandler {
     const q = { _id: resultId };
 
     const update = {
-      status: data.status
+      status: data
     };
 
     return Result.updateOne(q, update);

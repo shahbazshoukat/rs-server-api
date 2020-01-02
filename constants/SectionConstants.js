@@ -17,7 +17,9 @@ const SectionConstants = Object.freeze({
     FAILED_TO_DELETE_SECTION: 'Failed to delete Section',
     NO_DATA_FOUND_TO_ADD_SECTION: 'No data found to add section',
     INVALID_SECTION_ID: 'Invalid section id',
-    INVALID_SECTION_TITLE: 'Invalid section title'
+    INVALID_SECTION_TITLE: 'Invalid section title',
+    SECTION_NOT_FOUND: 'Section not found',
+    RESULT_NOT_FOUND: 'Result not found'
 }
 });
 

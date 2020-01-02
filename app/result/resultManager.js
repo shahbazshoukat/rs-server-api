@@ -48,6 +48,12 @@ class ResultManager {
 
         const doc = await ResultHandler.getResultById(resultId);
 
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
         return doc;
 
     } catch (error) {
@@ -65,6 +71,12 @@ class ResultManager {
     try {
 
         const doc = await ResultHandler.getAllResults();
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
 
         return doc;
 
@@ -106,7 +118,13 @@ class ResultManager {
 
         const doc = await ResultHandler.getResultYears(section._id, board._id);
 
-        cLog.success(`getResultYears:: Successfuly get result years section id:: ${section._id} board id:: ${board._id} years:: `);
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
+        cLog.success(`getResultYears:: Successfully get result years section id:: ${section._id} board id:: ${board._id} years:: `);
 
         return doc;
 
@@ -147,6 +165,12 @@ class ResultManager {
         cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
         const doc = await ResultHandler.getResult(section._id, board._id, year, examType);
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
 
         cLog.success(`getResult:: Successfuly get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 

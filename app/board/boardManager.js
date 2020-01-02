@@ -45,6 +45,12 @@ class BoardManager {
 
         const doc = await BoardHandler.getBoard(boardId);
 
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
         cLog.success(`getBoard:: Board successfully fetched, boardId:: ${boardId} board:: `, doc);
 
         return doc;
@@ -67,6 +73,12 @@ class BoardManager {
 
         const doc = await BoardHandler.getBoardByKey(boardKey);
 
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
         return doc;
 
     } catch (error) {
@@ -84,6 +96,12 @@ class BoardManager {
     try {
 
         const doc = await BoardHandler.getAllBoards();
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
 
         return doc;
 
@@ -106,6 +124,12 @@ class BoardManager {
       cLog.info(`getBoardsBySectionId:: getting board by section Id:: ${sectionId}`);
 
       const doc = await BoardHandler.getBoardsBySectionId(sectionId);
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
 
       cLog.success(`getBoardsBySectionId:: Boards successfully fetched by section id:: ${sectionId} boards:: `);
 
@@ -140,6 +164,12 @@ class BoardManager {
             await BoardUtil.validateSectionId(section._id);
 
             const doc = await BoardHandler.getBoardsBySectionId(section._id);
+
+            if (!doc) {
+
+                throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+            }
 
             cLog.success(`getBoardsBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
 

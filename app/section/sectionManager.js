@@ -42,6 +42,12 @@ class SectionManager {
 
         const doc = await SectionHandler.getSection(sectionId);
 
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
         return doc;
 
     } catch (error) {
@@ -62,6 +68,12 @@ class SectionManager {
 
         const doc = await SectionHandler.getSectionByTitle(title);
 
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
         return doc;
 
     } catch (error) {
@@ -79,6 +91,12 @@ class SectionManager {
     try {
 
         const doc = await SectionHandler.getAllSections();
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
 
         return doc;
 
