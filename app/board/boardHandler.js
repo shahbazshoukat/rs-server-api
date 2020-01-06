@@ -11,6 +11,7 @@ class BoardHandler {
       city: data.city,
       examTypes: data.examTypes,
       sections: data.sections,
+      type: data.type,
       webUrl: data.webUrl,
       resultUrl: data.resultUrl,
       tags: data.tags
@@ -61,6 +62,7 @@ class BoardHandler {
       city: data.city,
       examTypes: data.examTypes,
       sections: data.sections,
+      type: data.type,
       webUrl: data.webUrl,
       resultUrl: data.resultUrl,
       tags: data.tags

@@ -219,23 +219,23 @@ const makeGetRequest = (url, headers = {}) => new Promise((resolve, reject) => {
 
     if (resp.statusCode >= 400) {
 
-      return reject(body);
+      return reject(resp);
 
     }
 
     if (validators.propExists('status', body) && body.status !== 'success') {
 
-      return reject(body);
+      return reject(resp);
 
     }
 
     if (validators.propExists('success', body) && !body.success) {
 
-      return reject(body);
+      return reject(resp);
 
     }
 
-    return resolve(body);
+    return resolve(resp);
 
   });
 

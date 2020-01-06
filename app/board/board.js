@@ -37,6 +37,11 @@ const boardSchema = mongoose.Schema({
     }
   ],
 
+  type: {
+    type: String,
+    required: false
+  },
+
   webUrl:{
     type: String, 
     required: false

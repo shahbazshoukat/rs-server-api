@@ -14,7 +14,7 @@ const {
 
 const {
   cLog,
-  validators
+    restClient
 } = require("../../helpers");
 
 
@@ -166,9 +166,19 @@ class ResultManager {
 
         const doc = await ResultHandler.getResult(section._id, board._id, year, examType);
 
-        if (!doc) {
+        if (!doc || !doc.resultUrl) {
 
             throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
+        doc.isBlocked = false;
+
+        const resultRes = await restClient.get(doc.resultUrl);
+
+        if (resultRes && resultRes.headers && resultRes.headers["x-frame-options"]) {
+
+            doc.isBlocked = true;
 
         }
 

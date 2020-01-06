@@ -75,7 +75,7 @@ class BoardManager {
 
         if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+            throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
         }
 
