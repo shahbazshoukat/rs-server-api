@@ -9,7 +9,8 @@ const {
 
 const {
   cLog,
-  validators
+  validators,
+    restClient
 } = require("../../helpers");
 
 
@@ -20,6 +21,16 @@ class BoardManager {
     try {
 
       await BoardUtil.validateParametersToCreateBoard(data);
+
+        data.isBlocked = false;
+
+        const resultRes = await restClient.get(data.resultUrl);
+
+        if (resultRes && resultRes.headers && (resultRes.headers["x-frame-options"] || resultRes.headers["X-FRAME-OPTIONS"])) {
+
+            data.isBlocked = true;
+
+        }
 
       const doc = await BoardHandler.createBoard(data);
 
@@ -78,6 +89,8 @@ class BoardManager {
             throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
         }
+
+        await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
 
         return doc;
 

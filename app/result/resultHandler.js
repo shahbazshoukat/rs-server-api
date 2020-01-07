@@ -12,7 +12,8 @@ class ResultHandler {
       announceDate: data.announceDate,
       examType: data.examType,
       resultUrl:data.resultUrl,
-      tags: data.tags
+      tags: data.tags,
+      isBlocked: data.isBlocked
     });
 
     return result.save();
@@ -68,13 +69,9 @@ class ResultHandler {
 
   }
 
-  static updateResultStatus(resultId, data) {
+  static updateResultById(resultId, update) {
 
     const q = { _id: resultId };
-
-    const update = {
-      status: data
-    };
 
     return Result.updateOne(q, update);
 

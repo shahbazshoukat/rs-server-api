@@ -14,7 +14,8 @@ class BoardHandler {
       type: data.type,
       webUrl: data.webUrl,
       resultUrl: data.resultUrl,
-      tags: data.tags
+      tags: data.tags,
+      isBlocked: data.isBlocked
     });
 
     return board.save();
@@ -48,6 +49,14 @@ class BoardHandler {
     const q = {sections: sectionId};
 
     return Board.find(q).populate("sections").lean().exec();
+
+  }
+
+  static updateBoardById(boardId, update) {
+
+    const q = { _id: boardId };
+
+    return Board.updateOne(q, update);
 
   }
 

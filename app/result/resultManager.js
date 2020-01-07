@@ -26,6 +26,16 @@ class ResultManager {
 
       await ResultUtil.validateParametersToCreateResult(data);
 
+        data.isBlocked = false;
+
+        const resultRes = await restClient.get(data.resultUrl);
+
+        if (resultRes && resultRes.headers && (resultRes.headers["x-frame-options"] || resultRes.headers["X-FRAME-OPTIONS"])) {
+
+            data.isBlocked = true;
+
+        }
+
       const doc = await ResultHandler.createResult(data);
 
       return doc;
@@ -172,15 +182,7 @@ class ResultManager {
 
         }
 
-        doc.isBlocked = false;
-
-        const resultRes = await restClient.get(doc.resultUrl);
-
-        if (resultRes && resultRes.headers && resultRes.headers["x-frame-options"]) {
-
-            doc.isBlocked = true;
-
-        }
+        await ResultHandler.updateResultById(doc._id, { $inc: { views: 1 } });
 
         cLog.success(`getResult:: Successfuly get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 

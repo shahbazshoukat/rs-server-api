@@ -57,7 +57,17 @@ const boardSchema = mongoose.Schema({
       type: String, 
       require: false
     }
-  ]
+  ],
+  views: {
+    type: Number,
+    required: false,
+    default: 0
+  },
+  isBlocked: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 
 },{
   timestamps: true,
