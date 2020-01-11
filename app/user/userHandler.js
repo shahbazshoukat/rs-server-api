@@ -1,5 +1,5 @@
 const User = require("./user");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 class UserHandler {
   static async createUser(data) {

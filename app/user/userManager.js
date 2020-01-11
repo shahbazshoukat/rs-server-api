@@ -1,5 +1,5 @@
 const UserHandler = require("./userHandler");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mailer = require("../utils/mailer");
 class UserManager {
