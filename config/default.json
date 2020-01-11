@@ -1,11 +1,19 @@
 {
     "tokenKey": "pakistan_zindabad",
+    "isAtlas": false,
     "DB": {
         "host": "localhost",
         "port": "27017",
         "database": "result-square",
         "username": "",
         "password": ""
+    },
+    "ATLAS_DB":{
+        "host": "resultsquare-sr7lv.mongodb.net",
+        "port": "27017",
+        "database": "test",
+        "username": "rs-admin",
+        "password": "password009"
     },
     "appUrl": "http://localhost:4200"
 }

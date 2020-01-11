@@ -12,13 +12,25 @@ const {
   DBConstants
 } = require("./constants");
 
+let url = '';
+if (config.isAtlas) {
+
+  url = `mongodb+srv://${config.DB.username}:${config.DB.password}@${config.DB.host}/${config.DB.database}?retryWrites=true&w=majority`;
+
+} else {
+
+  url = `mongodb://${config.DB.host}:${config.DB.port}/${config.DB.database}`;
+
+}
+console.log(url);
 
 mongoose
-  .connect(`mongodb://${config.DB.host}:${config.DB.port}/${config.DB.database}`)
+  .connect(url)
   .then(() => {
     console.log(DBConstants.MESSAGES.CONNECTED_TO_DATABASE);
   })
-  .catch(() => {
+  .catch((error) => {
+    console.log(error);
     console.log(DBConstants.MESSAGES.DB_CONNECTION_FAILED);
   });
 
