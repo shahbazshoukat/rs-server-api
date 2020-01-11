@@ -15,7 +15,7 @@ const {
 let url = '';
 if (config.isAtlas) {
 
-  url = `mongodb+srv://${config.DB.username}:${config.DB.password}@${config.DB.host}/${config.DB.database}?retryWrites=true&w=majority`;
+  url = `mongodb+srv://${config.ATLAS_DB.username}:${config.ATLAS_DB.password}@${config.ATLAS_DB.host}/${config.ATLAS_DB.database}?retryWrites=true&w=majority`;
 
 } else {
 
