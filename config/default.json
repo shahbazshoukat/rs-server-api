@@ -1,6 +1,6 @@
 {
     "tokenKey": "pakistan_zindabad",
-    "isAtlas": false,
+    "isAtlas": true,
     "DB": {
         "host": "localhost",
         "port": "27017",
