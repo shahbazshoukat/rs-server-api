@@ -134,9 +134,11 @@ class ResultManager {
 
         }
 
+        const years = await doc.filter((item, index) => doc.indexOf(item) !== index);
+
         cLog.success(`getResultYears:: Successfully get result years section id:: ${section._id} board id:: ${board._id} years:: `);
 
-        return doc;
+        return years;
 
     } catch (error) {
 
