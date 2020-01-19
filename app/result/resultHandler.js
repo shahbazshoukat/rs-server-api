@@ -38,7 +38,7 @@ class ResultHandler {
 
     const q = { section: sectionId, board: boardId };
 
-    return Result.find(q).select("year").lean().exec();
+    return Result.find(q).distinct("year").select("year").lean().exec();
 
   }
 
