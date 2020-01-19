@@ -21,4 +21,6 @@ router.get("/result/:section/:board/:year/:exam", ResultController.getResult);
 
 router.get("/result/:section/:board/:year/:exam/:rollNo", ResultController.findResult);
 
+router.get('/results/board/:boardKey', ResultController.getResultsByBoardKey);
+
 module.exports = router;

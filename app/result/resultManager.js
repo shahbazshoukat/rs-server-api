@@ -146,6 +146,44 @@ class ResultManager {
 
   }
 
+  static async getResultsByBoardKey(boardKey) {
+
+    try {
+
+        cLog.info(`getResultYears:: getting result by boardKey:: ${boardKey}`);
+
+        await ResultUtil.validateBoardKey(boardKey);
+
+        const board = await BoardManager.getBoardByKey(boardKey);
+
+        if(!board || !board._id) {
+
+            throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
+        cLog.info(`getResultYears:: getting results by board id:: ${board._id}`);
+
+        const doc = await ResultHandler.getResultsByBoardId(board._id);
+
+        if (!doc) {
+
+            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+        }
+
+        cLog.success(`getResultYears:: Successfully get results by board id:: ${board._id}`);
+
+        return doc;
+
+    } catch (error) {
+
+        throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+    }
+
   static async getResult(sectionTitle, boardKey, year, examType) {
 
     try {

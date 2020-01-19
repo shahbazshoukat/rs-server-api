@@ -45,6 +45,14 @@ class ResultHandler {
 
   }
 
+  static getResultsByBoardId(boardId) {
+
+    const q = {board: boardId};
+
+    return Result.find(q).populate("board").populate("section").lean().exec();
+
+  }
+
   static getResult(sectionId, boardId, year, examType) {
 
     const q = {section: sectionId, board: boardId, year: year, examType: examType};

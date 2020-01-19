@@ -140,13 +140,13 @@ class ResultController {
 
   }
 
-  static async getResultYearsByBoardTitle(req, res) {
+  static async getResultsByBoardKey(req, res) {
 
     try {
 
-      const doc = await ResultManager.updateResultStatus(req.body.boardTitle, req.body.status);
+      const doc = await ResultManager.getResultsByBoardKey(req.params.boardKey);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_STATUS_UPDATED_SUCCESSFULLY, data: doc});
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc});
 
     } catch (error) {
 
@@ -154,7 +154,7 @@ class ResultController {
 
     }
 
-  }  
+  }
 
   static async findResult(req, res) {
 

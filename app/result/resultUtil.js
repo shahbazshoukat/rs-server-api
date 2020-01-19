@@ -109,6 +109,16 @@ class ResultUtil {
 
     }
 
+    static validateBoardKey(boardKey) {
+
+        if (!validators.isValidStr(boardKey)) {
+
+            throw new ApplicationException(ResultConstants.MESSAGES.INVALID_BOARD, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+        }
+
+    }
+
     static async findResult(board, result, rollNo) {
 
        try {
