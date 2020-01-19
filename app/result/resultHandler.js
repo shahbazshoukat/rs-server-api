@@ -1,5 +1,8 @@
 const Result = require("./result");
 
+const {
+  ResultEnums
+} = require('../../enums');
 class ResultHandler {
 
   static createResult(data) {
@@ -36,7 +39,7 @@ class ResultHandler {
 
   static getResultYears(sectionId, boardId) {
 
-    const q = { section: sectionId, board: boardId };
+    const q = { section: sectionId, board: boardId, examType: ResultEnums.EXAM_TYPES.ANNUAL };
 
     return Result.find(q).select("year").lean().exec();
 
