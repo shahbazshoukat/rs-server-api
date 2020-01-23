@@ -1,5 +1,5 @@
 {
-    "tokenKey": "pakistan_zindabad",
+    "secretKey": "pakistan_zindabad",
     "database": {
         "isLocal" : false,
         "host": "resultsquare-sr7lv.mongodb.net",
