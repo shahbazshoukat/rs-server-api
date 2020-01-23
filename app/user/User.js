@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
     require: true
   },
   lastToken: {
-    type: Number,
+    type: String,
     require: false
   }
 });
