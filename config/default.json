@@ -9,6 +9,9 @@
         "password": "password009"
       },
     "appUrl": "http://localhost:4200",
+    "protocol": "http",
+    "host": "172.31.36.28",
+    "port": 3000,
     "ssl": {
         "enabled": false,
         "local": true,
