@@ -6,7 +6,7 @@ const useragent = require('useragent');
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
-  ErrorCodesConstants,
+  HTTPStatusCodeConstants,
   UserConstants
 } = require('../../constants');
 
@@ -31,7 +31,7 @@ class UserManager {
 
         cLog.error(`createNewUser:: This email:: ${data.email} is already taken`);
 
-        throw new ApplicationException(UserConstants.MESSAGES.THIS_EMAIL_IS_ALREADY_TAKEN, ErrorCodesConstants.BAD_REQUEST).toJson();
+        throw new ApplicationException(UserConstants.MESSAGES.THIS_EMAIL_IS_ALREADY_TAKEN, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
       }
 
@@ -52,7 +52,7 @@ class UserManager {
 
       cLog.error(`createNewUser:: Failed to create new User account, email:: ${data.email}`, error);
 
-      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_CREATE_USER_ACCOUNT, error.code || ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_CREATE_USER_ACCOUNT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -72,7 +72,7 @@ class UserManager {
 
         cLog.error(`loginUser:: No User found with email:: ${email}`);
 
-        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, ErrorCodesConstants.BAD_REQUEST).toJson();
+        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
       }
 
@@ -82,7 +82,7 @@ class UserManager {
 
         cLog.error(`loginUser:: Invalid credentials, email:: ${email}`);
 
-        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, ErrorCodesConstants.BAD_REQUEST).toJson();
+        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
       }
 
@@ -114,7 +114,7 @@ class UserManager {
 
       cLog.error(`loginUser:: Failed to login User, email:: ${email}`, error);
 
-      throw new ApplicationException(error.message || UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, error.code || ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.INVALID_USER_CREDENTIALS, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -130,7 +130,7 @@ class UserManager {
 
         cLog.error(`logoutUser:: Invalid User, `, user);
 
-        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER, ErrorCodesConstants.BAD_REQUEST).toJson();
+        throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
       }
 
@@ -148,7 +148,7 @@ class UserManager {
 
       cLog.error(`logoutUser:: Failed to logout User, `, user, error);
 
-      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_LOGOUT, error.code || ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_LOGOUT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 

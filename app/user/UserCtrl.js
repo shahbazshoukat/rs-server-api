@@ -1,8 +1,7 @@
 const UserManager = require('./UserManager');
 
 const {
-  ErrorCodesConstants,
-  ErrorMessagesConstants,
+  HTTPStatusCodeConstants,
   UserConstants
 } = require('../../constants');
 
@@ -24,7 +23,7 @@ class UserCtrl {
 
       cLog.error(`createNewUser:: Failed to create User, data:: `, req.body, error);
 
-      res.status(error.code || ErrorCodesConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || ErrorMessagesConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
 
     }
 
@@ -42,7 +41,7 @@ class UserCtrl {
 
       cLog.error(`loginUser:: Failed to login, email:: ${req.body.email}`, error);
 
-      res.status(error.code || ErrorCodesConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || ErrorMessagesConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
 
     }
 
@@ -60,7 +59,7 @@ class UserCtrl {
 
       cLog.error(`logoutUser:: Failed to logout, `, req.user, error);
 
-      res.status(error.code || ErrorCodesConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || ErrorMessagesConstants.MESSAGES.INTERNAL_SERVER_ERROR});
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR });
 
     }
 
