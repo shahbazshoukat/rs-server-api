@@ -1,8 +1,8 @@
-const Section = require("./section");
+const Section = require('./section');
 
 class SectionHandler {
 
-  static createSection(data) {
+  static createSection (data) {
 
     const section = new Section({
       title: data.title,
@@ -13,7 +13,7 @@ class SectionHandler {
 
   }
 
-  static getSection(sectionId) {
+  static getSection (sectionId) {
 
     const q = { _id: sectionId };
 
@@ -21,21 +21,21 @@ class SectionHandler {
 
   }
 
-  static getSectionByTitle(title) {
+  static getSectionByTitle (title) {
 
-    const q = { title: title };
+    const q = { title };
 
     return Section.findOne(q).lean().exec();
 
   }
 
-  static getAllSections() {
+  static getAllSections () {
 
     return Section.find().lean().exec();
 
   }
 
-  static updateSection(sectionId, data) {
+  static updateSection (sectionId, data) {
 
     const q = { _id: sectionId };
 
@@ -48,10 +48,9 @@ class SectionHandler {
 
   }
 
+  static deleteSection (sectionId) {
 
-  static deleteSection(sectionId) {
-
-    const q = { _id: sectionId};
+    const q = { _id: sectionId };
 
     return Section.deleteOne(q);
 

@@ -1,0 +1,26 @@
+{
+  "extends": ["airbnb-standard"],
+  "rules": {
+    "max-len": "off",
+    "consistent-return": "off",
+    "no-continue": "off",
+    "no-await-in-loop": "off",
+    "no-param-reassign": "off",
+    "no-restricted-syntax": "off",
+    "guard-for-in": "off",
+    "prefer-destructuring": "off",
+    "no-bitwise": "off",
+    "no-plusplus": "off",
+    "padded-blocks": ["error", "always"],
+    "no-underscore-dangle": ["error", { "allow": [
+      "_id",
+      "_resCallback",
+      "_user",
+      "_notification",
+      "_comment",
+      "_s3ForProvider",
+      "_deliveryUrlForProviderConfigNPath",
+      "_s3ForStorageProviderConfig"
+    ]}]
+  }
+}

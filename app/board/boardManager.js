@@ -1,36 +1,35 @@
-const BoardHandler = require("./boardHandler");
-const BoardUtil = require("./boardUtil");
-const ApplicationException = require("../../exceptions/ApplicationException");
+const BoardHandler = require('./boardHandler');
+const BoardUtil = require('./boardUtil');
+const ApplicationException = require('../../exceptions/ApplicationException');
 const SectionManager = require('../section/sectionManager');
 const {
   BoardConstants,
   HTTPStatusCodeConstants
-} = require("../../constants");
+} = require('../../constants');
 
 const {
   cLog,
   validators,
-    restClient
-} = require("../../helpers");
-
+  restClient
+} = require('../../helpers');
 
 class BoardManager {
 
-  static async createBoard(data) {
+  static async createBoard (data) {
 
     try {
 
       await BoardUtil.validateParametersToCreateBoard(data);
 
-        data.isBlocked = false;
+      data.isBlocked = false;
 
-        const resultRes = await restClient.get(data.resultUrl);
+      const resultRes = await restClient.get(data.resultUrl);
 
-        if (resultRes && resultRes.headers && (resultRes.headers["x-frame-options"] || resultRes.headers["X-FRAME-OPTIONS"])) {
+      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
 
-            data.isBlocked = true;
+        data.isBlocked = true;
 
-        }
+      }
 
       const doc = await BoardHandler.createBoard(data);
 
@@ -41,30 +40,30 @@ class BoardManager {
       cLog.error(`createBoard:: Failed to create Board data:: `, data, error);
 
       throw new ApplicationException(error.message || BoardConstants.MESSAGES.FAILED_TO_ADD_BOARD, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
-    
+
     }
 
   }
 
-  static async getBoard(boardId) {
+  static async getBoard (boardId) {
 
     try {
 
-        cLog.info(`getBoard:: getting board by id:: ${boardId}`);
+      cLog.info(`getBoard:: getting board by id:: ${boardId}`);
 
-        await BoardUtil.validateBoardId(boardId);
+      await BoardUtil.validateBoardId(boardId);
 
-        const doc = await BoardHandler.getBoard(boardId);
+      const doc = await BoardHandler.getBoard(boardId);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        cLog.success(`getBoard:: Board successfully fetched, boardId:: ${boardId} board:: `, doc);
+      cLog.success(`getBoard:: Board successfully fetched, boardId:: ${boardId} board:: `, doc);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -76,23 +75,23 @@ class BoardManager {
 
   }
 
-  static async getBoardByKey(boardKey) {
+  static async getBoardByKey (boardKey) {
 
     try {
 
-        await BoardUtil.validateBoardKey(boardKey);
+      await BoardUtil.validateBoardKey(boardKey);
 
-        const doc = await BoardHandler.getBoardByKey(boardKey);
+      const doc = await BoardHandler.getBoardByKey(boardKey);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
+      await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -104,19 +103,19 @@ class BoardManager {
 
   }
 
-  static async getAllBoards() {
+  static async getAllBoards () {
 
     try {
 
-        const doc = await BoardHandler.getAllBoards();
+      const doc = await BoardHandler.getAllBoards();
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -128,7 +127,7 @@ class BoardManager {
 
   }
 
-  static async getBoardsBySectionId(sectionId) {
+  static async getBoardsBySectionId (sectionId) {
 
     try {
 
@@ -138,11 +137,11 @@ class BoardManager {
 
       const doc = await BoardHandler.getBoardsBySectionId(sectionId);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
       cLog.success(`getBoardsBySectionId:: Boards successfully fetched by section id:: ${sectionId} boards:: `);
 
@@ -158,57 +157,57 @@ class BoardManager {
 
   }
 
-    static async getBoardsBySectionTitle(sectionTitle) {
-
-        try {
-
-            await BoardUtil.validateSectionTitle(sectionTitle);
-
-            cLog.info(`getBoardsBySectionTitle:: getting board by section Title:: ${sectionTitle}`);
-
-            const section = await SectionManager.getSectionByTitle(sectionTitle);
-
-            if (!section || !section._id) {
-
-                throw new ApplicationException(BoardConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-            }
-
-            await BoardUtil.validateSectionId(section._id);
-
-            const doc = await BoardHandler.getBoardsBySectionId(section._id);
-
-            if (!doc) {
-
-                throw new ApplicationException(SectionConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-            }
-
-            cLog.success(`getBoardsBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
-
-            return doc;
-
-        } catch (error) {
-
-            cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionTitle}`, error);
-
-            throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARDS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
-
-        }
-
-    }
-
-  static async updateBoard(boardId, data) {
+  static async getBoardsBySectionTitle (sectionTitle) {
 
     try {
 
-        await BoardUtil.validateBoardId(boardId);
+      await BoardUtil.validateSectionTitle(sectionTitle);
 
-        await BoardUtil.validateParametersToCreateBoard(data);
+      cLog.info(`getBoardsBySectionTitle:: getting board by section Title:: ${sectionTitle}`);
 
-        const doc = await BoardHandler.updateBoard(boardId, data);
+      const section = await SectionManager.getSectionByTitle(sectionTitle);
 
-        return doc;
+      if (!section || !section._id) {
+
+        throw new ApplicationException(BoardConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      await BoardUtil.validateSectionId(section._id);
+
+      const doc = await BoardHandler.getBoardsBySectionId(section._id);
+
+      if (!doc) {
+
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.success(`getBoardsBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionTitle}`, error);
+
+      throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARDS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async updateBoard (boardId, data) {
+
+    try {
+
+      await BoardUtil.validateBoardId(boardId);
+
+      await BoardUtil.validateParametersToCreateBoard(data);
+
+      const doc = await BoardHandler.updateBoard(boardId, data);
+
+      return doc;
 
     } catch (error) {
 
@@ -219,18 +218,18 @@ class BoardManager {
     }
 
   }
- 
-  static async deleteBoard(boardId) {
+
+  static async deleteBoard (boardId) {
 
     try {
 
-        await BoardUtil.validateBoardId(boardId);
+      await BoardUtil.validateBoardId(boardId);
 
-        const doc = await BoardHandler.deleteBoard(boardId);
-        
-        return doc;
+      const doc = await BoardHandler.deleteBoard(boardId);
 
-    } catch (err) {
+      return doc;
+
+    } catch (error) {
 
       cLog.error(`deleteBoard:: Failed to delete Board boardId:: ${boardId}`, error);
 

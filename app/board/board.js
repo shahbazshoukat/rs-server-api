@@ -2,37 +2,37 @@ const mongoose = require('mongoose');
 
 const boardSchema = mongoose.Schema({
 
-  key:{
+  key: {
     type: String,
     required: false
   },
 
-  title:{ 
-    type: String, 
+  title: {
+    type: String,
     required: false
   },
 
-  province:{
-    type: String, 
+  province: {
+    type: String,
     require: false
   },
 
-  city:{ 
-    type: String, 
+  city: {
+    type: String,
     require: false
   },
 
   examTypes: [
     {
-      type: Object, 
+      type: Object,
       require: false
     } // 0 = annual, 1 = supply, 2 = test, 3 = retotal
   ],
 
-  sections:[
-    { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Section", 
+  sections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Section',
       required: false
     }
   ],
@@ -42,19 +42,19 @@ const boardSchema = mongoose.Schema({
     required: false
   },
 
-  webUrl:{
-    type: String, 
+  webUrl: {
+    type: String,
     required: false
   },
 
-  resultUrl:{
-    type: String, 
+  resultUrl: {
+    type: String,
     required: false
   },
 
   tags: [
-    { 
-      type: String, 
+    {
+      type: String,
       require: false
     }
   ],
@@ -69,10 +69,9 @@ const boardSchema = mongoose.Schema({
     default: false
   }
 
-},{
+}, {
   timestamps: true,
   versionKey: false
-}
-);
+});
 
 module.exports = mongoose.model('Board', boardSchema);

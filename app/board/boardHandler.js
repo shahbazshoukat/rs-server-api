@@ -1,8 +1,8 @@
-const Board = require("./board");
+const Board = require('./board');
 
 class BoardHandler {
 
-  static createBoard(data) {
+  static createBoard (data) {
 
     const board = new Board({
       key: data.key,
@@ -22,37 +22,37 @@ class BoardHandler {
 
   }
 
-  static getBoard(boardId) {
+  static getBoard (boardId) {
 
     const q = { _id: boardId };
 
-    return Board.findOne(q).populate("sections").lean().exec();
+    return Board.findOne(q).populate('sections').lean().exec();
 
   }
 
-  static getBoardByKey(boardKey) {
+  static getBoardByKey (boardKey) {
 
-    const q = {key: boardKey};
+    const q = { key: boardKey };
 
-    return Board.findOne(q).populate("sections").lean().exec();
-
-  }
-
-  static getAllBoards() {
-
-    return Board.find().populate("sections").lean().exec();
-  
-  }
-
-  static getBoardsBySectionId(sectionId) {
-
-    const q = {sections: sectionId};
-
-    return Board.find(q).populate("sections").lean().exec();
+    return Board.findOne(q).populate('sections').lean().exec();
 
   }
 
-  static updateBoardById(boardId, update) {
+  static getAllBoards () {
+
+    return Board.find().populate('sections').lean().exec();
+
+  }
+
+  static getBoardsBySectionId (sectionId) {
+
+    const q = { sections: sectionId };
+
+    return Board.find(q).select('key title province city resultUrl type').lean().exec();
+
+  }
+
+  static updateBoardById (boardId, update) {
 
     const q = { _id: boardId };
 
@@ -60,7 +60,7 @@ class BoardHandler {
 
   }
 
-  static updateBoard(boardId, data) {
+  static updateBoard (boardId, data) {
 
     const q = { _id: boardId };
 
@@ -81,14 +81,14 @@ class BoardHandler {
 
   }
 
-  static deleteBoard(boardId) {
+  static deleteBoard (boardId) {
 
-    const q = { _id: boardId};
+    const q = { _id: boardId };
 
     return Board.deleteOne(q);
 
   }
-  
+
 }
 
 module.exports = BoardHandler;

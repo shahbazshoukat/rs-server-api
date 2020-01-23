@@ -1,10 +1,10 @@
 const SectionConstants = Object.freeze({
-   Type: {
-       TEST: 'test',
-       CLASS: 'class'
-   },
+  Type: {
+    TEST: 'test',
+    CLASS: 'class'
+  },
 
-   MESSAGES: {
+  MESSAGES: {
     SECTION_ADDED_SUCCESSFULLY: 'Section added successfully',
     SECTION_FETCHED_SUCCESSFULLY: 'Section fetched successfully',
     SECTIONS_FETCHED_SUCCESSFULLY: 'Sections fetched successfully',
@@ -20,7 +20,7 @@ const SectionConstants = Object.freeze({
     INVALID_SECTION_TITLE: 'Invalid section title',
     SECTION_NOT_FOUND: 'Section not found',
     RESULT_NOT_FOUND: 'Result not found'
-}
+  }
 });
 
 module.exports = SectionConstants;

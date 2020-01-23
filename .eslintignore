@@ -1,0 +1,6 @@
+#ignore readme files if present
+**/*.md
+config/*
+db_upgrade_scripts/*
+resource_upgrade_scripts/*
+startup.js

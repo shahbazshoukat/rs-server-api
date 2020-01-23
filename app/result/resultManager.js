@@ -1,40 +1,39 @@
-const ResultHandler = require("./resultHandler");
-const SectionManager = require("../section/sectionManager");
-const BoardManager = require("../board/boardManager");
-const ResultUtil = require("./resultUtil");
-const ApplicationException = require("../../exceptions/ApplicationException");
+const ResultHandler = require('./resultHandler');
+const SectionManager = require('../section/sectionManager');
+const BoardManager = require('../board/boardManager');
+const ResultUtil = require('./resultUtil');
+const ApplicationException = require('../../exceptions/ApplicationException');
 const {
   ResultConstants,
   HTTPStatusCodeConstants
-} = require("../../constants");
+} = require('../../constants');
 
 const {
   ResultEnums
-} = require("../../enums");
+} = require('../../enums');
 
 const {
   cLog,
-    restClient
-} = require("../../helpers");
-
+  restClient
+} = require('../../helpers');
 
 class ResultManager {
 
-  static async createResult(data) {
+  static async createResult (data) {
 
     try {
 
       await ResultUtil.validateParametersToCreateResult(data);
 
-        data.isBlocked = false;
+      data.isBlocked = false;
 
-        const resultRes = await restClient.get(data.resultUrl);
+      const resultRes = await restClient.get(data.resultUrl);
 
-        if (resultRes && resultRes.headers && (resultRes.headers["x-frame-options"] || resultRes.headers["X-FRAME-OPTIONS"])) {
+      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
 
-            data.isBlocked = true;
+        data.isBlocked = true;
 
-        }
+      }
 
       const doc = await ResultHandler.createResult(data);
 
@@ -45,26 +44,26 @@ class ResultManager {
       cLog.error(`createResult:: Failed to create Result data:: `, data, error);
 
       throw new ApplicationException(error.message || ResultConstants.MESSAGES.FAILED_TO_ADD_RESULT, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
-    
+
     }
 
   }
 
-  static async getResultById(resultId) {
+  static async getResultById (resultId) {
 
     try {
 
-        await ResultUtil.validateResultId(resultId);
+      await ResultUtil.validateResultId(resultId);
 
-        const doc = await ResultHandler.getResultById(resultId);
+      const doc = await ResultHandler.getResultById(resultId);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -76,19 +75,19 @@ class ResultManager {
 
   }
 
-  static async getAllResults() {
+  static async getAllResults () {
 
     try {
 
-        const doc = await ResultHandler.getAllResults();
+      const doc = await ResultHandler.getAllResults();
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -100,43 +99,43 @@ class ResultManager {
 
   }
 
-  static async getResultYears(secTitle, boardKey) {
+  static async getResultYears (secTitle, boardKey) {
 
     try {
 
-        cLog.info(`getResultYears:: getting result years section title:: ${secTitle} boardKey:: ${boardKey}`);
+      cLog.info(`getResultYears:: getting result years section title:: ${secTitle} boardKey:: ${boardKey}`);
 
-        await ResultUtil.validateParametersToGetResultYears(secTitle, boardKey);
+      await ResultUtil.validateParametersToGetResultYears(secTitle, boardKey);
 
-        const section = await SectionManager.getSectionByTitle(secTitle);
+      const section = await SectionManager.getSectionByTitle(secTitle);
 
-        if(!section || !section._id) {
+      if (!section || !section._id) {
 
-          throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        const board = await BoardManager.getBoardByKey(boardKey);
+      const board = await BoardManager.getBoardByKey(boardKey);
 
-        if(!board || !board._id) {
+      if (!board || !board._id) {
 
-          throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        cLog.info(`getResultYears:: getting result years section id:: ${section._id} board id:: ${board._id}`);
+      cLog.info(`getResultYears:: getting result years section id:: ${section._id} board id:: ${board._id}`);
 
-        const doc = await ResultHandler.getResultYears(section._id, board._id);
+      const doc = await ResultHandler.getResultYears(section._id, board._id);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        cLog.success(`getResultYears:: Successfully get result years section id:: ${section._id} board id:: ${board._id} years:: `);
+      cLog.success(`getResultYears:: Successfully get result years section id:: ${section._id} board id:: ${board._id} years:: `);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -146,45 +145,45 @@ class ResultManager {
 
   }
 
-  static async getResultsByBoardKey(boardKey) {
+  static async getResultsByBoardKey (boardKey) {
 
     try {
 
-        cLog.info(`getResultYears:: getting result by boardKey:: ${boardKey}`);
+      cLog.info(`getResultYears:: getting result by boardKey:: ${boardKey}`);
 
-        await ResultUtil.validateBoardKey(boardKey);
+      await ResultUtil.validateBoardKey(boardKey);
 
-        const board = await BoardManager.getBoardByKey(boardKey);
+      const board = await BoardManager.getBoardByKey(boardKey);
 
-        if(!board || !board._id) {
+      if (!board || !board._id) {
 
-            throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        cLog.info(`getResultYears:: getting results by board id:: ${board._id}`);
+      cLog.info(`getResultYears:: getting results by board id:: ${board._id}`);
 
-        const doc = await ResultHandler.getResultsByBoardId(board._id);
+      const doc = await ResultHandler.getResultsByBoardId(board._id);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        cLog.success(`getResultYears:: Successfully get results by board id:: ${board._id}`);
+      cLog.success(`getResultYears:: Successfully get results by board id:: ${board._id}`);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
-        throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+      throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
     }
 
-    }
+  }
 
-  static async getResult(sectionTitle, boardKey, year, examType) {
+  static async getResult (sectionTitle, boardKey, year, examType) {
 
     try {
 
@@ -194,37 +193,37 @@ class ResultManager {
 
       const section = await SectionManager.getSectionByTitle(sectionTitle);
 
-        if(!section || !section._id) {
+      if (!section || !section._id) {
 
-          throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        const board = await BoardManager.getBoardByKey(boardKey);
+      const board = await BoardManager.getBoardByKey(boardKey);
 
-        if(!board || !board._id) {
+      if (!board || !board._id) {
 
-          throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        examType = examType === ResultConstants.EXAM_TYPES.ANNUAL ? ResultEnums.EXAM_TYPES.ANNUAL : ResultEnums.EXAM_TYPES.SUPPLY;
+      examType = examType === ResultConstants.EXAM_TYPES.ANNUAL ? ResultEnums.EXAM_TYPES.ANNUAL : ResultEnums.EXAM_TYPES.SUPPLY;
 
-        cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
+      cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
-        const doc = await ResultHandler.getResult(section._id, board._id, year, examType);
+      const doc = await ResultHandler.getResult(section._id, board._id, year, examType);
 
-        if (!doc || !doc.resultUrl) {
+      if (!doc || !doc.resultUrl) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        await ResultHandler.updateResultById(doc._id, { $inc: { views: 1 } });
+      await ResultHandler.updateResultById(doc._id, { $inc: { views: 1 } });
 
-        cLog.success(`getResult:: Successfuly get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
+      cLog.success(`getResult:: Successfuly get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -236,17 +235,17 @@ class ResultManager {
 
   }
 
-  static async updateResult(resultId, data) {
+  static async updateResult (resultId, data) {
 
     try {
 
-        await ResultUtil.validateResultId(resultId);
+      await ResultUtil.validateResultId(resultId);
 
-        await ResultUtil.validateParametersToCreateResult(data);
+      await ResultUtil.validateParametersToCreateResult(data);
 
-        const doc = await ResultHandler.updateResult(resultId, data);
+      const doc = await ResultHandler.updateResult(resultId, data);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -257,18 +256,18 @@ class ResultManager {
     }
 
   }
- 
-  static async deleteResult(resultId) {
+
+  static async deleteResult (resultId) {
 
     try {
 
-        await ResultUtil.validateResultId(resultId);
+      await ResultUtil.validateResultId(resultId);
 
-        const doc = await ResultHandler.deleteResult(resultId);
-        
-        return doc;
+      const doc = await ResultHandler.deleteResult(resultId);
 
-    } catch (err) {
+      return doc;
+
+    } catch (error) {
 
       cLog.error(`deleteResult:: Failed to delete Result ResultId:: ${resultId}`, error);
 
@@ -278,21 +277,21 @@ class ResultManager {
 
   }
 
-  static async updateResultStatus(resultId, status) {
+  static async updateResultStatus (resultId, status) {
 
     try {
 
-        cLog.info(`updateResultStatus:: updating result status resultId:: ${resultId} status:: ${status}`);
+      cLog.info(`updateResultStatus:: updating result status resultId:: ${resultId} status:: ${status}`);
 
-        await ResultUtil.validateResultId(resultId);
+      await ResultUtil.validateResultId(resultId);
 
-        const doc = await ResultHandler.updateResultStatus(resultId, status);
+      const doc = await ResultHandler.updateResultStatus(resultId, status);
 
-        cLog.success(`updateResultStatus:: result status updated successfully resultId:: ${resultId} status:: ${status}`);
-        
-        return doc;
+      cLog.success(`updateResultStatus:: result status updated successfully resultId:: ${resultId} status:: ${status}`);
 
-    } catch (err) {
+      return doc;
+
+    } catch (error) {
 
       cLog.error(`deleteResult:: Failed to update Result status ResultId:: ${resultId} status:: ${status}`, error);
 

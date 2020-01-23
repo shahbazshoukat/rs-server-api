@@ -1,12 +1,12 @@
-const GenericException = require("./GenericExceptions");
+const GenericException = require('./GenericExceptions');
 
 class ApplicationException extends GenericException {
 
-    constructor(message, code = 500, meta = {}) {
+  constructor (message, code = 500, meta = {}) {
 
-        super(message, code, meta);
+    super(message, code, meta);
 
-    }
+  }
 
 }
 

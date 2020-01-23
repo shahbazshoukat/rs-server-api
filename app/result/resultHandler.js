@@ -1,20 +1,21 @@
-const Result = require("./result");
+const Result = require('./result');
 
 const {
   ResultEnums
 } = require('../../enums');
+
 class ResultHandler {
 
-  static createResult(data) {
+  static createResult (data) {
 
     const result = new Result({
       status: data.status,
       section: data.sectionId,
       board: data.boardId,
-      year:data.year,
+      year: data.year,
       announceDate: data.announceDate,
       examType: data.examType,
-      resultUrl:data.resultUrl,
+      resultUrl: data.resultUrl,
       tags: data.tags,
       isBlocked: data.isBlocked
     });
@@ -23,45 +24,51 @@ class ResultHandler {
 
   }
 
-  static getResultById(resultId) {
+  static getResultById (resultId) {
 
     const q = { _id: resultId };
 
-    return Result.findOne(q).populate("board").populate("section").lean().exec();
-  
-  }
-
-  static getAllResults() {
-
-    return Result.find().populate("board").populate("section").lean().exec();
+    return Result.findOne(q).populate('board').populate('section').lean()
+      .exec();
 
   }
 
-  static getResultYears(sectionId, boardId) {
+  static getAllResults () {
+
+    return Result.find().populate('board').populate('section').lean()
+      .exec();
+
+  }
+
+  static getResultYears (sectionId, boardId) {
 
     const q = { section: sectionId, board: boardId, examType: ResultEnums.EXAM_TYPES.ANNUAL };
 
-    return Result.find(q).select("year").lean().exec();
+    return Result.find(q).select('year').lean().exec();
 
   }
 
-  static getResultsByBoardId(boardId) {
+  static getResultsByBoardId (boardId) {
 
-    const q = {board: boardId};
+    const q = { board: boardId };
 
-    return Result.find(q).populate("board").populate("section").lean().exec();
-
-  }
-
-  static getResult(sectionId, boardId, year, examType) {
-
-    const q = {section: sectionId, board: boardId, year: year, examType: examType};
-
-    return Result.findOne(q).populate("section").populate("board").lean().exec();
+    return Result.find(q).populate('board').populate('section').lean()
+      .exec();
 
   }
 
-  static updateResult(resultId, data) {
+  static getResult (sectionId, boardId, year, examType) {
+
+    const q = {
+      section: sectionId, board: boardId, year, examType
+    };
+
+    return Result.findOne(q).populate('section').populate('board').lean()
+      .exec();
+
+  }
+
+  static updateResult (resultId, data) {
 
     const q = { _id: resultId };
 
@@ -69,10 +76,10 @@ class ResultHandler {
       status: data.status,
       section: data.sectionId,
       board: data.boardId,
-      year:data.year,
+      year: data.year,
       announceDate: data.announceDate,
       examType: data.examType,
-      resultUrl:data.resultUrl,
+      resultUrl: data.resultUrl,
       tags: data.tags
     };
 
@@ -80,7 +87,7 @@ class ResultHandler {
 
   }
 
-  static updateResultById(resultId, update) {
+  static updateResultById (resultId, update) {
 
     const q = { _id: resultId };
 
@@ -88,20 +95,19 @@ class ResultHandler {
 
   }
 
+  static deleteResult (resultId) {
 
-  static deleteResult(resultId) {
-
-    const q = { _id: resultId};
+    const q = { _id: resultId };
 
     return Result.deleteOne(q);
-  
+
   }
 
-  static updateResultStatus(resultId, status) {
+  static updateResultStatus (resultId, status) {
 
-    const q = { _id: resultId};
+    const q = { _id: resultId };
 
-    const update = { status: status };
+    const update = { status };
 
     return Result.updateOne(q, update);
 

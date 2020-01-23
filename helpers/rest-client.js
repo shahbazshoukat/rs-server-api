@@ -3,7 +3,7 @@ const request = require('request');
 const rp = require('request-promise');
 const fs = require('fs');
 const validators = require('./validators');
-const cLog = require("./console");
+const cLog = require('./console');
 
 const makePostRequest = (url, data, file) => new Promise((resolve, reject) => {
 
@@ -275,8 +275,6 @@ const makeDeleteRequest = async (url, data, header) => {
 };
 
 const makePostRequestWIthHeader = (options, file) => new Promise((resolve, reject) => {
-
-  
 
   const req = request.post(options, (err, resp, body) => {
 

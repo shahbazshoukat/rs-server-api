@@ -1,62 +1,87 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const config = require("config");
-const socketIO = require("socket.io-client")(config.appUrl);
-const app = express();
-const sectionRoutes = require("./routes/section");
-const boardRoutes = require("./routes/board");
-const usersRoutes = require("./routes/users");
-const resultRoutes = require("./routes/result");
+const https = require('https');
+const http = require('http');
+const expressRoutes = require('./routes/index');
+
 const {
-  DBConstants
-} = require("./constants");
+  cLog, config, database, ssl
+} = require('./helpers');
 
-let url = '';
-if (config.isAtlas) {
+let server = http.Server(expressRoutes);
 
-  url = `mongodb+srv://${config.ATLAS_DB.username}:${config.ATLAS_DB.password}@${config.ATLAS_DB.host}/${config.ATLAS_DB.database}?retryWrites=true&w=majority`;
+const startServer = async () => {
 
-} else {
+  const SSL = config.get('ssl');
 
-  url = `mongodb://${config.DB.host}:${config.DB.port}/${config.DB.database}`;
+  if (SSL.enabled) {
 
-}
-console.log(url);
+    cLog.info('startServer:: validating SSL credentials');
 
-mongoose
-  .connect(url)
-  .then(() => {
-    console.log(DBConstants.MESSAGES.CONNECTED_TO_DATABASE);
-  })
-  .catch((error) => {
-    console.log(error);
-    console.log(DBConstants.MESSAGES.DB_CONNECTION_FAILED);
+    try {
+
+      const { key, cert } = await ssl.validateSSLKeys();
+
+      const certOptions = { key, cert };
+
+      server = https.createServer(certOptions, expressRoutes);
+
+    } catch (error) {
+
+      cLog.error('startServer:: SSL credentials error', error);
+
+      process.exit(1);
+
+    }
+
+  }
+
+  try {
+
+    // Database Connection
+    await database.connect();
+
+  } catch (error) {
+
+    cLog.error('startServer:: Database Connection Error', error);
+
+    process.exit(1);
+
+  }
+
+  /* Start the Server */
+  const apiServer = server.listen(config.port, (error) => {
+
+    if (error) {
+
+      return cLog.error('startServer:: launching server error ', error);
+
+    }
+
+    cLog.success(`${SSL.enabled ? 'Secure' : ''} API server is live at ${config.protocol}://${config.host}:${config.port}`);
+
   });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-  );
-  next();
+  apiServer.timeout = 4 * 60 * 1000;
+
+};
+
+process.on('uncaughtException', (err) => {
+
+  cLog.error('Uncaught Exception thrown', err.stack);
+
 });
 
+process.on('unhandledRejection', (reason, p) => {
 
+  cLog.error('Unhandled Rejection at: Promise', p, 'reason:', reason.stack);
 
-app.use("/api", usersRoutes);
+});
 
-app.use("/api", sectionRoutes);
+// Start API Server
+startServer();
 
-app.use("/api", boardRoutes);
+module.exports = server;
+module.exports.stop = () => {
 
-app.use("/api", resultRoutes);
+  server.close();
 
-module.exports = app;
+};

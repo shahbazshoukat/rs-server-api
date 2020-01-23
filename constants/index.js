@@ -5,9 +5,9 @@ const HTTPStatusCodeConstants = require('./HTTPStatusCodeConstants');
 const DBConstants = require('./DBConstants');
 
 module.exports = {
-    BoardConstants,
-    ResultConstants,
-    SectionConstants,
-    HTTPStatusCodeConstants,
-    DBConstants
+  BoardConstants,
+  ResultConstants,
+  SectionConstants,
+  HTTPStatusCodeConstants,
+  DBConstants
 };

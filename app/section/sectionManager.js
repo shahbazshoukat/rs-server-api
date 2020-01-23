@@ -1,20 +1,19 @@
-const SectionHandler = require("./sectionHandler");
-const SectionUtil = require("./sectionUtil");
-const ApplicationException = require("../../exceptions/ApplicationException");
+const SectionHandler = require('./sectionHandler');
+const SectionUtil = require('./sectionUtil');
+const ApplicationException = require('../../exceptions/ApplicationException');
 const {
   SectionConstants,
   HTTPStatusCodeConstants
-} = require("../../constants");
+} = require('../../constants');
 
 const {
   cLog,
   validators
-} = require("../../helpers");
-
+} = require('../../helpers');
 
 class SectionManager {
 
-  static async createSection(data) {
+  static async createSection (data) {
 
     try {
 
@@ -29,26 +28,26 @@ class SectionManager {
       cLog.error(`createSection:: Failed to create Section data:: `, data, error);
 
       throw new ApplicationException(error.message || SectionConstants.MESSAGES.FAILED_TO_ADD_SECTION, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
-    
+
     }
 
   }
 
-  static async getSection(sectionId) {
+  static async getSection (sectionId) {
 
     try {
 
-        await SectionUtil.validateSectionId(sectionId);
+      await SectionUtil.validateSectionId(sectionId);
 
-        const doc = await SectionHandler.getSection(sectionId);
+      const doc = await SectionHandler.getSection(sectionId);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -60,21 +59,21 @@ class SectionManager {
 
   }
 
-  static async getSectionByTitle(title) {
+  static async getSectionByTitle (title) {
 
     try {
 
-        await SectionUtil.validateSectionTitle(title);
+      await SectionUtil.validateSectionTitle(title);
 
-        const doc = await SectionHandler.getSectionByTitle(title);
+      const doc = await SectionHandler.getSectionByTitle(title);
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -86,19 +85,19 @@ class SectionManager {
 
   }
 
-  static async getAllSections() {
+  static async getAllSections () {
 
     try {
 
-        const doc = await SectionHandler.getAllSections();
+      const doc = await SectionHandler.getAllSections();
 
-        if (!doc) {
+      if (!doc) {
 
-            throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+        throw new ApplicationException(SectionConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
-        }
+      }
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -110,17 +109,17 @@ class SectionManager {
 
   }
 
-  static async updateSection(sectionId, data) {
+  static async updateSection (sectionId, data) {
 
     try {
 
-        await SectionUtil.validateSectionId(sectionId);
+      await SectionUtil.validateSectionId(sectionId);
 
-        await SectionUtil.validateParametersToCreateSection(data);
+      await SectionUtil.validateParametersToCreateSection(data);
 
-        const doc = await SectionHandler.updateSection(sectionId, data);
+      const doc = await SectionHandler.updateSection(sectionId, data);
 
-        return doc;
+      return doc;
 
     } catch (error) {
 
@@ -131,16 +130,16 @@ class SectionManager {
     }
 
   }
- 
-  static async deleteSection(sectionId) {
+
+  static async deleteSection (sectionId) {
 
     try {
 
-        await SectionUtil.validateSectionId(sectionId);
+      await SectionUtil.validateSectionId(sectionId);
 
-        const doc = await SectionHandler.deleteSection(sectionId);
-        
-        return doc;
+      const doc = await SectionHandler.deleteSection(sectionId);
+
+      return doc;
 
     } catch (err) {
 
