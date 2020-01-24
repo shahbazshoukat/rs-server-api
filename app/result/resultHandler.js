@@ -52,7 +52,7 @@ class ResultHandler {
 
     const q = { board: boardId };
 
-    return Result.find(q).populate('section').lean()
+    return Result.find(q).populate('board').populate('section').lean()
       .exec();
 
   }
