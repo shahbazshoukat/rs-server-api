@@ -8,6 +8,6 @@ router.post('/signUp', UsersController.createNewUser);
 
 router.post('/login', UsersController.loginUser);
 
-router.post('/logout', Auth.Authenticate, UsersController.logoutUser);
+router.get('/logout', Auth.Authenticate, UsersController.logoutUser);
 
 module.exports = router;

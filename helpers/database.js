@@ -16,7 +16,8 @@ class DatabaseHelper {
       useMongoClient: true,
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
       reconnectInterval: 500, // Reconnect every 500ms
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     };
 
     if (validators.isValidStr(dbConfig.get('userName')) && validators.isValidStr(dbConfig.get('password'))) {
