@@ -9,7 +9,7 @@ const section = require('./Section');
 const user = require('./User');
 // Modules
 const {
-  ErrorCodesConstants
+  HTTPStatusCodeConstants
 } = require('../constants');
 const {
   cLog
@@ -53,7 +53,7 @@ app.use(Auth.Authenticate);
 // 404
 app.use((req, res) => {
 
-  res.status(ErrorCodesConstants.NOT_FOUND).json({
+  res.status(HTTPStatusCodeConstants.NOT_FOUND).json({
     success: false,
     message: 'invalid API'
   });
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
 
   if (!err) {
 
-    res.status(ErrorCodesConstants.INTERNAL_SERVER_ERROR).json({
+    res.status(HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: 'Cannot fulfil the request',
       detail: 'internal server error'
@@ -75,7 +75,7 @@ app.use((err, req, res, next) => {
 
   cLog.error(err.stack || err.message || err);
 
-  return res.status(ErrorCodesConstants.INTERNAL_SERVER_ERROR).json({
+  return res.status(HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: 'Cannot fulfil the request',
     detail: err.message || 'Unexpected Server Error'
