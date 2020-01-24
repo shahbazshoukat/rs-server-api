@@ -1,0 +1,33 @@
+{
+  "secretKey": "pakistan_zindabad",
+  "database": {
+    "isLocal" : false,
+    "host": "resultsquare-sr7lv.mongodb.net",
+    "port": "27017",
+    "dbName": "test",
+    "userName": "rs-admin",
+    "password": "password009"
+  },
+  "appUrl": "http://localhost:4200",
+  "protocol": "http",
+  "host": "172.31.36.28",
+  "port": 3000,
+  "ssl": {
+    "enabled": false,
+    "local": true,
+    "keyServer": "",
+    "localPath": ""
+  },
+  "timeouts": {
+    "invite": "1d",
+    "login": "1d",
+    "signup": "1d",
+    "forgotPassword": "1d",
+    "buildUser": "1d",
+    "signedCookies": 86400000,  // 1140 * 60 * 1000
+    "singedUrls": 7200000,       // 120 * 60 * 1000
+    "cacheResetTime": 86400000,
+    "inviteBounceBackTime": 60000,
+    "socket": 60000
+  }
+}

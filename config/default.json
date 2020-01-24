@@ -20,7 +20,7 @@
     },
     "timeouts": {
         "invite": "1d",
-        "login": "3600",
+        "login": "1d",
         "signup": "1d",
         "forgotPassword": "1d",
         "buildUser": "1d",
