@@ -15,15 +15,15 @@ class DatabaseHelper {
     const options = {
       useMongoClient: true,
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-      reconnectInterval: 500 // Reconnect every 500ms
+      reconnectInterval: 500, // Reconnect every 500ms
+      useNewUrlParser: true
     };
 
     if (validators.isValidStr(dbConfig.get('userName')) && validators.isValidStr(dbConfig.get('password'))) {
 
       options.auth = {
         user: dbConfig.get('userName'),
-        password: dbConfig.get('password'),
-        useNewUrlParser: true
+        password: dbConfig.get('password')
       };
 
     }

@@ -123,6 +123,8 @@ exports.Authenticate = (req, res, next) => {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   const ua = useragent.parse(req.headers['user-agent']);
 
+  cLog.info(`Authenticate:: Authenticating token:: ${token} ua:: ${ua}`);
+
   verifyToken(token, ua, (err, user, data) => {
 
     if (err) {
