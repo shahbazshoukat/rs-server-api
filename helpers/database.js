@@ -13,7 +13,6 @@ class DatabaseHelper {
     const dbConfig = config.get('database');
 
     const options = {
-      useMongoClient: true,
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
       reconnectInterval: 500, // Reconnect every 500ms
       useNewUrlParser: true,
@@ -74,7 +73,6 @@ class DatabaseHelper {
   static async createConnection (dbConfig) {
 
     const options = {
-      useMongoClient: true,
       reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
       reconnectInterval: 500 // Reconnect every 500ms
     };

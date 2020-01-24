@@ -28,7 +28,7 @@ class ResultHandler {
 
     const q = { _id: resultId };
 
-    return Result.findOne(q).populate('board').populate('section').lean()
+    return Result.findOne(q).lean()
       .exec();
 
   }
@@ -52,7 +52,7 @@ class ResultHandler {
 
     const q = { board: boardId };
 
-    return Result.find(q).populate('board').populate('section').lean()
+    return Result.find(q).populate('section').lean()
       .exec();
 
   }
@@ -63,7 +63,7 @@ class ResultHandler {
       section: sectionId, board: boardId, year, examType
     };
 
-    return Result.findOne(q).populate('section').populate('board').lean()
+    return Result.findOne(q).lean()
       .exec();
 
   }
