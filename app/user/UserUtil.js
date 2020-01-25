@@ -1,7 +1,7 @@
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
-  ErrorCodesConstants,
+  HTTPStatusCodeConstants,
   UserConstants
 } = require('../../constants');
 
@@ -17,7 +17,7 @@ class UserUtil {
 
       cLog.error(`validateParametersToCreateUser:: Invalid User data:: `, data);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -25,7 +25,7 @@ class UserUtil {
 
       cLog.error(`validateParametersToCreateUser:: Invalid User name, `, data.name);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_NAME, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_NAME, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -33,7 +33,7 @@ class UserUtil {
 
       cLog.error(`validateParametersToCreateUser:: Invalid User email, `, data.email);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -41,7 +41,7 @@ class UserUtil {
 
       cLog.error(`validateParametersToCreateUser:: Invalid User password, `, data.password);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_PASSWORD, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_PASSWORD, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -53,7 +53,7 @@ class UserUtil {
 
       cLog.error(`validateUserCredentials:: Invalid User email:: `, email);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -61,7 +61,7 @@ class UserUtil {
 
       cLog.error(`validateUserCredentials:: Invalid password:: `, password);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_PASSWORD, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_PASSWORD, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -73,7 +73,7 @@ class UserUtil {
 
       cLog.error(`validateParametersToCreateUser:: Invalid User id, `, id);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_ID, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_ID, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -85,7 +85,7 @@ class UserUtil {
 
       cLog.error(`validateUserCredentials:: Invalid User email:: `, email);
 
-      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, ErrorCodesConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
