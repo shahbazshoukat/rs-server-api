@@ -6,7 +6,7 @@ const Auth = require('../middleware/Auth');
 const board = require('./Board');
 const result = require('./Result');
 const section = require('./Section');
-const user = require('./User');
+// const user = require('./User');
 // Modules
 const {
   HTTPStatusCodeConstants
@@ -42,7 +42,7 @@ app.disable('x-powered-by');
 app.use('/api/', board);
 app.use('/api/', result);
 app.use('/api/', section);
-app.use('/api/', user);
+// app.use('/api/', user);
 
 // token verification only for services callbacks
 app.use(Auth.AuthenticateCallbacks);
