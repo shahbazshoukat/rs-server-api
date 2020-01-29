@@ -9,7 +9,6 @@ const {
 
 const {
   cLog,
-  validators,
   restClient
 } = require('../../helpers');
 
@@ -19,19 +18,29 @@ class BoardManager {
 
     try {
 
+      cLog.info(`createBoard:: Creating new board, data:: `, data);
+
       await BoardUtil.validateParametersToCreateBoard(data);
 
       data.isBlocked = false;
 
+      cLog.info(`createBoard:: Checking if board is blocked in iframe`);
+
       const resultRes = await restClient.get(data.resultUrl);
 
-      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
+      cLog.info(`createBoard:: Response headers for ${data && data.title}, headers:: `, resultRes.headers);
+
+      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {
 
         data.isBlocked = true;
 
       }
 
+      cLog.info(`createBoard:: Is board blocked:: ${data && data.isBlocked}`);
+
       const doc = await BoardHandler.createBoard(data);
+
+      cLog.info(`createBoard:: Board created successfully`, doc);
 
       return doc;
 
