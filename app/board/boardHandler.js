@@ -48,7 +48,7 @@ class BoardHandler {
 
     const q = { sections: sectionId };
 
-    return Board.find(q).select('key title province city resultUrl type isBlocked').lean().exec();
+    return Board.find(q).select('key title province city resultUrl type isBlocked tags').lean().exec();
 
   }
 
