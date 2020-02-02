@@ -14,7 +14,7 @@ router.put('/updateBoard/:boardId', Auth.Authenticate, BoardController.updateBoa
 
 router.delete('/deleteBoard/:boardId', Auth.Authenticate, BoardController.deleteBoard);
 
-router.get('/getBoard/:boardKey', Auth.Authenticate, BoardController.getBoardByKey);
+router.get('/getBoard/:boardKey', BoardController.getBoardByKey);
 
 router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.getBoardsBySectionId);
 
