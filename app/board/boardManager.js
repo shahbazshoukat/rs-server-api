@@ -9,7 +9,8 @@ const {
 
 const {
   cLog,
-  restClient
+  restClient,
+  config
 } = require('../../helpers');
 
 class BoardManager {
@@ -24,15 +25,19 @@ class BoardManager {
 
       data.isBlocked = false;
 
-      cLog.info(`createBoard:: Checking if board is blocked in iframe`);
+      if (config.checkBlocked) {
 
-      const resultRes = await restClient.get(data.resultUrl);
+        cLog.info(`createBoard:: Checking if board is blocked in iframe`);
 
-      cLog.info(`createBoard:: Response headers for ${data && data.title}, headers:: `, resultRes.headers);
+        const resultRes = await restClient.get(data.resultUrl);
 
-      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {
+        cLog.info(`createBoard:: Response headers for ${data && data.title}, headers:: `, resultRes.headers);
 
-        data.isBlocked = true;
+        if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {
+
+          data.isBlocked = true;
+
+        }
 
       }
 
