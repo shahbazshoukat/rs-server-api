@@ -44,7 +44,8 @@ class ResultHandler {
 
     const q = { section: sectionId, board: boardId, examType: ResultEnums.EXAM_TYPES.ANNUAL };
 
-    return Result.find(q).select('year').lean().exec();
+    return Result.find(q).sort({ year: -1 }).select('year').lean()
+      .exec();
 
   }
 
