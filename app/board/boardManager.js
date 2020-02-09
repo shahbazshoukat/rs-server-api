@@ -2,14 +2,18 @@ const BoardHandler = require('./boardHandler');
 const BoardUtil = require('./boardUtil');
 const ApplicationException = require('../../exceptions/ApplicationException');
 const SectionManager = require('../section/sectionManager');
+const CommentManager = require('../comment/CommaneManager');
+const UserManager = require('../user/UserManager');
+const mailer = require('../utils/mailer');
+
 const {
   BoardConstants,
-  HTTPStatusCodeConstants
+  HTTPStatusCodeConstants,
+  CommentConstants
 } = require('../../constants');
 
 const {
   cLog,
-  validators,
   restClient
 } = require('../../helpers');
 
@@ -234,6 +238,92 @@ class BoardManager {
       cLog.error(`deleteBoard:: Failed to delete Board boardId:: ${boardId}`, error);
 
       throw new ApplicationException(error.message || BoardConstants.MESSAGES.FAILED_TO_DELETE_BOARD, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async addComment (boardId, data, link) {
+
+    try {
+
+      cLog.info(`AddComment:: Adding new comment to board:: ${boardId} link:: ${link}`, data);
+
+      await BoardUtil.validateBoardId(boardId);
+
+      const comment = await CommentManager.addComment(data);
+
+      const update = {
+        $push: {
+          comments: comment._id
+        }
+      };
+
+      await BoardHandler.updateBoardById(boardId, update);
+
+      const users = await UserManager.getAllUsers();
+
+      for (const user of users) {
+
+        if (user && user.email) {
+
+          try {
+
+            cLog.info(`addComment:: Sending comment email`);
+
+            await mailer.sendCommentEmail(user, link, data);
+
+          } catch (error) {
+
+            cLog.error(`addComment:: Failed to send comment email`);
+
+          }
+
+        }
+
+      }
+
+      cLog.success(`addComment:: Comment successfully added to board:: ${boardId} link:: ${link}, `, comment);
+
+      return comment;
+
+    } catch (error) {
+
+      cLog.error(`addComment:: Failed to add comment to board:: ${boardId} link:: ${link}, `, data, error);
+
+      throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_ADD_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async removeComment (boardId, commentId) {
+
+    try {
+
+      cLog.info(`removeComment:: Removing new comment from board:: ${boardId}`, commentId);
+
+      await BoardUtil.validateBoardId(boardId);
+
+      const comment = await CommentManager.removeComment(commentId);
+
+      const update = {
+        $pull: {
+          comments: commentId
+        }
+      };
+
+      await BoardHandler.updateBoardById(boardId, update);
+
+      cLog.success(`removeComment:: Comment successfully removed from board:: ${boardId}, `, commentId);
+
+      return comment;
+
+    } catch (error) {
+
+      cLog.error(`removeComment:: Failed to remove comment from board:: ${boardId}, `, commentId, error);
+
+      throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_REMOVE_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 

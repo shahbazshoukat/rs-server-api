@@ -67,8 +67,14 @@ const boardSchema = mongoose.Schema({
     type: Boolean,
     required: false,
     default: false
-  }
-
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment',
+      required: false
+    }
+  ]
 }, {
   timestamps: true,
   versionKey: false
