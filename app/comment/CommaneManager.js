@@ -14,7 +14,7 @@ const {
 
 class CommentManager {
 
-  static async addComment (data) {
+  static async addComment (data, link) {
 
     try {
 
@@ -27,6 +27,8 @@ class CommentManager {
         throw new ApplicationException(CommentConstants.MESSAGES.INVALID_COMMENT, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
       }
+
+      data.refUrl = link;
 
       const comment = await CommentHandler.addComment(data);
 

@@ -293,7 +293,7 @@ class BoardManager {
 
       await BoardUtil.validateBoardId(boardId);
 
-      const comment = await CommentManager.addComment(data);
+      const comment = await CommentManager.addComment(data, link);
 
       const update = {
         $push: {

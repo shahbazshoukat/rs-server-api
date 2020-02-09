@@ -314,7 +314,7 @@ class ResultManager {
 
       await ResultUtil.validateResultId(resultId);
 
-      const comment = await CommentManager.addComment(data);
+      const comment = await CommentManager.addComment(data, link);
 
       const update = {
         $push: {

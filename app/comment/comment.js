@@ -8,6 +8,10 @@ const CommentSchema = mongoose.Schema({
   text: {
     type: String,
     required: true
+  },
+  refUrl: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: true,

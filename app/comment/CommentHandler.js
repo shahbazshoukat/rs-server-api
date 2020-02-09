@@ -6,7 +6,8 @@ class CommentHandler {
 
     const comment = new Comment({
       name: data.name,
-      text: data.text
+      text: data.text,
+      refUrl: data.refUrl
     });
 
     return comment.save();
