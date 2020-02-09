@@ -14,11 +14,11 @@ router.put('/updateBoard/:boardId', Auth.Authenticate, BoardController.updateBoa
 
 router.delete('/deleteBoard/:boardId', Auth.Authenticate, BoardController.deleteBoard);
 
-router.get('/getBoard/:boardKey', BoardController.getBoardByKey);
+router.get('/board/:boardKey', BoardController.getBoardByKey);
 
 router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.getBoardsBySectionId);
 
-router.get('/getBoardBySectionTitle/:sectionTitle', BoardController.getBoardsBySectionTitle);
+router.get('/boards/section/:sectionTitle', BoardController.getBoardsBySectionTitle);
 
 router.get('/board/section/:sectionTitle', BoardController.getBoardBySectionTitle);
 
