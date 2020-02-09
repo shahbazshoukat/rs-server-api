@@ -227,7 +227,9 @@ class BoardManager {
 
       }
 
-      cLog.success(`getBoardBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
+      await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
+
+      cLog.success(`getBoardBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `, doc);
 
       return doc;
 
