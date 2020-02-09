@@ -18,7 +18,7 @@ class CommentManager {
 
     try {
 
-      cLog.info(`AddComment:: Adding new comment`, data);
+      cLog.info(`AddComment:: Adding new comment`, data, CommentConstants);
 
       if (!data || !validators.isValidStr(data.name) || !validators.isValidStr(data.text)) {
 
