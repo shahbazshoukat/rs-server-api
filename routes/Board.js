@@ -14,16 +14,17 @@ router.put('/updateBoard/:boardId', Auth.Authenticate, BoardController.updateBoa
 
 router.delete('/deleteBoard/:boardId', Auth.Authenticate, BoardController.deleteBoard);
 
-router.get('/board/key/:boardKey', BoardController.getBoardByKey);
-
 router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.getBoardsBySectionId);
+
+router.delete('/board/comment/:boardId/:commentId', Auth.Authenticate, BoardController.removeComment);
+
+// public apis
+router.get('/board/key/:boardKey', BoardController.getBoardByKey);
 
 router.get('/boards/section/:sectionTitle', BoardController.getBoardsBySectionTitle);
 
 router.get('/board/section/:sectionTitle', BoardController.getBoardBySectionTitle);
 
 router.post('/board/comment/:boardId', BoardController.addComment);
-
-router.delete('/board/comment/:boardId/:commentId', BoardController.removeComment);
 
 module.exports = router;

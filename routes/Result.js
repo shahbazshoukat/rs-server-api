@@ -16,16 +16,17 @@ router.delete('/deleteResult/:resultId', Auth.Authenticate, ResultController.del
 
 router.put('/updateStatus/:resultId', Auth.Authenticate, ResultController.updateResultStatus);
 
-router.get('/result-year/:sectionTitle/:boardKey', ResultController.getResultYears);
-
-router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
-
 router.get('/result/:section/:board/:year/:exam/:rollNo', Auth.Authenticate, ResultController.findResult);
 
 router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getResultsByBoardKey);
 
-router.post('/comment/:resultId', ResultController.addComment);
+router.delete('/comment/:resultId/:commentId', Auth.Authenticate, ResultController.removeComment);
 
-router.delete('/comment/:resultId/:commentId', ResultController.removeComment);
+// public apis
+router.get('/result-year/:sectionTitle/:boardKey', ResultController.getResultYears);
+
+router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
+
+router.post('/comment/:resultId', ResultController.addComment);
 
 module.exports = router;

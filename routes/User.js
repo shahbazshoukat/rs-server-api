@@ -4,7 +4,7 @@ const Auth = require('../middleware/Auth');
 const router = express.Router();
 const UsersController = require('../app/user/UserCtrl');
 
-router.post('/signUp', UsersController.createNewUser);
+router.post('/signUp', Auth.Authenticate, UsersController.createNewUser);
 
 router.post('/login', UsersController.loginUser);
 
