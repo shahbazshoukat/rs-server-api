@@ -334,7 +334,7 @@ class ResultManager {
 
             cLog.info(`addComment:: Sending comment email`);
 
-            await mailer.sendCommentEmail(user, link);
+            await mailer.sendCommentEmail(user, link, data);
 
           } catch (error) {
 
