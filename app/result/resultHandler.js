@@ -28,7 +28,7 @@ class ResultHandler {
 
     const q = { _id: resultId };
 
-    return Result.findOne(q).lean()
+    return Result.findOne(q).populate('comments').lean()
       .exec();
 
   }

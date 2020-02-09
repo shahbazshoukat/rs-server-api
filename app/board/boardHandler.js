@@ -26,7 +26,8 @@ class BoardHandler {
 
     const q = { _id: boardId };
 
-    return Board.findOne(q).populate('sections').lean().exec();
+    return Board.findOne(q).populate('sections').populate('comments').lean()
+      .exec();
 
   }
 
