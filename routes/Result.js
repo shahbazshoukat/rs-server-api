@@ -24,7 +24,7 @@ router.get('/result/:section/:board/:year/:exam/:rollNo', Auth.Authenticate, Res
 
 router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getResultsByBoardKey);
 
-router.post('/comment', ResultController.addComment);
+router.post('/comment/:resultId', ResultController.addComment);
 
 router.delete('/comment/:resultId/:commentId', ResultController.removeComment);
 
