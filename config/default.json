@@ -18,12 +18,24 @@
         "keyServer": "",
         "localPath": ""
     },
-    "email": {
-        "defaultEmail": "support@resultsquare.pk",
-        "service": "gmail",
-        "auth": {
-            "user": "shahbaz.shoukat.330@gmail.com",
-            "pass": "drowssaP@009"
+    "defaultMailTransport": "sendgrid",
+    "mail": {
+        "transports": {
+            "ses": {},
+            "sendgrid": {
+                "host": "smtp.sendgrid.net",
+                "port": 587,
+                "protocol": "https",
+                "apiUrl": "api.sendgrid.com",
+                "auth": {
+                    "user": "apikey",
+                    "pass": "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",
+                    "authKey": "Bearer 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"
+                }
+            }
+        },
+        "addresses": {
+            "account": "support@resultsquare.pk"
         }
     },
     "timeouts": {
