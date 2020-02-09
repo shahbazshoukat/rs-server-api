@@ -8,7 +8,6 @@ const CommentConstants = Object.freeze({
     INVALID_COMMENT: 'Invalid comment',
     INVALID_COMMENT_ID: 'Invalid comment id'
   }
-
 });
 
-module.export = CommentConstants;
+module.exports = CommentConstants;

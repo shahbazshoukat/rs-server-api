@@ -17,8 +17,6 @@ class ResultController {
 
       const doc = await ResultManager.createResult(req.body);
 
-      cLog.info(CommentConstants);
-
       res.status(HTTPStatusCodeConstants.CREATED).json({ success: true, message: ResultConstants.MESSAGES.RESULT_ADDED_SUCCESSFULLY, data: doc._id });
 
     } catch (error) {
