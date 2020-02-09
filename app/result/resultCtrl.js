@@ -179,6 +179,8 @@ class ResultController {
 
     try {
 
+      cLog.info(`req:: `, req);
+
       const data = await ResultManager.addComment(req.params.resultId, req.body);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: CommentConstants.MESSAGES.COMMENT_SUCCESSFULLY_ADDED, data });
