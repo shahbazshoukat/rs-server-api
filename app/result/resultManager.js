@@ -308,7 +308,7 @@ class ResultManager {
 
     try {
 
-      cLog.info(`AddComment:: Adding new comment`, data);
+      cLog.info(`AddComment:: Adding new comment to result:: ${resultId}`, data);
 
       await ResultUtil.validateResultId(resultId);
 
@@ -322,13 +322,13 @@ class ResultManager {
 
       await ResultHandler.updateResultById(resultId, update);
 
-      cLog.success(`addComment:: Comment successfully added, `, comment);
+      cLog.success(`addComment:: Comment successfully added to result:: ${resultId}, `, comment);
 
       return comment;
 
     } catch (error) {
 
-      cLog.error(`addComment:: Failed to add comment, `, data, error);
+      cLog.error(`addComment:: Failed to add comment to result:: ${resultId}, `, data, error);
 
       throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_ADD_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
@@ -340,7 +340,7 @@ class ResultManager {
 
     try {
 
-      cLog.info(`removeComment:: Removing new comment`, commentId);
+      cLog.info(`removeComment:: Removing new comment from result:: ${resultId}`, commentId);
 
       await ResultUtil.validateResultId(resultId);
 
@@ -354,13 +354,13 @@ class ResultManager {
 
       await ResultHandler.updateResultById(resultId, update);
 
-      cLog.success(`removeComment:: Comment successfully removed, `, commentId);
+      cLog.success(`removeComment:: Comment successfully removed from result:: ${resultId}, `, commentId);
 
       return comment;
 
     } catch (error) {
 
-      cLog.error(`removeComment:: Failed to remove comment, `, commentId, error);
+      cLog.error(`removeComment:: Failed to remove comment from result:: ${resultId}, `, commentId, error);
 
       throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_REMOVE_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 

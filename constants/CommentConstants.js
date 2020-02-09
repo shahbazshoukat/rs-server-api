@@ -1,4 +1,4 @@
-const Comment = Object.freeze({
+const CommentConstants = Object.freeze({
 
   MESSAGES: {
     COMMENT_SUCCESSFULLY_ADDED: 'Comment successfully added',
@@ -11,4 +11,4 @@ const Comment = Object.freeze({
 
 });
 
-module.export = Comment;
+module.export = CommentConstants;
