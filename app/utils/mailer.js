@@ -1,5 +1,43 @@
 const nodemailer = require('nodemailer');
 
+const {
+  config
+} = require('../../helpers');
+
+exports.sendCommentEmail = (to, link) => {
+
+  const transporter = nodemailer.createTransport({
+    service: config.email.service,
+    auth: {
+      user: config.email.auth.user,
+      pass: config.email.auth.pass
+    }
+  });
+
+  const mailOptions = {
+    from: config.email.defaultEmail,
+    to: to.email,
+    subject: 'ResultSquare | New Comment',
+    html:
+        `<h1>ResultSquare | New Comment</h1><p>New Comment added, click </p><a href=${link}>Here</a><p> to view.</p>`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+
+    if (error) {
+
+      console.log(error);
+
+    } else {
+
+      console.log(`Email sent: ${info.response}`);
+
+    }
+
+  });
+
+};
+
 exports.sendEmail = (email, token) => {
 
   const link = `http://localhost:4200/resetpassword/${token}`;

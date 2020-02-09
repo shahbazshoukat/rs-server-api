@@ -30,7 +30,7 @@ class UserHandler {
 
   static getUsers () {
 
-    return User.find();
+    return User.find().select('name email');
 
   }
 

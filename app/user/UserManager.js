@@ -154,6 +154,28 @@ class UserManager {
 
   }
 
+  static async getAllUsers () {
+
+    try {
+
+      cLog.info(`getAllUsers:: Getting all users`);
+
+      const users = await UserHandler.getUsers();
+
+      cLog.success(`getAllUsers:: Users successfully fetched,`, users);
+
+      return users;
+
+    } catch (error) {
+
+      cLog.error(~`getAllUsers:: Failed to get all users`, error);
+
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_FIND_USER, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
 }
 
 module.exports = UserManager;

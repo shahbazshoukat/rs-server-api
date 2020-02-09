@@ -3,6 +3,8 @@ const SectionManager = require('../section/sectionManager');
 const BoardManager = require('../board/boardManager');
 const ResultUtil = require('./resultUtil');
 const CommentManager = require('../comment/CommaneManager');
+const mailer = require('../utils/mailer');
+const UserManager = require('../user/UserManager');
 
 const ApplicationException = require('../../exceptions/ApplicationException');
 const {
@@ -304,11 +306,11 @@ class ResultManager {
 
   }
 
-  static async addComment (resultId, data) {
+  static async addComment (resultId, data, link) {
 
     try {
 
-      cLog.info(`AddComment:: Adding new comment to result:: ${resultId}`, data);
+      cLog.info(`AddComment:: Adding new comment to result:: ${resultId} link:: ${link}`, data);
 
       await ResultUtil.validateResultId(resultId);
 
@@ -322,13 +324,35 @@ class ResultManager {
 
       await ResultHandler.updateResultById(resultId, update);
 
-      cLog.success(`addComment:: Comment successfully added to result:: ${resultId}, `, comment);
+      const users = await UserManager.getAllUsers();
+
+      for (const user of users) {
+
+        if (user && user.email) {
+
+          try {
+
+            cLog.info(`addComment:: Sending comment email`);
+
+            await mailer.sendCommentEmail(user, link);
+
+          } catch (error) {
+
+            cLog.error(`addComment:: Failed to send comment email`);
+
+          }
+
+        }
+
+      }
+
+      cLog.success(`addComment:: Comment successfully added to result:: ${resultId} link:: ${link}, `, comment);
 
       return comment;
 
     } catch (error) {
 
-      cLog.error(`addComment:: Failed to add comment to result:: ${resultId}, `, data, error);
+      cLog.error(`addComment:: Failed to add comment to result:: ${resultId} link:: ${link}, `, data, error);
 
       throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_ADD_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 

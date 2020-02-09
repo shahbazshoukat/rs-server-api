@@ -18,6 +18,14 @@
     "keyServer": "",
     "localPath": ""
   },
+  "email": {
+    "defaultEmail": "support@resultsquare.pk",
+    "service": "gmail",
+    "auth": {
+      "user": "shahbaz.shoukat.330@gmail.com",
+      "pass": "drowssaP@009"
+    }
+  },
   "timeouts": {
     "invite": "1d",
     "login": "1d",
