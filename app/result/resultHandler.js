@@ -63,7 +63,7 @@ class ResultHandler {
       section: sectionId, board: boardId, year, examType
     };
 
-    return Result.findOne(q).lean()
+    return Result.findOne(q).populate('comments').lean()
       .exec();
 
   }
@@ -87,7 +87,7 @@ class ResultHandler {
 
   }
 
-  static updateResultById (resultId, update) {
+  static updateResultById (resultId, update = {}) {
 
     const q = { _id: resultId };
 

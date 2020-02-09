@@ -4,6 +4,7 @@ const SectionConstants = require('./SectionConstants');
 const HTTPStatusCodeConstants = require('./HTTPStatusCodeConstants');
 const DBConstants = require('./DBConstants');
 const UserConstants = require('./UserConstants');
+const CommentConstants = require('./CommentConstants');
 
 module.exports = {
   BoardConstants,
@@ -11,5 +12,6 @@ module.exports = {
   SectionConstants,
   HTTPStatusCodeConstants,
   DBConstants,
-  UserConstants
+  UserConstants,
+  CommentConstants
 };

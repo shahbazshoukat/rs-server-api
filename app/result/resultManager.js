@@ -2,10 +2,13 @@ const ResultHandler = require('./resultHandler');
 const SectionManager = require('../section/sectionManager');
 const BoardManager = require('../board/boardManager');
 const ResultUtil = require('./resultUtil');
+const CommentManager = require('../comment/CommaneManager');
+
 const ApplicationException = require('../../exceptions/ApplicationException');
 const {
   ResultConstants,
-  HTTPStatusCodeConstants
+  HTTPStatusCodeConstants,
+  CommentConstants
 } = require('../../constants');
 
 const {
@@ -296,6 +299,70 @@ class ResultManager {
       cLog.error(`deleteResult:: Failed to update Result status ResultId:: ${resultId} status:: ${status}`, error);
 
       throw new ApplicationException(error.message || ResultConstants.MESSAGES.FAILED_TO_UPDATE_RESULT_STATUS, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async addComment (resultId, data) {
+
+    try {
+
+      cLog.info(`AddComment:: Adding new comment`, data);
+
+      await ResultUtil.validateResultId(resultId);
+
+      const comment = await CommentManager.addComment(data);
+
+      const update = {
+        $push: {
+          comments: comment._id
+        }
+      };
+
+      await ResultHandler.updateResultById(resultId, update);
+
+      cLog.success(`addComment:: Comment successfully added, `, comment);
+
+      return comment;
+
+    } catch (error) {
+
+      cLog.error(`addComment:: Failed to add comment, `, data, error);
+
+      throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_ADD_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async removeComment (resultId, commentId) {
+
+    try {
+
+      cLog.info(`removeComment:: Removing new comment`, commentId);
+
+      await ResultUtil.validateResultId(resultId);
+
+      const comment = await CommentManager.removeComment(commentId);
+
+      const update = {
+        $pull: {
+          comments: commentId
+        }
+      };
+
+      await ResultHandler.updateResultById(resultId, update);
+
+      cLog.success(`removeComment:: Comment successfully removed, `, commentId);
+
+      return comment;
+
+    } catch (error) {
+
+      cLog.error(`removeComment:: Failed to remove comment, `, commentId, error);
+
+      throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_REMOVE_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
