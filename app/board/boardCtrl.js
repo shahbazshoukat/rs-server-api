@@ -109,6 +109,22 @@ class BoardController {
 
   }
 
+  static async getBoardBySectionTitle (req, res) {
+
+    try {
+
+      const doc = await BoardManager.getBoardBySectionTitle(req.params.sectionTitle);
+
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
+
+    } catch (error) {
+
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message, data: null });
+
+    }
+
+  }
+
   static async updateBoard (req, res) {
 
     try {

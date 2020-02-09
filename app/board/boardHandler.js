@@ -34,7 +34,8 @@ class BoardHandler {
 
     const q = { key: boardKey };
 
-    return Board.findOne(q).populate('sections').lean().exec();
+    return Board.findOne(q).populate('sections').populate('comments').lean()
+      .exec();
 
   }
 
@@ -49,6 +50,15 @@ class BoardHandler {
     const q = { sections: sectionId };
 
     return Board.find(q).select('key title province city resultUrl type').lean().exec();
+
+  }
+
+  static getBoardBySectionId (sectionId) {
+
+    const q = { sections: sectionId };
+
+    return Board.findOne(q).select('key title province city resultUrl type comments').populate('comments').lean()
+      .exec();
 
   }
 

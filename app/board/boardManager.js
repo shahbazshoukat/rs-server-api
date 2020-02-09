@@ -201,6 +201,46 @@ class BoardManager {
 
   }
 
+  static async getBoardBySectionTitle (sectionTitle) {
+
+    try {
+
+      await BoardUtil.validateSectionTitle(sectionTitle);
+
+      cLog.info(`getBoardBySectionTitle:: getting board by section Title:: ${sectionTitle}`);
+
+      const section = await SectionManager.getSectionByTitle(sectionTitle);
+
+      if (!section || !section._id) {
+
+        throw new ApplicationException(BoardConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      await BoardUtil.validateSectionId(section._id);
+
+      const doc = await BoardHandler.getBoardBySectionId(section._id);
+
+      if (!doc) {
+
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.success(`getBoardBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionTitle}`, error);
+
+      throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARDS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
   static async updateBoard (boardId, data) {
 
     try {

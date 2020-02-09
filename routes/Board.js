@@ -20,6 +20,8 @@ router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.g
 
 router.get('/getBoardBySectionTitle/:sectionTitle', BoardController.getBoardsBySectionTitle);
 
+router.get('/board/section/:sectionTitle', BoardController.getBoardBySectionTitle);
+
 router.post('/board/comment/:boardId', BoardController.addComment);
 
 router.delete('/board/comment/:boardId/:commentId', BoardController.removeComment);
