@@ -58,7 +58,7 @@ class BoardHandler {
 
     const q = { sections: sectionId };
 
-    return Board.findOne(q).select('key title province city resultUrl type comments').populate('comments').lean()
+    return Board.findOne(q).select('key title province city resultUrl type comments tags').populate('comments').lean()
       .exec();
 
   }
