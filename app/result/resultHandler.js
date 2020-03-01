@@ -138,10 +138,10 @@ class ResultHandler {
       {
         $project: {
           diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] },
-          status: 1,
-          year: 1,
-          section: 1,
-          board: 1
+          status: '$status',
+          year: '$year',
+          section: '$section',
+          board: '$board'
         }
       },
       {
