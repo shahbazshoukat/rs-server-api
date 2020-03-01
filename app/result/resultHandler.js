@@ -151,7 +151,7 @@ class ResultHandler {
       },
       {
         $lookup: {
-          from: 'board',
+          from: 'boards',
           localField: 'board',
           foreignField: '_id',
           as: 'board'
