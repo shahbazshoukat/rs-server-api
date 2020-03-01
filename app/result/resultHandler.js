@@ -119,8 +119,20 @@ class ResultHandler {
     return Result.aggregate([
       {
         $project: {
-          diff_days: { $divide: [{ $subtract: [new Date(), new Date('$announceDate')] }, 1000 * 60 * 60 * 24] },
-          new_date: new Date('$announceDate')
+          date: {
+            $dateToString: {
+              date: {
+                $dateFromParts: {
+                  day: '$announceDate.day',
+                  month: '$announceDate.month',
+                  year: '$announceDate.year'
+                }
+              },
+              format: '%Y-%m-%d'
+            }
+          },
+          diff_days: { $divide: [{ $subtract: [new Date(), new Date('$date')] }, 1000 * 60 * 60 * 24] },
+          new_date: new Date('$date')
         }
       }
     ]);
