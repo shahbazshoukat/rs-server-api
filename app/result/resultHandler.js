@@ -137,6 +137,10 @@ class ResultHandler {
       },
       {
         $project: {
+          status: 1,
+          section: 1,
+          board: 1,
+          year: 1,
           diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
         }
       },
@@ -144,23 +148,15 @@ class ResultHandler {
         $match: {
           diff_days: { $lte: 30 }
         }
-      },
-      {
-        $project: {
-          status: 1,
-          section: 1,
-          board: 1,
-          year: 1
-        }
-      },
-      {
-        $lookup: {
-          from: 'boards',
-          localField: 'board',
-          foreignField: '_id',
-          as: 'board'
-        }
       }
+      // {
+      //   $lookup: {
+      //     from: 'boards',
+      //     localField: 'board',
+      //     foreignField: '_id',
+      //     as: 'board'
+      //   }
+      // }
     ]);
 
   }
