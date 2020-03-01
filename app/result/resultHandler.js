@@ -131,8 +131,8 @@ class ResultHandler {
               format: '%Y-%m-%d'
             }
           },
-          diff_days: { $divide: [{ $subtract: [new Date(), new Date('$date')] }, 1000 * 60 * 60 * 24] },
-          new_date: '$date'
+          diff_days: { $divide: [{ $subtract: [new Date(), new Date('$announceDate.year', '$announceDate.month', '$announceDate.day')] }, 1000 * 60 * 60 * 24] },
+          new_date: new Date('$announceDate.year', '$announceDate.month', '$announceDate.day')
         }
       },
       {
