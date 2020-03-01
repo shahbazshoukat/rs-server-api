@@ -20,7 +20,7 @@ const resultSchema = mongoose.Schema({
     require: false
   },
   announceDate: {
-    type: Object,
+    type: Date,
     require: false
   },
   examType: {
