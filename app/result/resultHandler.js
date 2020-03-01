@@ -120,28 +120,30 @@ class ResultHandler {
       {
         $project: {
           date: {
-            $dateToString: {
-              date: {
-                $dateFromParts: {
-                  day: '$announceDate.day',
-                  month: '$announceDate.month',
-                  year: '$announceDate.year'
-                }
-              },
-              format: '%Y-%m-%d'
+            $toDate: {
+              $dateToString: {
+                date: {
+                  $dateFromParts: {
+                    day: '$announceDate.day',
+                    month: '$announceDate.month',
+                    year: '$announceDate.year'
+                  }
+                },
+                format: '%Y-%m-%d'
+              }
             }
           }
         }
       },
       {
         $project: {
-          diff_days: { $divide: [{ $subtract: [new Date(), new Date('$announceDate.year', '$announceDate.month', '$announceDate.day')] }, 1000 * 60 * 60 * 24] },
-          new_date: { $toDate: '$date' }
+          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] },
+          new_date: '$date'
         }
       },
       {
         $match: {
-          diff_days: { $gt: 30 }
+          diff_days: { $lte: 30 }
         }
       }
     ]);
