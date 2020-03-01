@@ -119,7 +119,7 @@ class ResultHandler {
     return Result.aggregate([{
       $project: {
         diff_days:
-                { $divide: [{ $subtract: [new Date(), '$announceDate'] }, 1000 * 60 * 60 * 24] }
+                { $divide: [{ $subtract: [new Date(), new Date('$announceDate')] }, 1000 * 60 * 60 * 24] }
       }
     }]);
 
