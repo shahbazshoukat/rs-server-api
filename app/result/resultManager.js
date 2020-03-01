@@ -392,6 +392,28 @@ class ResultManager {
 
   }
 
+  static async getLatestResults () {
+
+    try {
+
+      cLog.info(`getLatestResults:: Getting latest results`);
+
+      const data = await ResultHandler.getLatestResults();
+
+      cLog.success(`getLatestResults:: Latest results successfully found`, data);
+
+      return data;
+
+    } catch (error) {
+
+      cLog.error(`getLatestResults:: Failed to get latest results`, error);
+
+      throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
 }
 
 module.exports = ResultManager;

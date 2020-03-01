@@ -29,4 +29,6 @@ router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
 
 router.post('/comment/:resultId', ResultController.addComment);
 
+router.get('/results/latest', ResultController.getLatestResults);
+
 module.exports = router;

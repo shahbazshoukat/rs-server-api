@@ -44,7 +44,7 @@ class ResultHandler {
 
     const q = { section: sectionId, board: boardId, examType: ResultEnums.EXAM_TYPES.ANNUAL };
 
-    return Result.find(q).select('year').sort({year: -1}).lean()
+    return Result.find(q).select('year').sort({ year: -1 }).lean()
       .exec();
 
   }
@@ -111,6 +111,22 @@ class ResultHandler {
     const update = { status };
 
     return Result.updateOne(q, update);
+
+  }
+
+  static getLatestResults () {
+
+    return Result.aggregate([{
+      $project: {
+        diff_days:
+                { $divide: [{ $subtract: [new Date(), '$announceDate'] }, 1000 * 60 * 60 * 24] }
+      },
+      $match: {
+        $diff_days: {
+          $gte: 30, $lt: 30
+        }
+      }
+    }]);
 
   }
 
