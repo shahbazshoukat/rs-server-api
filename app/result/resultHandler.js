@@ -136,7 +136,7 @@ class ResultHandler {
       {
         $project: {
           diff_days: { $divide: [{ $subtract: [new Date(), new Date('$announceDate.year', '$announceDate.month', '$announceDate.day')] }, 1000 * 60 * 60 * 24] },
-          new_date: new Date('$date')
+          new_date: { $toDate: '$date' }
         }
       },
       {
