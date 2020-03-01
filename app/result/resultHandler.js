@@ -119,6 +119,10 @@ class ResultHandler {
     return Result.aggregate([
       {
         $project: {
+          status: 1,
+          section: 1,
+          board: 1,
+          year: 1,
           date: {
             $toDate: {
               $dateToString: {
@@ -132,18 +136,21 @@ class ResultHandler {
                 format: '%Y-%m-%d'
               }
             }
-          }
-        }
-      },
-      {
-        $project: {
-          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] },
-          new_date: '$date'
+          },
+          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
         }
       },
       {
         $match: {
           diff_days: { $lte: 30 }
+        }
+      },
+      {
+        $lookup: {
+          from: 'boards',
+          localField: '_id',
+          foreignField: 'board',
+          as: 'board'
         }
       }
     ]);
