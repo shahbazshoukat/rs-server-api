@@ -120,11 +120,6 @@ class ResultHandler {
       $project: {
         diff_days:
                 { $divide: [{ $subtract: [new Date(), '$announceDate'] }, 1000 * 60 * 60 * 24] }
-      },
-      $match: {
-        $diff_days: {
-          $gte: 30, $lt: 30
-        }
       }
     }]);
 
