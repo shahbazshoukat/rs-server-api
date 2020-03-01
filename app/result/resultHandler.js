@@ -130,9 +130,13 @@ class ResultHandler {
               },
               format: '%Y-%m-%d'
             }
-          },
+          }
+        }
+      },
+      {
+        $project: {
           diff_days: { $divide: [{ $subtract: [new Date(), new Date('$announceDate.year', '$announceDate.month', '$announceDate.day')] }, 1000 * 60 * 60 * 24] },
-          new_date: new Date('2019-01-03')
+          new_date: new Date('$date')
         }
       },
       {
