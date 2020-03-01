@@ -132,7 +132,12 @@ class ResultHandler {
             }
           },
           diff_days: { $divide: [{ $subtract: [new Date(), new Date('$date')] }, 1000 * 60 * 60 * 24] },
-          new_date: new Date('$date')
+          new_date: '$date'
+        }
+      },
+      {
+        $match: {
+          diff_days: { $gt: 30 }
         }
       }
     ]);
