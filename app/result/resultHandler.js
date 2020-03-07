@@ -144,6 +144,7 @@ class ResultHandler {
           year: 1,
           section: 1,
           board: 1,
+          examType: 1,
           diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] } }
         }
       },
