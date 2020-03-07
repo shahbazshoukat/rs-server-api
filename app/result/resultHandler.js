@@ -1,4 +1,7 @@
 const Result = require('./result');
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const {
   ResultEnums
@@ -153,9 +156,8 @@ class ResultHandler {
         $lookup:
             {
               from: 'boards',
-              let: { board: '$board' },
               pipeline: [
-                { $match: { $_id: '$$board' } },
+                { $match: { _id: ObjectId('$board') } },
                 { $project: { title: 1 } }
               ],
               as: 'board'
@@ -165,8 +167,10 @@ class ResultHandler {
         $lookup:
             {
               from: 'sections',
-              localField: 'section',
-              foreignField: '_id',
+              pipeline: [
+                { $match: { _id: ObjectId('$section') } },
+                { $project: { title: 1, type: 1 } }
+              ],
               as: 'section'
             }
       }
