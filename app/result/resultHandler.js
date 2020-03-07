@@ -119,10 +119,6 @@ class ResultHandler {
     return Result.aggregate([
       {
         $project: {
-          status: 1,
-          year: 1,
-          section: 1,
-          board: 1,
           date: {
             $toDate: {
               $dateToString: {
@@ -140,10 +136,12 @@ class ResultHandler {
         }
       },
       {
-        $match: {
-          $lte: [
-            { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }, 30
-          ]
+        $project: {
+          status: 1,
+          year: 1,
+          section: 1,
+          board: 1,
+          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
         }
       },
       {
