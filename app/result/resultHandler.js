@@ -139,33 +139,25 @@ class ResultHandler {
           },
           diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
         }
+      },
+      {
+        $lookup:
+            {
+              from: 'boards',
+              localField: 'board',
+              foreignField: '_id',
+              as: 'board'
+            }
+      },
+      {
+        $lookup:
+            {
+              from: 'sections',
+              localField: 'section',
+              foreignField: '_id',
+              as: 'section'
+            }
       }
-      // {
-      //   $lookup:
-      //       {
-      //         from: 'boards',
-      //         localField: 'board',
-      //         foreignField: '_id',
-      //         as: 'board'
-      //       }
-      // },
-      // {
-      //   $lookup:
-      //       {
-      //         from: 'sections',
-      //         localField: 'section',
-      //         foreignField: '_id',
-      //         as: 'section'
-      //       }
-      // },
-      // {
-      //   $project: {
-      //     status: 1,
-      //     section: { title: '$section.title', type: '$section.type' },
-      //     year: 1,
-      //     board: { title: '$board.title', key: '$board.key' }
-      //   }
-      // }
     ]);
 
   }
