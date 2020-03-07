@@ -141,12 +141,8 @@ class ResultHandler {
       },
       {
         $match: {
-          $expr: [
-            {
-              $lte: [
-                { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }, 30
-              ]
-            }
+          $lte: [
+            { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }, 30
           ]
         }
       },
