@@ -136,10 +136,20 @@ class ResultHandler {
                 format: '%Y-%m-%d'
               }
             }
-          },
-          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
+          }
         }
       },
+      {
+        $match: {
+          $cond: [
+            {
+              $lte: [
+                { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }, 30
+              ]
+            }
+          ]
+        }
+      }
       {
         $lookup:
             {
