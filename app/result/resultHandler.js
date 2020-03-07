@@ -118,7 +118,7 @@ class ResultHandler {
 
     return Result.aggregate([
       {
-        $addField: {
+        $addFields: {
           date: {
             $toDate: {
               $dateToString: {
