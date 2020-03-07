@@ -149,7 +149,12 @@ class ResultHandler {
       },
       {
         $match: {
-          diff_days: { $lte: 30 }
+          diff_days: { $lte: 15 }
+        }
+      },
+      {
+        $sort: {
+          diff_days: 1
         }
       },
       {
@@ -159,7 +164,7 @@ class ResultHandler {
               let: { board: '$board' },
               pipeline: [
                 { $match: { $expr: { $eq: ['$_id', '$$board'] } } },
-                { $project: { title: 1 } }
+                { $project: { title: 1, key: 1 } }
               ],
               as: 'board'
             }
