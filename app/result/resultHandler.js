@@ -149,7 +149,7 @@ class ResultHandler {
             }
           ]
         }
-      }
+      },
       {
         $lookup:
             {
