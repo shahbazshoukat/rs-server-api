@@ -148,6 +148,11 @@ class ResultHandler {
         }
       },
       {
+        $match: {
+          diff_days: { $lte: 30 }
+        }
+      },
+      {
         $lookup:
             {
               from: 'boards',
