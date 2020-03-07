@@ -153,6 +153,11 @@ class ResultHandler {
         }
       },
       {
+        $sort: {
+          diff_days: 1
+        }
+      },
+      {
         $lookup:
             {
               from: 'boards',
