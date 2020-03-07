@@ -123,12 +123,8 @@ class ResultHandler {
           year: 1,
           section: 1,
           board: 1,
+          annData: 1,
           diff_days: { $divide: [{ $subtract: [new Date(), '$annDate'] }, 1000 * 60 * 60 * 24] }
-        }
-      },
-      {
-        $match: {
-          diff_days: { $lte: 30 }
         }
       },
       {
