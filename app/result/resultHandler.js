@@ -170,6 +170,9 @@ class ResultHandler {
             }
       },
       {
+        $unwind: '$board'
+      },
+      {
         $lookup:
             {
               from: 'sections',
@@ -180,6 +183,9 @@ class ResultHandler {
               ],
               as: 'section'
             }
+      },
+      {
+        $unwind: '$section'
       }
     ]);
 
