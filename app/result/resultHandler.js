@@ -118,13 +118,35 @@ class ResultHandler {
 
     return Result.aggregate([
       {
+        $addField: {
+          date: {
+            $toDate: {
+              $dateToString: {
+                date: {
+                  $dateFromParts: {
+                    day: '$announceDate.day',
+                    month: '$announceDate.month',
+                    year: '$announceDate.year'
+                  }
+                },
+                format: '%Y-%m-%d'
+              }
+            }
+          }
+        }
+      },
+      {
         $project: {
           status: 1,
           year: 1,
           section: 1,
           board: 1,
-          annData: 1,
-          diff_days: { $divide: [{ $subtract: [new Date(), '$annDate'] }, 1000 * 60 * 60 * 24] }
+          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
+        }
+      },
+      {
+        $match: {
+          diff_days: { $lte: 30 }
         }
       },
       {
