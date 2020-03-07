@@ -165,7 +165,7 @@ class ResultHandler {
               let: { board: '$board' },
               pipeline: [
                 { $match: { $expr: { $eq: ['$_id', '$$board'] } } },
-                { $project: { title: 1, key: 1 } }
+                { $project: { title: 1, key: 1, province: 1 } }
               ],
               as: 'board'
             }
