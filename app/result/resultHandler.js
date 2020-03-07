@@ -153,8 +153,11 @@ class ResultHandler {
         $lookup:
             {
               from: 'boards',
-              localField: 'board',
-              foreignField: '_id',
+              let: { board: '$board' },
+              pipeline: [
+                { $match: { $_id: '$$board' } },
+                { $project: { title: 1 } }
+              ],
               as: 'board'
             }
       },
