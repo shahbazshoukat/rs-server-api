@@ -144,12 +144,12 @@ class ResultHandler {
           year: 1,
           section: 1,
           board: 1,
-          diff_days: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] }
+          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] } }
         }
       },
       {
         $match: {
-          diff_days: { $lte: 15 }
+          diff_days: { $lte: 20 }
         }
       },
       {
