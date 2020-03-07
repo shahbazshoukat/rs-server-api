@@ -156,6 +156,7 @@ class ResultHandler {
         $lookup:
             {
               from: 'boards',
+              let: { board: '$board' },
               pipeline: [
                 { $match: { _id: ObjectId('$board') } },
                 { $project: { title: 1 } }
@@ -167,6 +168,7 @@ class ResultHandler {
         $lookup:
             {
               from: 'sections',
+              let: { section: '$section' },
               pipeline: [
                 { $match: { _id: ObjectId('$section') } },
                 { $project: { title: 1, type: 1 } }
