@@ -144,7 +144,7 @@ class ResultHandler {
           year: 1,
           section: 1,
           board: 1,
-          examType: 1,
+          examType: { $cond: { if: { $eq: ['$examType', 0] }, then: 'annual', else: 'supply' } },
           diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] } }
         }
       },
