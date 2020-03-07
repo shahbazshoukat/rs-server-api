@@ -158,7 +158,7 @@ class ResultHandler {
               from: 'boards',
               let: { board: '$board' },
               pipeline: [
-                { $match: { _id: ObjectId('$board') } },
+                { $match: { _id: ObjectId('$$board') } },
                 { $project: { title: 1 } }
               ],
               as: 'board'
@@ -170,7 +170,7 @@ class ResultHandler {
               from: 'sections',
               let: { section: '$section' },
               pipeline: [
-                { $match: { _id: ObjectId('$section') } },
+                { $match: { _id: ObjectId('$$section') } },
                 { $project: { title: 1, type: 1 } }
               ],
               as: 'section'
