@@ -6,8 +6,6 @@ const BoardController = require('../app/board/boardCtrl');
 
 router.post('/board', Auth.Authenticate, BoardController.createBoard);
 
-router.get('/boards', Auth.Authenticate, BoardController.getAllBoards);
-
 router.get('/board/:boardId', Auth.Authenticate, BoardController.getBoard);
 
 router.put('/updateBoard/:boardId', Auth.Authenticate, BoardController.updateBoard);
@@ -19,6 +17,9 @@ router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.g
 router.delete('/board/comment/:boardId/:commentId', Auth.Authenticate, BoardController.removeComment);
 
 // public apis
+
+router.get('/boards', BoardController.getAllBoards);
+
 router.get('/board/key/:boardKey', BoardController.getBoardByKey);
 
 router.get('/boards/section/:sectionTitle', BoardController.getBoardsBySectionTitle);
