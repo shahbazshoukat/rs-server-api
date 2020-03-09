@@ -40,6 +40,8 @@ const ResultConstants = Object.freeze({
     SECTION_NOT_FOUND: 'Section not found',
     BOARD_NOT_FOUND: 'Board not found',
     FAILED_TO_FETCH_YEARS: 'Failed to fetch years',
+    FAILED_TO_FETCH_EXAM_TYPES: 'Failed to fetch exam types',
+    EXAM_TYPES_SUCCESSFULLY_FETCHED: 'Exam types successfully fetched',
     RESULTS_YEARS_FETCHED_SUCCESSFULLY: 'Result years fetched successfully',
     INVALID_SECTION: 'Invalid section',
     INVALID_BOARD: 'Invalid board',
@@ -49,7 +51,8 @@ const ResultConstants = Object.freeze({
     RESULT_FOUND_SUCCESSFULLY: 'Result found successfully',
     RESULT_IS_NOT_ANNOUNCED: 'Result is not announced',
     PAGE_NOT_FOUND: 'Page not found',
-    SOMETHING_WENT_WRONG: 'Something went wrong'
+    SOMETHING_WENT_WRONG: 'Something went wrong',
+    RESULT_ALREADY_ADDED: 'Result already added'
   }
 });
 

@@ -19,7 +19,8 @@ const {
 
 const {
   cLog,
-  restClient
+  restClient,
+  config
 } = require('../../helpers');
 
 class ResultManager {
@@ -30,13 +31,27 @@ class ResultManager {
 
       await ResultUtil.validateParametersToCreateResult(data);
 
+      const res = await ResultHandler.getResult(data.sectionId, data.boardId, data.year, data.examType);
+
+      if (res) {
+
+        cLog.error(`createResult:: Result already added`, data);
+
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_ALREADY_ADDED, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
       data.isBlocked = false;
 
-      const resultRes = await restClient.get(data.resultUrl);
+      if (config.result.checkBlocked) {
 
-      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
+        const resultRes = await restClient.get(data.resultUrl);
 
-        data.isBlocked = true;
+        if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
+
+          data.isBlocked = true;
+
+        }
 
       }
 
@@ -104,47 +119,49 @@ class ResultManager {
 
   }
 
-  static async getResultYears (secTitle, boardKey) {
+  static async getResultYears (secId, boardId) {
 
     try {
 
-      cLog.info(`getResultYears:: getting result years section title:: ${secTitle} boardKey:: ${boardKey}`);
+      cLog.info(`getResultYears:: getting result years section title:: ${secId} boardKey:: ${boardId}`);
 
-      await ResultUtil.validateParametersToGetResultYears(secTitle, boardKey);
+      await ResultUtil.validateParametersToGetResultYears(secId, boardId);
 
-      const section = await SectionManager.getSectionByTitle(secTitle);
+      cLog.info(`getResultYears:: getting result years section id:: ${secId} board id:: ${boardId}`);
 
-      if (!section || !section._id) {
+      const doc = await ResultHandler.getResultYears(secId, boardId);
 
-        throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-      }
-
-      const board = await BoardManager.getBoardByKey(boardKey);
-
-      if (!board || !board._id) {
-
-        throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-      }
-
-      cLog.info(`getResultYears:: getting result years section id:: ${section._id} board id:: ${board._id}`);
-
-      const doc = await ResultHandler.getResultYears(section._id, board._id);
-
-      if (!doc) {
-
-        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-      }
-
-      cLog.success(`getResultYears:: Successfully get result years section id:: ${section._id} board id:: ${board._id} years:: `);
+      cLog.success(`getResultYears:: Successfully get result years section id:: ${secId} board id:: ${boardId} years:: `);
 
       return doc;
 
     } catch (error) {
 
       throw new ApplicationException(error.message || ResultConstants.MESSAGES.FAILED_TO_FETCH_YEARS, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async getExamTypes (secId, boardId, year) {
+
+    try {
+
+      cLog.info(`getExamTypes:: getting exam types section id:: ${secId} board id:: ${boardId} year:: ${year}`);
+
+      await ResultUtil.validateParametersToGetExamTypes(secId, boardId, year);
+
+      cLog.info(`getExamTypes:: getting exam section id:: ${secId} board id:: ${boardId} year:: ${year}`);
+
+      const doc = await ResultHandler.getExamTypes(secId, boardId, year);
+
+      cLog.success(`getExamTypes:: Successfully get exam types section id:: ${secId} board id:: ${boardId} year:: ${year}`, doc);
+
+      return doc;
+
+    } catch (error) {
+
+      throw new ApplicationException(error.message || ResultConstants.MESSAGES.FAILED_TO_FETCH_EXAM_TYPES, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
     }
 

@@ -65,7 +65,23 @@ class ResultController {
 
     try {
 
-      const doc = await ResultManager.getResultYears(req.params.sectionTitle, req.params.boardKey);
+      const doc = await ResultManager.getResultYears(req.params.sectionId, req.params.boardId);
+
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULTS_YEARS_FETCHED_SUCCESSFULLY, data: doc });
+
+    } catch (error) {
+
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
+
+    }
+
+  }
+
+  static async getExamTypes (req, res) {
+
+    try {
+
+      const doc = await ResultManager.getExamTypes(req.params.sectionId, req.params.boardId, req.params.year);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULTS_YEARS_FETCHED_SUCCESSFULLY, data: doc });
 

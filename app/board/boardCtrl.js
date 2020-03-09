@@ -93,11 +93,11 @@ class BoardController {
 
   }
 
-  static async getBoardsBySectionTitle (req, res) {
+  static async getBoardsBySectionId (req, res) {
 
     try {
 
-      const doc = await BoardManager.getBoardsBySectionTitle(req.params.sectionTitle);
+      const doc = await BoardManager.getBoardsBySectionId(req.params.sectionId);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
 

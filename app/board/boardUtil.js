@@ -81,9 +81,9 @@ class BoardUtil {
 
   }
 
-  static async validateSectionTitle (sectionTitle) {
+  static async validateSectionId (sectionId) {
 
-    if (!validators.isValidStr(sectionTitle)) {
+    if (!validators.isValidId(sectionId)) {
 
       throw new ApplicationException(BoardConstants.MESSAGES.INVALID_SECTION_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 

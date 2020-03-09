@@ -41,17 +41,39 @@ class ResultUtil {
 
   }
 
-  static validateParametersToGetResultYears (secTitle, boardKey) {
+  static validateParametersToGetResultYears (secId, boardId) {
 
-    if (!validators.isValidStr(secTitle)) {
+    if (!validators.isValidId(secId)) {
 
       throw new ApplicationException(ResultConstants.MESSAGES.INVALID_SECTION_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
-    if (!validators.isValidStr(boardKey)) {
+    if (!validators.isValidId(boardId)) {
 
       throw new ApplicationException(ResultConstants.MESSAGES.INVALID_BOARD_KEY, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static validateParametersToGetExamTypes (secId, boardId, year) {
+
+    if (!validators.isValidId(secId)) {
+
+      throw new ApplicationException(ResultConstants.MESSAGES.INVALID_SECTION_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+    if (!validators.isValidId(boardId)) {
+
+      throw new ApplicationException(ResultConstants.MESSAGES.INVALID_BOARD_KEY, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+    if (!validators.isValidStr(year)) {
+
+      throw new ApplicationException(ResultConstants.MESSAGES.INVALID_YEAR, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 

@@ -49,9 +49,18 @@ class ResultHandler {
 
   static getResultYears (sectionId, boardId) {
 
-    const q = { section: sectionId, board: boardId, examType: ResultEnums.EXAM_TYPES.ANNUAL };
+    const q = { section: sectionId, board: boardId };
 
-    return Result.find(q).select('year').sort({ year: -1 }).lean()
+    return Result.distinct('year', q).sort({ year: -1 }).lean()
+      .exec();
+
+  }
+
+  static getExamTypes (sectionId, boardId, year) {
+
+    const q = { section: sectionId, board: boardId, year };
+
+    return Result.distinct('examType', q).sort({ examType: -1 }).lean()
       .exec();
 
   }

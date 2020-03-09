@@ -23,7 +23,9 @@ router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getRe
 router.delete('/comment/:resultId/:commentId', Auth.Authenticate, ResultController.removeComment);
 
 // public apis
-router.get('/result-year/:sectionTitle/:boardKey', ResultController.getResultYears);
+router.get('/result-year/:sectionId/:boardId', ResultController.getResultYears);
+
+router.get('/exam-types/:sectionId/:boardId/:year', ResultController.getExamTypes);
 
 router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
 

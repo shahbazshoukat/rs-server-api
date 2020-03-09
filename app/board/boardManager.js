@@ -14,7 +14,8 @@ const {
 
 const {
   cLog,
-  restClient
+  restClient,
+  config
 } = require('../../helpers');
 
 class BoardManager {
@@ -27,11 +28,16 @@ class BoardManager {
 
       data.isBlocked = false;
 
-      const resultRes = await restClient.get(data.resultUrl);
+      if (config.result.checkBlocked) {
 
-      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
+        const resultRes = await restClient.get(data.resultUrl);
 
-        data.isBlocked = true;
+        if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] ||
+            resultRes.headers['X-Frame-Options'] || resultRes.headers['x-Frame-Options'])) {
+
+          data.isBlocked = true;
+
+        }
 
       }
 
@@ -161,39 +167,25 @@ class BoardManager {
 
   }
 
-  static async getBoardsBySectionTitle (sectionTitle) {
+  static async getBoardsBySectionId (sectionId) {
 
     try {
 
-      await BoardUtil.validateSectionTitle(sectionTitle);
+      await BoardUtil.validateSectionId(sectionId);
 
-      cLog.info(`getBoardsBySectionTitle:: getting board by section Title:: ${sectionTitle}`);
+      cLog.info(`getBoardsBySectionId:: getting board by section Title:: ${sectionId}`);
 
-      const section = await SectionManager.getSectionByTitle(sectionTitle);
+      await BoardUtil.validateSectionId(sectionId);
 
-      if (!section || !section._id) {
+      const doc = await BoardHandler.getBoardsBySectionId(sectionId);
 
-        throw new ApplicationException(BoardConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-      }
-
-      await BoardUtil.validateSectionId(section._id);
-
-      const doc = await BoardHandler.getBoardsBySectionId(section._id);
-
-      if (!doc) {
-
-        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
-
-      }
-
-      cLog.success(`getBoardsBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `);
+      cLog.success(`getBoardsBySectionId:: Boards successfully fetched by section Title:: ${sectionId} boards:: `);
 
       return doc;
 
     } catch (error) {
 
-      cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionTitle}`, error);
+      cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionId}`, error);
 
       throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARDS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
