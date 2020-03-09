@@ -7,6 +7,10 @@ const {
   ResultEnums
 } = require('../../enums');
 
+const {
+  config
+} = require('../../helpers');
+
 class ResultHandler {
 
   static createResult (data) {
@@ -150,7 +154,7 @@ class ResultHandler {
       },
       {
         $match: {
-          diff_days: { $lte: 30 }
+          diff_days: { $lte: config.result.days || 30 }
         }
       },
       {

@@ -8,6 +8,9 @@
     "userName": "rs-admin",
     "password": "password009"
   },
+  "result": {
+    "days": 45
+  },
   "appUrl": "http://localhost:4200",
   "protocol": "http",
   "host": "172.31.36.28",
