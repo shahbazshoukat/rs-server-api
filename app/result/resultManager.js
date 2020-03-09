@@ -229,7 +229,19 @@ class ResultManager {
 
       }
 
-      examType = examType === ResultConstants.EXAM_TYPES.ANNUAL ? ResultEnums.EXAM_TYPES.ANNUAL : ResultEnums.EXAM_TYPES.SUPPLY;
+      if (examType === ResultConstants.EXAM_TYPES.ANNUAL) {
+
+        examType = ResultEnums.EXAM_TYPES.ANNUAL;
+
+      } else if (examType === ResultConstants.EXAM_TYPES.SUPPLY) {
+
+        examType = ResultEnums.EXAM_TYPES.SUPPLY;
+
+      } else if (examType === ResultConstants.EXAM_TYPES.TEST) {
+
+        examType = ResultEnums.EXAM_TYPES.TEST;
+
+      }
 
       cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
