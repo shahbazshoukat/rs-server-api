@@ -51,8 +51,7 @@ class ResultHandler {
 
     const q = { section: sectionId, board: boardId };
 
-    return Result.distinct('year', q).sort({ year: -1 }).lean()
-      .exec();
+    return Result.distinct('year', q);
 
   }
 
@@ -60,8 +59,7 @@ class ResultHandler {
 
     const q = { section: sectionId, board: boardId, year };
 
-    return Result.distinct('examType', q).sort({ examType: -1 }).lean()
-      .exec();
+    return Result.distinct('examType', q);
 
   }
 
