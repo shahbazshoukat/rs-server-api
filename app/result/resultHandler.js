@@ -121,19 +121,9 @@ class ResultHandler {
 
   }
 
-  static updateAllResults () {
+  static updateAllResults (q, update = {}, options = {}) {
 
-    const q = {};
-
-    const update = {
-      $set: {
-        announceDate: new Date(2018, 11, 31)
-      }
-    };
-
-    const options = { multi: true };
-
-    return Result.update(q, update, options);
+    return Result.delete(q);
 
   }
 

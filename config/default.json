@@ -9,7 +9,7 @@
         "password": "password009"
       },
     "result": {
-        "days": 45,
+        "days": 365,
         "checkBlocked":  true
     },
     "appUrl": "http://localhost:4200",

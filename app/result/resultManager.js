@@ -443,15 +443,25 @@ class ResultManager {
 
   }
 
-  static async updateAllResults () {
+  static async updateAllResults (clas) {
 
     try {
 
-      cLog.info(`updateAllResults:: Updating all results`);
+      cLog.info(`updateAllResults:: Updating all results`, clas);
 
-      const data = await ResultHandler.updateAllResults();
+      const cls = await SectionManager.getSectionByTitle(clas);
 
-      cLog.success(`updateAllResults:: Results successfully updated`, data);
+      if (!cls || !cls._id) {
+
+        cLog.error(`updateAllResults:: No class found`);
+
+      }
+
+      const q = { section: cls._id, examType: 1 };
+
+      const data = await ResultHandler.updateAllResults(q);
+
+      cLog.success(`updateAllResults:: Results successfully updated`, clas, data);
 
       return data;
 

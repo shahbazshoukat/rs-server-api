@@ -245,7 +245,7 @@ class ResultController {
 
     try {
 
-      const doc = await ResultManager.updateAllResults();
+      const doc = await ResultManager.updateAllResults(req.body.section);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: 'Results successfully updated', data: doc });
 
