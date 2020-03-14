@@ -467,7 +467,7 @@ class ResultManager {
 
     } catch (error) {
 
-      cLog.error(`updateAllResults:: Failed to update all results`);
+      cLog.error(`updateAllResults:: Failed to update all results`, error);
 
       throw new ApplicationException(error.message || 'Failed to update results', error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 

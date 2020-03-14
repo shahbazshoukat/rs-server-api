@@ -123,7 +123,7 @@ class ResultHandler {
 
   static updateAllResults (q, update = {}, options = {}) {
 
-    return Result.delete(q);
+    return Result.deleteMany(q);
 
   }
 
