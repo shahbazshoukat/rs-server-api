@@ -241,6 +241,22 @@ class ResultController {
 
   }
 
+  static async updateAllResults (req, res) {
+
+    try {
+
+      const doc = await ResultManager.updateAllResults();
+
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: 'Results successfully updated', data: doc });
+
+    } catch (error) {
+
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
+
+    }
+
+  }
+
 }
 
 module.exports = ResultController;

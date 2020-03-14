@@ -1,11 +1,4 @@
 const Result = require('./result');
-const mongoose = require('mongoose');
-
-const ObjectId = mongoose.Types.ObjectId;
-
-const {
-  ResultEnums
-} = require('../../enums');
 
 const {
   config
@@ -128,35 +121,33 @@ class ResultHandler {
 
   }
 
+  static updateAllResults () {
+
+    const q = {};
+
+    const update = {
+      $set: {
+        announceDate: new Date(2018, 11, 31)
+      }
+    };
+
+    const options = { multi: true };
+
+    return Result.update(q, update, options);
+
+  }
+
   static getLatestResults () {
 
     return Result.aggregate([
-      {
-        $addFields: {
-          date: {
-            $toDate: {
-              $dateToString: {
-                date: {
-                  $dateFromParts: {
-                    day: '$announceDate.day',
-                    month: '$announceDate.month',
-                    year: '$announceDate.year'
-                  }
-                },
-                format: '%Y-%m-%d'
-              }
-            }
-          }
-        }
-      },
       {
         $project: {
           status: 1,
           year: 1,
           section: 1,
           board: 1,
-          examType: { $cond: { if: { $eq: ['$examType', 0] }, then: 'annual', else: 'supply' } },
-          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$date'] }, 1000 * 60 * 60 * 24] } }
+          examType: 1,
+          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$announceDate'] }, 1000 * 60 * 60 * 24] } }
         }
       },
       {

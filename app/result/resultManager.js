@@ -443,6 +443,28 @@ class ResultManager {
 
   }
 
+  static async updateAllResults () {
+
+    try {
+
+      cLog.info(`updateAllResults:: Updating all results`);
+
+      const data = await ResultHandler.updateAllResults();
+
+      cLog.success(`updateAllResults:: Results successfully updated`, data);
+
+      return data;
+
+    } catch (error) {
+
+      cLog.error(`updateAllResults:: Failed to update all results`);
+
+      throw new ApplicationException(error.message || 'Failed to update results', error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
 }
 
 module.exports = ResultManager;
