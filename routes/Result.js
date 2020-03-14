@@ -33,6 +33,6 @@ router.post('/comment/:resultId', ResultController.addComment);
 
 router.get('/results/latest', ResultController.getLatestResults);
 
-router.get('/results/update/all', ResultController.updateAllResults);
+router.post('/results/update/all', ResultController.updateAllResults);
 
 module.exports = router;
