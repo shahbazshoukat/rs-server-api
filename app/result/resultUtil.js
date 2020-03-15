@@ -151,6 +151,10 @@ class ResultUtil {
 
     try {
 
+      cLog.info(`checkBlockedWebsite:: Checking if url blocked`);
+
+      setTimeout(() => true, 1500);
+
       const resultRes = await restClient.get(url);
 
       if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {

@@ -19,7 +19,6 @@ const {
 
 const {
   cLog,
-  restClient,
   config
 } = require('../../helpers');
 
@@ -29,7 +28,11 @@ class ResultManager {
 
     try {
 
+      cLog.info(`createNewResult:: Creating new result`, data);
+
       await ResultUtil.validateParametersToCreateResult(data);
+
+      cLog.info(`createNewResult:: Checking if result already exists`);
 
       const res = await ResultHandler.getResult(data.sectionId, data.boardId, data.year, data.examType);
 
@@ -45,11 +48,17 @@ class ResultManager {
 
       if (config.result.checkBlocked) {
 
+        cLog.info(`createNewResult:: Checking if result url is blocked by x-frame-options`);
+
         data.isBlocked = await ResultUtil.checkBlockedWebsite(data.resultUrl);
+
+        cLog.success(`createNewResult:: Result url is ${data.isBlocked ? 'blocked' : 'open'}`);
 
       }
 
       const doc = await ResultHandler.createResult(data);
+
+      cLog.success(`createNewResult:: Result successfully created`, doc);
 
       return doc;
 
