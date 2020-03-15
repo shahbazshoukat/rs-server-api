@@ -99,8 +99,6 @@ class BoardManager {
 
       }
 
-      await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
-
       return doc;
 
     } catch (error) {
@@ -218,8 +216,6 @@ class BoardManager {
         throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
       }
-
-      await BoardHandler.updateBoardById(doc._id, { $inc: { views: 1 } });
 
       cLog.success(`getBoardBySectionTitle:: Boards successfully fetched by section Title:: ${sectionTitle} boards:: `, doc);
 

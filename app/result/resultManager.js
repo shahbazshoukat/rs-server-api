@@ -45,13 +45,7 @@ class ResultManager {
 
       if (config.result.checkBlocked) {
 
-        const resultRes = await restClient.get(data.resultUrl);
-
-        if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'])) {
-
-          data.isBlocked = true;
-
-        }
+        data.isBlocked = await ResultUtil.checkBlockedWebsite(data.resultUrl);
 
       }
 
@@ -255,7 +249,13 @@ class ResultManager {
 
       await ResultHandler.updateResultById(doc._id, { $inc: { views: 1 } });
 
-      cLog.success(`getResult:: Successfuly get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
+      if (doc && doc.board) {
+
+        await BoardManager.updateBoard(doc.board, { $inc: { views: 1 } });
+
+      }
+
+      cLog.success(`getResult:: Successfully get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
       return doc;
 

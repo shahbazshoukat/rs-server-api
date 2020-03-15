@@ -1,15 +1,9 @@
-const request = require('request');
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
   ResultConstants,
-  HTTPStatusCodeConstants,
-  BoardConstants
+  HTTPStatusCodeConstants
 } = require('../../constants');
-
-const {
-  ResultEnums
-} = require('../../enums');
 
 const {
   cLog,
@@ -148,6 +142,30 @@ class ResultUtil {
       cLog.error(`findResult:: Failed to find result, board:: ${board} rollNo:: ${rollNo} resultApi:: ${result.apiUrl}`, error);
 
       throw new ApplicationException(ResultConstants.MESSAGES.SOMETHING_WENT_WRONG, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+    }
+
+  }
+
+  static async checkBlockedWebsite (url) {
+
+    try {
+
+      const resultRes = await restClient.get(url);
+
+      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {
+
+        return true;
+
+      }
+
+      return false;
+
+    } catch (error) {
+
+      cLog.error(`checkBlockedWebsite:: Error :: `, error);
+
+      return true;
 
     }
 
