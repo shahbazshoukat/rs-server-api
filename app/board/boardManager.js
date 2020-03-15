@@ -253,6 +253,34 @@ class BoardManager {
 
   }
 
+  static async updateBoardById (boardId, update) {
+
+    try {
+
+      await BoardUtil.validateBoardId(boardId);
+
+      if (!update) {
+
+        cLog.error(`updateBoardById:: Invalid update data`, update);
+
+        throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DATA, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      const doc = await BoardHandler.updateBoardById(boardId, update);
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`updateBoardById:: Failed to update Board boardId:: ${boardId} update:: `, update, error);
+
+      throw new ApplicationException(error.message || BoardConstants.MESSAGES.FAILED_TO_UPDATE_BOARD, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
   static async deleteBoard (boardId) {
 
     try {

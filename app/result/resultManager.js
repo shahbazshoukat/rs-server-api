@@ -251,7 +251,7 @@ class ResultManager {
 
       if (doc && doc.board) {
 
-        await BoardManager.updateBoard(doc.board, { $inc: { views: 1 } });
+        await BoardManager.updateBoardById(doc.board, { $inc: { views: 1 } });
 
       }
 
