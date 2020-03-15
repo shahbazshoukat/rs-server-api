@@ -153,7 +153,13 @@ class ResultUtil {
 
       cLog.info(`checkBlockedWebsite:: Checking if url blocked`);
 
-      setTimeout(() => true, 1500);
+      setTimeout(() => {
+
+        cLog.error(`checkBlockedWebsite:: Timed out`);
+
+        return true;
+
+      }, 1500);
 
       const resultRes = await restClient.get(url);
 
