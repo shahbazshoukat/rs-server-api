@@ -7,6 +7,9 @@ const board = require('./Board');
 const result = require('./Result');
 const section = require('./Section');
 const user = require('./User');
+const {
+  config
+} = require('../helpers');
 // Modules
 const {
   HTTPStatusCodeConstants
@@ -35,6 +38,21 @@ app.use(bodyParser.urlencoded({
   limit: '300mb',
   parameterLimit: 1000000
 }));
+
+app.use((req, res, next) => {
+
+  res.setHeader('Access-Control-Allow-Origin', config.appUrl);
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token'
+  );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+  );
+  next();
+
+});
 
 // Disable express 'powered by' headers to make server framework anonymous
 app.disable('x-powered-by');
