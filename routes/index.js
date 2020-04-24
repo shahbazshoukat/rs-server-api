@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({
 
 app.use((req, res, next) => {
 
-  res.setHeader('Access-Control-Allow-Origin', config.appUrl);
+  res.setHeader('Access-Control-Allow-Origin', config.allowedOrigins);
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token'
