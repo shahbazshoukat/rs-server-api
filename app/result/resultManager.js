@@ -278,6 +278,48 @@ class ResultManager {
 
   }
 
+  static async getResultsBySectionAndBoard (sectionTitle, boardKey) {
+
+    try {
+
+      cLog.info(`getResultsBySectionAndBoard:: Getting results by section::${sectionTitle} and board:: ${boardKey}`);
+
+      const section = await SectionManager.getSectionByTitle(sectionTitle);
+
+      if (!section || !section._id) {
+
+        cLog.error(`getResultsBySectionAndBoard:: Section:: ${sectionTitle} not found`);
+
+        throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      const board = await BoardManager.getBoardByKey(boardKey);
+
+      if (!board || !board._id) {
+
+        cLog.error(`getResultsBySectionAndBoard:: Board:: ${boardKey} not found`);
+
+        throw new ApplicationException(ResultConstants.MESSAGES.SECTION_NOT_FOUND, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      const results = await ResultHandler.getResultsBySectionAndBoard(section._id, board._id);
+
+      cLog.success(`getResultsBySectionAndBoard:: Results successfully fetched by section::${sectionTitle} and board:: ${boardKey}`);
+
+      return results;
+
+    } catch (error) {
+
+      cLog.error(`getResultsBySectionAndBoard:: Failed to get results by section and board`, error);
+
+      throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
   static async updateResult (resultId, data) {
 
     try {

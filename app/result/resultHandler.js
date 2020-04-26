@@ -127,6 +127,20 @@ class ResultHandler {
 
   }
 
+  static getResultsBySectionAndBoard (sectionId, boardId) {
+
+    const q = { section: sectionId, board: boardId };
+
+    const pop = [
+      { path: 'section', select: 'title type' },
+      { path: 'board', select: 'title key' }
+    ];
+
+    return Result.find(q).select('board section year examType').populate(pop).lean()
+      .exec();
+
+  }
+
   static getLatestResults () {
 
     return Result.aggregate([

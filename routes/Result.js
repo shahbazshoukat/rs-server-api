@@ -35,4 +35,6 @@ router.post('/results/update/all', ResultController.updateAllResults);
 
 router.get('/results/board/:boardKey', ResultController.getResultsByBoardKey);
 
+router.get('/results/:sectionTitle/:boardKey', ResultController.getResultsBySectionAndBoard);
+
 module.exports = router;
