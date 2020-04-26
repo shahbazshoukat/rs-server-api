@@ -195,8 +195,6 @@ class BoardManager {
 
     try {
 
-      await BoardUtil.validateSectionTitle(sectionTitle);
-
       cLog.info(`getBoardsBySectionTitle:: getting board by section Title:: ${sectionTitle}`);
 
       const section = await SectionManager.getSectionByTitle(sectionTitle);
