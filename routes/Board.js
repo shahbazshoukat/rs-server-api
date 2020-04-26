@@ -24,7 +24,9 @@ router.get('/board/key/:boardKey', BoardController.getBoardByKey);
 
 router.get('/boards/section/:sectionId', BoardController.getBoardsBySectionId);
 
-// router.get('/board/section/:sectionTitle', BoardController.getBoardBySectionTitle);
+router.get('/boards/province/:province', BoardController.getBoardByProvince);
+
+router.get('/board/section/:sectionTitle', BoardController.getBoardsBySectionTitle);
 
 router.post('/board/comment/:boardId', BoardController.addComment);
 

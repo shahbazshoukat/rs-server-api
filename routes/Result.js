@@ -18,8 +18,6 @@ router.put('/updateStatus/:resultId', Auth.Authenticate, ResultController.update
 
 router.get('/result/:section/:board/:year/:exam/:rollNo', Auth.Authenticate, ResultController.findResult);
 
-router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getResultsByBoardKey);
-
 router.delete('/comment/:resultId/:commentId', Auth.Authenticate, ResultController.removeComment);
 
 // public apis
@@ -34,5 +32,7 @@ router.post('/comment/:resultId', ResultController.addComment);
 router.get('/results/latest', ResultController.getLatestResults);
 
 router.post('/results/update/all', ResultController.updateAllResults);
+
+router.get('/results/board/:boardKey', ResultController.getResultsByBoardKey);
 
 module.exports = router;

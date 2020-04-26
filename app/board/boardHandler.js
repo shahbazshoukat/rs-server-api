@@ -63,6 +63,14 @@ class BoardHandler {
 
   }
 
+  static getBoardByProvince (province) {
+
+    const q = { province };
+
+    return Board.find(q).select('title key').lean().exec();
+
+  }
+
   static updateBoardById (boardId, update) {
 
     const q = { _id: boardId };

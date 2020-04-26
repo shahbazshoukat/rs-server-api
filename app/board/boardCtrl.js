@@ -93,11 +93,11 @@ class BoardController {
 
   }
 
-  static async getBoardsBySectionId (req, res) {
+  static async getBoardsBySectionTitle (req, res) {
 
     try {
 
-      const doc = await BoardManager.getBoardsBySectionId(req.params.sectionId);
+      const doc = await BoardManager.getBoardsBySectionTitle(req.params.sectionTitle);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
 
@@ -109,11 +109,11 @@ class BoardController {
 
   }
 
-  static async getBoardBySectionTitle (req, res) {
+  static async getBoardByProvince (req, res) {
 
     try {
 
-      const doc = await BoardManager.getBoardBySectionTitle(req.params.sectionTitle);
+      const doc = await BoardManager.getBoardsByProvince(req.params.province);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
 

@@ -81,11 +81,11 @@ class BoardUtil {
 
   }
 
-  static async validateSectionId (sectionId) {
+  static validateProvince (province) {
 
-    if (!validators.isValidId(sectionId)) {
+    if (!validators.isValidStr(province)) {
 
-      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_SECTION_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_PROVINCE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
