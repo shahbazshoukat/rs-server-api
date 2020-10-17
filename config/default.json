@@ -4,10 +4,10 @@
         "isLocal" : false,
         "host": "resultsquare-sr7lv.mongodb.net",
         "port": "27017",
-        "dbName": "test",
+        "dbName": "admin",
         "userName": "rs-admin",
-        "password": "password009"
-      },
+        "password": "IKNJYnroMnUvkTbd"
+    },
     "result": {
         "days": 365,
         "checkBlocked":  true
