@@ -20,7 +20,7 @@ class CommentManager {
 
       cLog.info(`AddComment:: Adding new comment`, data);
 
-      if (!data || !validators.isValidStr(data.name) || !validators.isValidStr(data.text)) {
+      if (!data || !validators.isValidStr(data.name) || !validators.isValidStr(data.text) || !validators.isValidStr(data.email)) {
 
         cLog.error(`addComment:: Invalid comment data:: `, data);
 

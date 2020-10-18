@@ -19,6 +19,7 @@ exports.sendCommentEmail = (to, link, comment) => {
         `<h1>ResultSquare | New Comment</h1>
         <p>New Comment added by ${comment.name}, click </p><a href=${link}>Here</a><p> to view.</p>
         <div>Name: ${comment.name}</div>
+        <div>Email: ${comment.email}</div>
         <div>Comment: ${comment.text}</div>`
   };
 

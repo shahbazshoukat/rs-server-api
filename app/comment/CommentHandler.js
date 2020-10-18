@@ -6,6 +6,7 @@ class CommentHandler {
 
     const comment = new Comment({
       name: data.name,
+      email: data.email,
       text: data.text,
       refUrl: data.refUrl
     });
@@ -20,7 +21,7 @@ class CommentHandler {
 
   }
 
-  getCommentById (id) {
+  static getCommentById (id) {
 
     return Comment.findOne({ _id: id });
 

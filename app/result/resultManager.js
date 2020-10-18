@@ -418,7 +418,7 @@ class ResultManager {
 
           } catch (error) {
 
-            cLog.error(`addComment:: Failed to send comment email`);
+            cLog.error(`addComment:: Failed to send comment email`, error);
 
           }
 
