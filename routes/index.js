@@ -7,6 +7,7 @@ const board = require('./Board');
 const result = require('./Result');
 const section = require('./Section');
 const user = require('./User');
+const news = require('./News');
 const {
   config
 } = require('../helpers');
@@ -67,6 +68,7 @@ app.use('/api/', board);
 app.use('/api/', result);
 app.use('/api/', section);
 app.use('/api/', user);
+app.use('/api/', news);
 
 // token verification only for services callbacks
 app.use(Auth.AuthenticateCallbacks);

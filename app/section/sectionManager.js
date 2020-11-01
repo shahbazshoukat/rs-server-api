@@ -141,7 +141,7 @@ class SectionManager {
 
       return doc;
 
-    } catch (err) {
+    } catch (error) {
 
       cLog.error(`deleteSection:: Failed to delete Section SectionId:: ${sectionId}`, error);
 
