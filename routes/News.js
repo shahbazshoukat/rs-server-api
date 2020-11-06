@@ -9,7 +9,7 @@ router.post('/news', NewsCtrl.createNews);
 
 router.get('/news', NewsCtrl.getAllNews);
 
-router.get('/news/:newsId', Auth.Authenticate, NewsCtrl.getNews);
+router.get('/news/:newsId', Auth.Authenticate, NewsCtrl.getNewsById);
 
 router.put('/news/:newsId/update', Auth.Authenticate, NewsCtrl.updateNews);
 

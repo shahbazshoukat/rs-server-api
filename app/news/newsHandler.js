@@ -13,11 +13,11 @@ class NewsHandler {
 
   }
 
-  static getNews (newsId) {
+  static getNewsById (newsId) {
 
     const q = { _id: newsId };
 
-    return News.find(q).lean().exec();
+    return News.findOne(q).lean().exec();
 
   }
 
@@ -33,7 +33,7 @@ class NewsHandler {
 
     const update = {
       title: data.title,
-      type: data.type
+      description: data.description
     };
 
     return News.updateOne(q, update);

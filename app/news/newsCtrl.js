@@ -28,11 +28,11 @@ class NewsCtrl {
 
   }
 
-  static async getNews (req, res) {
+  static async getNewsById (req, res) {
 
     try {
 
-      const doc = await NewsManager.getNews(req.params.sectionId);
+      const doc = await NewsManager.getNewsById(req.params.newsId);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: NewsConstants.MESSAGES.NEWS_FETCHED_SUCCESSFULLY, data: doc });
 
@@ -68,7 +68,7 @@ class NewsCtrl {
 
     try {
 
-      const doc = await NewsManager.updateNews(req.params.sectionId, req.body);
+      const doc = await NewsManager.updateNews(req.params.newsId, req.body);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: NewsConstants.MESSAGES.NEWS_UPDATED_SUCCESSFULLY, data: doc });
 
@@ -86,7 +86,7 @@ class NewsCtrl {
 
     try {
 
-      const doc = await NewsManager.deleteNews(req.params.sectionId);
+      const doc = await NewsManager.deleteNews(req.params.newsId);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: NewsConstants.MESSAGES.NEWS_DELETED_SUCCESSFULLY, data: doc });
 

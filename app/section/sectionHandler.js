@@ -17,7 +17,7 @@ class SectionHandler {
 
     const q = { _id: sectionId };
 
-    return Section.find(q).lean().exec();
+    return Section.findOne(q).lean().exec();
 
   }
 

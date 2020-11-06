@@ -27,13 +27,13 @@ class NewsManager {
 
   }
 
-  static async getNews (newsId) {
+  static async getNewsById (newsId) {
 
     try {
 
       await NewsUtil.validateNewsId(newsId);
 
-      const doc = await NewsHandler.getNews(newsId);
+      const doc = await NewsHandler.getNewsById(newsId);
 
       if (!doc) {
 
