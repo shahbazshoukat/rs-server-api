@@ -6,6 +6,10 @@ const useragent = require('useragent');
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
+  UserEnums
+} = require('../../enums');
+
+const {
   HTTPStatusCodeConstants,
   UserConstants
 } = require('../../constants');
@@ -17,13 +21,15 @@ const {
 
 class UserManager {
 
-  static async createNewUser (data) {
+  static async createNewUser (loggedInUser, data) {
 
     try {
 
       cLog.info(`createNewUser:: Creating new User account, data:: `, data);
 
       await UserUtil.validateParametersToCreateUser(data);
+
+      await UserUtil.validateUser(loggedInUser);
 
       const eUser = await UserHandler.getUserByEmail(data.email);
 
@@ -35,22 +41,23 @@ class UserManager {
 
       }
 
+      data.role = UserEnums.ROLE.USER;
+
       const user = await UserHandler.createNewUser(data);
 
       const userResponse = {
         _id: user._id,
         name: user.name,
-        email: user.email,
-        domain: user.domain
+        email: user.email
       };
 
-      cLog.success(`createNewUser:: User account successfully created, email:: ${data.email}`);
+      cLog.success(`createNewUser:: User account successfully created, email:: ${data && data.email}`);
 
       return userResponse;
 
     } catch (error) {
 
-      cLog.error(`createNewUser:: Failed to create new User account, email:: ${data.email}`, error);
+      cLog.error(`createNewUser:: Failed to create new User account, email:: ${data && data.email}`, error);
 
       throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_CREATE_USER_ACCOUNT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
@@ -99,11 +106,10 @@ class UserManager {
       await UserHandler.updateUserById(user._id, update);
 
       const userResponse = {
-        userId: user._id,
         name: user.name,
         email: user.email,
-        token: userToken,
-        expiresIn: 3600
+        role: user.role,
+        token: userToken
       };
 
       cLog.success(`loginUser:: User successfully logged in, User:: `, userResponse);
@@ -126,7 +132,7 @@ class UserManager {
 
       cLog.info(`logoutUser:: logging out User, `, user);
 
-      if (!user || !user._id) {
+      if (!user || !user.email) {
 
         cLog.error(`logoutUser:: Invalid User, `, user);
 
@@ -140,7 +146,7 @@ class UserManager {
         }
       };
 
-      await UserHandler.updateUserById(user._id, update);
+      await UserHandler.updateUserByEmail(user.email, update);
 
       cLog.success(`logoutUser:: User logged out successfully`);
 
@@ -154,11 +160,63 @@ class UserManager {
 
   }
 
-  static async getAllUsers () {
+  static async getUserById (loggedInUser, userId) {
+
+    try {
+
+      await UserUtil.validateUserId(userId);
+
+      await UserUtil.validateUser(loggedInUser);
+
+      const doc = await UserHandler.getUserById(userId);
+
+      if (!doc) {
+
+        throw new ApplicationException(UserConstants.MESSAGES.USER_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`getUserById:: Failed to fetch user userId:: ${userId}`, error);
+
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_FIND_USER, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async getUsers () {
+
+    try {
+
+      cLog.info(`getUsers:: Getting all users`);
+
+      const users = await UserHandler.getUsers();
+
+      cLog.success(`getUsers:: Users successfully fetched,`, users);
+
+      return users;
+
+    } catch (error) {
+
+      cLog.error(~`getUsers:: Failed to get all users`, error);
+
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_FIND_USER, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async getAllUsers (loggedInUser) {
 
     try {
 
       cLog.info(`getAllUsers:: Getting all users`);
+
+      await UserUtil.validateUser(loggedInUser);
 
       const users = await UserHandler.getUsers();
 
@@ -171,6 +229,93 @@ class UserManager {
       cLog.error(~`getAllUsers:: Failed to get all users`, error);
 
       throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_FIND_USER, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async updateUserById (loggedInUser, userId, data) {
+
+    try {
+
+      await UserUtil.validateUserId(userId);
+
+      await UserUtil.validateUser(loggedInUser);
+
+      const user = await UserHandler.getUserById(userId);
+
+      if (!user) {
+
+        cLog.error(`updateUserById:: User not found`, user);
+
+        throw new ApplicationException(UserConstants.MESSAGES.USER_NOT_FOUND, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      if (user.role === UserEnums.ROLE.ADMIN) {
+
+        cLog.error(`updateUserById:: User is an admin and can't be updated`, user);
+
+        throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      await UserUtil.validateParametersToUpdateUser(data);
+
+      const update = {
+        name: data.name,
+        email: data.email
+      };
+
+      const doc = await UserHandler.updateUserById(userId, update);
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`updateUserById:: Failed to update user userId:: ${userId} update:: `, data, error);
+
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_UPDATE_USER, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async removeUserById (loggedInUser, userId) {
+
+    try {
+
+      await UserUtil.validateUserId(userId);
+
+      await UserUtil.validateUser(loggedInUser);
+
+      const user = await UserHandler.getUserById(userId);
+
+      if (!user) {
+
+        cLog.error(`removeUserById:: User not found`, user);
+
+        throw new ApplicationException(UserConstants.MESSAGES.USER_NOT_FOUND, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      if (user.role === UserEnums.ROLE.ADMIN) {
+
+        cLog.error(`removeUserById:: User is an admin and can't be updated`, user);
+
+        throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+      }
+
+      const doc = await UserHandler.removeUserById(userId);
+
+      return doc;
+
+    } catch (error) {
+
+      cLog.error(`removeUserById:: Failed to delete user userId:: ${userId}`, error);
+
+      throw new ApplicationException(error.message || UserConstants.MESSAGES.FAILED_TO_REMOVE_USER, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
     }
 

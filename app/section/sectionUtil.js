@@ -1,5 +1,11 @@
 const ApplicationException = require('../../exceptions/ApplicationException');
+
 const {
+  UserEnums
+} = require('../../enums');
+
+const {
+  UserConstants,
   SectionConstants,
   HTTPStatusCodeConstants
 } = require('../../constants');
@@ -42,6 +48,18 @@ class SectionUtil {
     if (!validators.isValidStr(title)) {
 
       throw new ApplicationException(SectionConstants.MESSAGES.INVALID_SECTION_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static validateUser (user) {
+
+    if (!user || user.role !== UserEnums.ROLE.ADMIN) {
+
+      cLog.error(`validateUser:: User is not an admin`, user);
+
+      throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.FORBIDDEN).toJson();
 
     }
 

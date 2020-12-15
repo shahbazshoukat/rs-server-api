@@ -248,25 +248,21 @@ class ResultManager {
 
       cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
-      const doc = await ResultHandler.getResult(section._id, board._id, year, examType);
+      const result = await ResultHandler.getResult(section._id, board._id, year, examType);
 
-      if (!doc || !doc.resultUrl) {
+      if (!result || !result.resultUrl) {
 
         throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
       }
 
-      await ResultHandler.updateResultById(doc._id, { $inc: { views: 1 } });
+      await ResultHandler.updateResultById(result._id, { $inc: { views: 1 } });
 
-      if (doc && doc.board) {
-
-        await BoardManager.updateBoardById(doc.board, { $inc: { views: 1 } });
-
-      }
+      await BoardManager.updateBoardById(board._id, { $inc: { views: 1 } });
 
       cLog.success(`getResult:: Successfully get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
-      return doc;
+      return result;
 
     } catch (error) {
 
@@ -404,7 +400,7 @@ class ResultManager {
 
       await ResultHandler.updateResultById(resultId, update);
 
-      const users = await UserManager.getAllUsers();
+      const users = await UserManager.getUsers();
 
       for (const user of users) {
 

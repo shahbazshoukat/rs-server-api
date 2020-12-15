@@ -20,11 +20,13 @@ const {
 
 class BoardManager {
 
-  static async createBoard (data) {
+  static async createBoard (loggedInUser, data) {
 
     try {
 
       await BoardUtil.validateParametersToCreateBoard(data);
+
+      BoardUtil.validateUser(loggedInUser);
 
       data.isBlocked = false;
 
@@ -139,9 +141,9 @@ class BoardManager {
 
     try {
 
-      await BoardUtil.validateSectionId(sectionId);
-
       cLog.info(`getBoardsBySectionId:: getting board by section Id:: ${sectionId}`);
+
+      await BoardUtil.validateSectionId(sectionId);
 
       const doc = await BoardHandler.getBoardsBySectionId(sectionId);
 
@@ -152,32 +154,6 @@ class BoardManager {
       }
 
       cLog.success(`getBoardsBySectionId:: Boards successfully fetched by section id:: ${sectionId} boards:: `);
-
-      return doc;
-
-    } catch (error) {
-
-      cLog.error(`getBoardBySectionId:: Failed to fetch Boards sectionId:: ${sectionId}`, error);
-
-      throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARDS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
-
-    }
-
-  }
-
-  static async getBoardsBySectionId (sectionId) {
-
-    try {
-
-      await BoardUtil.validateSectionId(sectionId);
-
-      cLog.info(`getBoardsBySectionId:: getting board by section Title:: ${sectionId}`);
-
-      await BoardUtil.validateSectionId(sectionId);
-
-      const doc = await BoardHandler.getBoardsBySectionId(sectionId);
-
-      cLog.success(`getBoardsBySectionId:: Boards successfully fetched by section Title:: ${sectionId} boards:: `);
 
       return doc;
 
@@ -303,11 +279,13 @@ class BoardManager {
 
   }
 
-  static async deleteBoard (boardId) {
+  static async deleteBoard (loggedInUser, boardId) {
 
     try {
 
       await BoardUtil.validateBoardId(boardId);
+
+      BoardUtil.validateUser(loggedInUser);
 
       const doc = await BoardHandler.deleteBoard(boardId);
 
@@ -341,7 +319,7 @@ class BoardManager {
 
       await BoardHandler.updateBoardById(boardId, update);
 
-      const users = await UserManager.getAllUsers();
+      const users = await UserManager.getUsers();
 
       for (const user of users) {
 

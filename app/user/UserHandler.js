@@ -13,6 +13,7 @@ class UserHandler {
       name: data.name,
       email: data.email,
       password: hash,
+      role: data.role,
       lastToke: null
     });
 
@@ -30,13 +31,13 @@ class UserHandler {
 
   static getUsers () {
 
-    return User.find().select('name email');
+    return User.find().select('name email role');
 
   }
 
   static getUserById (UserId) {
 
-    return User.findOne({ _id: UserId });
+    return User.findOne({ _id: UserId }).select('name email role');
 
   }
 
@@ -49,6 +50,14 @@ class UserHandler {
   static updateUserById (UserId, update = {}) {
 
     const q = { _id: UserId };
+
+    return User.updateOne(q, update);
+
+  }
+
+  static updateUserByEmail (email, update = {}) {
+
+    const q = { email };
 
     return User.updateOne(q, update);
 

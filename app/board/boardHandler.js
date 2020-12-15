@@ -7,6 +7,7 @@ class BoardHandler {
     const board = new Board({
       key: data.key,
       title: data.title,
+      description: data.description,
       province: data.province,
       city: data.city,
       examTypes: data.examTypes,
@@ -86,6 +87,7 @@ class BoardHandler {
     const update = {
       key: data.key,
       title: data.title,
+      description: data.description,
       province: data.province,
       city: data.city,
       examTypes: data.examTypes,

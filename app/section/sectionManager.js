@@ -1,23 +1,26 @@
 const SectionHandler = require('./sectionHandler');
 const SectionUtil = require('./sectionUtil');
+
 const ApplicationException = require('../../exceptions/ApplicationException');
+
 const {
   SectionConstants,
   HTTPStatusCodeConstants
 } = require('../../constants');
 
 const {
-  cLog,
-  validators
+  cLog
 } = require('../../helpers');
 
 class SectionManager {
 
-  static async createSection (data) {
+  static async createSection (loggedInUser, data) {
 
     try {
 
       await SectionUtil.validateParametersToCreateSection(data);
+
+      SectionUtil.validateUser(loggedInUser);
 
       const doc = await SectionHandler.createSection(data);
 
@@ -131,11 +134,13 @@ class SectionManager {
 
   }
 
-  static async deleteSection (sectionId) {
+  static async deleteSection (loggedInUser, sectionId) {
 
     try {
 
       await SectionUtil.validateSectionId(sectionId);
+
+      SectionUtil.validateUser(loggedInUser);
 
       const doc = await SectionHandler.deleteSection(sectionId);
 

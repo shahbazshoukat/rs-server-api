@@ -23,7 +23,9 @@ class NewsHandler {
 
   static getAllNews () {
 
-    return News.find().lean().exec();
+    const select = '-createdAt -updatedAt';
+
+    return News.find().select(select).lean().exec();
 
   }
 

@@ -16,18 +16,18 @@ router.get('/getBoardBySection/:sectionId', Auth.Authenticate, BoardController.g
 
 router.delete('/board/comment/:boardId/:commentId', Auth.Authenticate, BoardController.removeComment);
 
+router.get('/board/key/:boardKey', Auth.Authenticate, BoardController.getBoardByKey);
+
+router.get('/boards/province/:province', Auth.Authenticate, BoardController.getBoardByProvince);
+
+router.get('/board/section/:sectionTitle', Auth.Authenticate, BoardController.getBoardsBySectionTitle);
+
+router.post('/board/comment/:boardId', Auth.Authenticate, BoardController.addComment);
+
 // public apis
 
 router.get('/boards', BoardController.getAllBoards);
 
-router.get('/board/key/:boardKey', BoardController.getBoardByKey);
-
 router.get('/boards/section/:sectionId', BoardController.getBoardsBySectionId);
-
-router.get('/boards/province/:province', BoardController.getBoardByProvince);
-
-router.get('/board/section/:sectionTitle', BoardController.getBoardsBySectionTitle);
-
-router.post('/board/comment/:boardId', BoardController.addComment);
 
 module.exports = router;

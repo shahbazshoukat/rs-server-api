@@ -1,5 +1,11 @@
 const ApplicationException = require('../../exceptions/ApplicationException');
+
 const {
+  UserEnums
+} = require('../../enums');
+
+const {
+  UserConstants,
   BoardConstants,
   HTTPStatusCodeConstants
 } = require('../../constants');
@@ -22,6 +28,12 @@ class BoardUtil {
     if (!validators.isValidStr(data.title)) {
 
       throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_TITLE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+    if (data.description && !validators.isValidStr(data.description)) {
+
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DESCRIPTION, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -86,6 +98,18 @@ class BoardUtil {
     if (!validators.isValidStr(province)) {
 
       throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_PROVINCE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static validateUser (user) {
+
+    if (!user || user.role !== UserEnums.ROLE.ADMIN) {
+
+      cLog.error(`validateUser:: User is not an admin`, user);
+
+      throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.FORBIDDEN).toJson();
 
     }
 

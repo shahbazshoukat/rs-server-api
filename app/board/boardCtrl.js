@@ -15,7 +15,7 @@ class BoardController {
 
     try {
 
-      const doc = await BoardManager.createBoard(req.body);
+      const doc = await BoardManager.createBoard(req.user, req.body);
 
       res.status(HTTPStatusCodeConstants.CREATED).json({ success: true, message: BoardConstants.MESSAGES.BOARD_ADDED_SUCCESSFULLY, data: doc._id });
 
@@ -145,7 +145,7 @@ class BoardController {
 
     try {
 
-      const doc = await BoardManager.deleteBoard(req.params.boardId);
+      const doc = await BoardManager.deleteBoard(req.user, req.params.boardId);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARD_DELETED_SUCCESSFULLY, data: doc });
 

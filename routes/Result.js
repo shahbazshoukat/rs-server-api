@@ -20,6 +20,12 @@ router.get('/result/:section/:board/:year/:exam/:rollNo', Auth.Authenticate, Res
 
 router.delete('/comment/:resultId/:commentId', Auth.Authenticate, ResultController.removeComment);
 
+router.post('/results/update/all', Auth.Authenticate, ResultController.updateAllResults);
+
+router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getResultsByBoardKey);
+
+router.get('/results/:sectionTitle/:boardKey', Auth.Authenticate, ResultController.getResultsBySectionAndBoard);
+
 // public apis
 router.get('/result-year/:sectionId/:boardId', ResultController.getResultYears);
 
@@ -30,11 +36,5 @@ router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
 router.post('/comment/:resultId', ResultController.addComment);
 
 router.get('/results/latest', ResultController.getLatestResults);
-
-router.post('/results/update/all', ResultController.updateAllResults);
-
-router.get('/results/board/:boardKey', ResultController.getResultsByBoardKey);
-
-router.get('/results/:sectionTitle/:boardKey', ResultController.getResultsBySectionAndBoard);
 
 module.exports = router;

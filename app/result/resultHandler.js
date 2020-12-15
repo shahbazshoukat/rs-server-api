@@ -16,6 +16,7 @@ class ResultHandler {
       announceDate: data.announceDate,
       examType: data.examType,
       resultUrl: data.resultUrl,
+      description: data.description,
       tags: data.tags,
       isBlocked: data.isBlocked
     });
@@ -71,7 +72,24 @@ class ResultHandler {
       section: sectionId, board: boardId, year, examType
     };
 
-    return Result.findOne(q).populate('comments').lean()
+    const pop = [
+      {
+        path: 'comments',
+        select: 'name text createdAt -_id'
+      },
+      {
+        path: 'board',
+        select: 'title description webUrl -_id'
+      },
+      {
+        path: 'section',
+        select: 'title -_id'
+      }
+    ];
+
+    const select = '-createdAt -updatedAt -views';
+
+    return Result.findOne(q).select(select).populate(pop).lean()
       .exec();
 
   }
@@ -88,6 +106,7 @@ class ResultHandler {
       announceDate: data.announceDate,
       examType: data.examType,
       resultUrl: data.resultUrl,
+      description: data.description,
       tags: data.tags
     };
 

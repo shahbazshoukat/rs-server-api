@@ -30,6 +30,7 @@ const BoardConstants = Object.freeze({
     NO_BOARD_ID_FOUND: 'No board Id found',
     INVALID_BOARD_ID: 'Invalid board id',
     INVALID_BOARD_TITLE: 'Invalid board title',
+    INVALID_BOARD_DESCRIPTION: 'Invalid board description',
     INVALID_BOARD_PROVINCE: 'Invalid board province',
     INVALID_BOARD_CITY: 'Invalid board city',
     INVALID_BOARD_EXAMTYPE: 'Invalid board exam type',

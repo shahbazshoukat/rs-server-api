@@ -1,6 +1,10 @@
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
+  UserEnums
+} = require('../../enums');
+
+const {
   HTTPStatusCodeConstants,
   UserConstants
 } = require('../../constants');
@@ -47,6 +51,34 @@ class UserUtil {
 
   }
 
+  static validateParametersToUpdateUser (data) {
+
+    if (!data) {
+
+      cLog.error(`validateParametersToUpdateUser:: Invalid User data:: `, data);
+
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+    if (!validators.isValidStr(data.name)) {
+
+      cLog.error(`validateParametersToUpdateUser:: Invalid User name, `, data.name);
+
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_NAME, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+    if (!validators.isValidStr(data.email)) {
+
+      cLog.error(`validateParametersToUpdateUser:: Invalid User email, `, data.email);
+
+      throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
   static validateUserCredentials (email, password) {
 
     if (!validators.isValidStr(email)) {
@@ -86,6 +118,18 @@ class UserUtil {
       cLog.error(`validateUserCredentials:: Invalid User email:: `, email);
 
       throw new ApplicationException(UserConstants.MESSAGES.INVALID_USER_EMAIL, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static validateUser (user) {
+
+    if (!user || user.role !== UserEnums.ROLE.ADMIN) {
+
+      cLog.error(`validateUser:: User is not an admin`, user);
+
+      throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.FORBIDDEN).toJson();
 
     }
 

@@ -14,7 +14,7 @@ class SectionController {
 
     try {
 
-      const doc = await SectionManager.createSection(req.body);
+      const doc = await SectionManager.createSection(req.user, req.body);
 
       res.status(HTTPStatusCodeConstants.CREATED).json({ success: true, message: SectionConstants.MESSAGES.SECTION_ADDED_SUCCESSFULLY, data: doc._id });
 
@@ -104,7 +104,7 @@ class SectionController {
 
     try {
 
-      const doc = await SectionManager.deleteSection(req.params.sectionId);
+      const doc = await SectionManager.deleteSection(req.user, req.params.sectionId);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: SectionConstants.MESSAGES.SECTION_DELETED_SUCCESSFULLY, data: doc });
 

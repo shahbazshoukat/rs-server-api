@@ -28,7 +28,8 @@ const User = Object.freeze({
     USER_VERIFIED_SUCCESSFULLY: 'User verified successfully',
     USER_ALREADY_VERIFIED: 'User already verified',
     INVALID_TOKEN: 'Invalid token',
-    EMAIL_NOT_VERIFIED: 'Email not verified'
+    EMAIL_NOT_VERIFIED: 'Email not verified',
+    OPERATION_NOT_ALLOWED: 'Operation not allowed'
   }
 
 });
