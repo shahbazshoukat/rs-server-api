@@ -18,7 +18,8 @@ class ResultHandler {
       resultUrl: data.resultUrl,
       description: data.description,
       tags: data.tags,
-      isBlocked: data.isBlocked
+      isBlocked: data.isBlocked,
+      showAnnouncedDate: data.showAnnouncedDate
     });
 
     return result.save();
@@ -107,7 +108,8 @@ class ResultHandler {
       examType: data.examType,
       resultUrl: data.resultUrl,
       description: data.description,
-      tags: data.tags
+      tags: data.tags,
+      showAnnouncedDate: data.showAnnouncedDate
     };
 
     return Result.updateOne(q, update);
@@ -142,7 +144,13 @@ class ResultHandler {
 
   static updateAllResults (q, update = {}, options = {}) {
 
-    return Result.deleteMany(q);
+    // return Result.deleteMany(q);
+
+  }
+
+  static updateResultsByBoardId (q, update = {}, options = {}) {
+
+    return Result.updateMany(q, update);
 
   }
 

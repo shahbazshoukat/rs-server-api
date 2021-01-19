@@ -69,7 +69,12 @@ const boardSchema = mongoose.Schema({
       ref: 'Comment',
       required: false
     }
-  ]
+  ],
+  deleted: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 }, {
   timestamps: true,
   versionKey: false

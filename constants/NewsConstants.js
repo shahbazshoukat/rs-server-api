@@ -12,6 +12,7 @@ const NewsConstants = Object.freeze({
     NO_DATA_FOUND_TO_ADD_NEWS: 'No data found to add News',
     INVALID_NEWS_ID: 'Invalid News id',
     INVALID_NEWS_TITLE: 'Invalid News title',
+    INVALID_NEWS_LINK: 'Invalid News link',
     INVALID_NEWS_DESCRIPTION: 'Invalid News description',
     NEWS_NOT_FOUND: 'News not found'
   }

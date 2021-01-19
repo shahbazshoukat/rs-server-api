@@ -5,6 +5,10 @@ const resultSchema = mongoose.Schema({
     type: Boolean,
     required: false
   }, // 0 = not announced, 1 = announced
+  showAnnouncedDate: {
+    type: Boolean,
+    required: false
+  },
   section: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Section',

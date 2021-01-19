@@ -12,7 +12,8 @@ const {
 
 const {
   cLog,
-  validators
+  validators,
+  restClient
 } = require('../../helpers');
 
 class BoardUtil {
@@ -110,6 +111,32 @@ class BoardUtil {
       cLog.error(`validateUser:: User is not an admin`, user);
 
       throw new ApplicationException(UserConstants.MESSAGES.OPERATION_NOT_ALLOWED, HTTPStatusCodeConstants.FORBIDDEN).toJson();
+
+    }
+
+  }
+
+  static async checkBlockedWebsite (url) {
+
+    try {
+
+      cLog.info(`checkBlockedWebsite:: Checking if url blocked`);
+
+      const resultRes = await restClient.get(url);
+
+      if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] || resultRes.headers['X-Frame-Options'])) {
+
+        return true;
+
+      }
+
+      return false;
+
+    } catch (error) {
+
+      cLog.error(`checkBlockedWebsite:: Error :: `, error);
+
+      return true;
 
     }
 

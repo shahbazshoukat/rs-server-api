@@ -244,13 +244,23 @@ class ResultManager {
 
         examType = ResultEnums.EXAM_TYPES.TEST;
 
+      } else {
+
+        cLog.error(`getResult:: Invalid Exam type section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`);
+
+        throw new ApplicationException(ResultConstants.MESSAGES.INVALID_EXAM_TYPE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
       }
 
       cLog.info(`getResult:: getting result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
       const result = await ResultHandler.getResult(section._id, board._id, year, examType);
 
+      cLog.success(`getResult:: Successfully get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`, result);
+
       if (!result || !result.resultUrl) {
+
+        cLog.error(`getResult:: Result not found section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`);
 
         throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
@@ -259,8 +269,6 @@ class ResultManager {
       await ResultHandler.updateResultById(result._id, { $inc: { views: 1 } });
 
       await BoardManager.updateBoardById(board._id, { $inc: { views: 1 } });
-
-      cLog.success(`getResult:: Successfully get result section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`);
 
       return result;
 

@@ -32,14 +32,11 @@ class BoardManager {
 
       if (config.result.checkBlocked) {
 
-        const resultRes = await restClient.get(data.resultUrl);
+        cLog.info(`createBoard:: Checking if result url is blocked by x-frame-options`);
 
-        if (resultRes && resultRes.headers && (resultRes.headers['x-frame-options'] || resultRes.headers['X-FRAME-OPTIONS'] ||
-            resultRes.headers['X-Frame-Options'] || resultRes.headers['x-Frame-Options'])) {
+        data.isBlocked = await BoardUtil.checkBlockedWebsite(data.resultUrl);
 
-          data.isBlocked = true;
-
-        }
+        cLog.success(`createBoard:: Result url is ${data.isBlocked ? 'blocked' : 'open'}`);
 
       }
 

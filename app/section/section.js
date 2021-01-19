@@ -8,6 +8,11 @@ const sectionSchema = mongoose.Schema({
   type: {
     type: String,
     require: false
+  },
+  deleted: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 }, {
   timestamps: true,

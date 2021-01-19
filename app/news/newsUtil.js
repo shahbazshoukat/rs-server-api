@@ -19,6 +19,12 @@ class NewsUtil {
 
     }
 
+    if (data.link && !validators.isValidStr(data.link)) {
+
+      throw new ApplicationException(NewsConstants.MESSAGES.INVALID_NEWS_LINK, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
     if (!validators.isValidStr(data.description)) {
 
       throw new ApplicationException(NewsConstants.MESSAGES.INVALID_NEWS_DESCRIPTION, HTTPStatusCodeConstants.BAD_REQUEST).toJson();

@@ -15,7 +15,7 @@ class SectionHandler {
 
   static getSection (sectionId) {
 
-    const q = { _id: sectionId };
+    const q = { _id: sectionId, deleted: false };
 
     return Section.findOne(q).lean().exec();
 
@@ -23,7 +23,7 @@ class SectionHandler {
 
   static getSectionByTitle (title) {
 
-    const q = { title };
+    const q = { title, deleted: false };
 
     return Section.findOne(q).lean().exec();
 
@@ -31,7 +31,7 @@ class SectionHandler {
 
   static getAllSections () {
 
-    return Section.find().lean().exec();
+    return Section.find({ deleted: false }).lean().exec();
 
   }
 
@@ -52,7 +52,7 @@ class SectionHandler {
 
     const q = { _id: sectionId };
 
-    return Section.deleteOne(q);
+    return Section.updateOne(q, { $set: { deleted: true } });
 
   }
 

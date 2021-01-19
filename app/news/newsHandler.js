@@ -6,6 +6,7 @@ class NewsHandler {
 
     const news = new News({
       title: data.title,
+      link: data.link,
       description: data.description
     });
 
@@ -35,6 +36,7 @@ class NewsHandler {
 
     const update = {
       title: data.title,
+      link: data.link,
       description: data.description
     };
 

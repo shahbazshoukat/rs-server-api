@@ -25,7 +25,7 @@ class BoardHandler {
 
   static getBoard (boardId) {
 
-    const q = { _id: boardId };
+    const q = { _id: boardId, deleted: false };
 
     return Board.findOne(q).populate('sections').populate('comments').lean()
       .exec();
@@ -34,7 +34,7 @@ class BoardHandler {
 
   static getBoardByKey (boardKey) {
 
-    const q = { key: boardKey };
+    const q = { key: boardKey, deleted: false };
 
     return Board.findOne(q).populate('sections').populate('comments').lean()
       .exec();
@@ -43,13 +43,13 @@ class BoardHandler {
 
   static getAllBoards () {
 
-    return Board.find().populate('sections').lean().exec();
+    return Board.find({ deleted: false }).populate('sections').lean().exec();
 
   }
 
   static getBoardsBySectionId (sectionId) {
 
-    const q = { sections: sectionId };
+    const q = { sections: sectionId, deleted: false };
 
     return Board.find(q).select('key title province city resultUrl type').lean().exec();
 
@@ -57,7 +57,7 @@ class BoardHandler {
 
   static getBoardBySectionId (sectionId) {
 
-    const q = { sections: sectionId };
+    const q = { sections: sectionId, deleted: false };
 
     return Board.findOne(q).select('key title province city resultUrl type comments tags').populate('comments').lean()
       .exec();
@@ -66,7 +66,7 @@ class BoardHandler {
 
   static getBoardByProvince (province) {
 
-    const q = { province };
+    const q = { province, deleted: false };
 
     return Board.find(q).select('title key').lean().exec();
 
@@ -106,7 +106,7 @@ class BoardHandler {
 
     const q = { _id: boardId };
 
-    return Board.deleteOne(q);
+    return Board.updateOne(q, { $set: { deleted: true } });
 
   }
 
