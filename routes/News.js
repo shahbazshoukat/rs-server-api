@@ -5,7 +5,7 @@ const router = express.Router();
 
 const NewsCtrl = require('../app/news/newsCtrl');
 
-router.post('/news', NewsCtrl.createNews);
+router.post('/news', Auth.Authenticate, NewsCtrl.createNews);
 
 router.get('/news', NewsCtrl.getAllNews);
 

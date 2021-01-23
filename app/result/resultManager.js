@@ -484,7 +484,7 @@ class ResultManager {
 
       const data = await ResultHandler.getLatestResults();
 
-      cLog.success(`getLatestResults:: Latest results successfully found`, data);
+      cLog.success(`getLatestResults:: Latest results successfully fetched`);
 
       return data;
 
