@@ -62,7 +62,8 @@ class ResultHandler {
 
     const q = { board: boardId };
 
-    return Result.find(q).populate('board').populate('section').lean()
+    return Result.find(q).sort('-year').populate('board').populate('section')
+      .lean()
       .exec();
 
   }

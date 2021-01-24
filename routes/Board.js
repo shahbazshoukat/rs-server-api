@@ -18,8 +18,6 @@ router.delete('/board/comment/:boardId/:commentId', Auth.Authenticate, BoardCont
 
 router.get('/board/key/:boardKey', Auth.Authenticate, BoardController.getBoardByKey);
 
-router.get('/boards/province/:province', Auth.Authenticate, BoardController.getBoardByProvince);
-
 router.get('/board/section/:sectionTitle', Auth.Authenticate, BoardController.getBoardsBySectionTitle);
 
 router.post('/board/comment/:boardId', Auth.Authenticate, BoardController.addComment);
@@ -29,5 +27,7 @@ router.post('/board/comment/:boardId', Auth.Authenticate, BoardController.addCom
 router.get('/boards', BoardController.getAllBoards);
 
 router.get('/boards/section/:sectionId', BoardController.getBoardsBySectionId);
+
+router.get('/boards/province/:province', BoardController.getBoardByProvince);
 
 module.exports = router;

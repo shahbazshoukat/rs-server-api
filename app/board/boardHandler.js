@@ -68,7 +68,7 @@ class BoardHandler {
 
     const q = { province, deleted: false };
 
-    return Board.find(q).select('title key').lean().exec();
+    return Board.find(q).select('title key description').lean().exec();
 
   }
 

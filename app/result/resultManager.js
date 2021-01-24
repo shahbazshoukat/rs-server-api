@@ -188,9 +188,9 @@ class ResultManager {
 
       cLog.info(`getResultYears:: getting results by board id:: ${board._id}`);
 
-      const doc = await ResultHandler.getResultsByBoardId(board._id);
+      const results = await ResultHandler.getResultsByBoardId(board._id);
 
-      if (!doc) {
+      if (!results) {
 
         throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
@@ -198,7 +198,10 @@ class ResultManager {
 
       cLog.success(`getResultYears:: Successfully get results by board id:: ${board._id}`);
 
-      return doc;
+      return {
+        results,
+        board
+      };
 
     } catch (error) {
 

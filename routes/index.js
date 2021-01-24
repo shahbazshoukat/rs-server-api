@@ -70,6 +70,8 @@ app.use('/api/', section);
 app.use('/api/', user);
 app.use('/api/', news);
 
+cLog.warn('NO ROUTE FOUND');
+
 // token verification only for services callbacks
 app.use(Auth.AuthenticateCallbacks);
 
