@@ -5,6 +5,7 @@ const ResultUtil = require('./resultUtil');
 const CommentManager = require('../comment/CommaneManager');
 const mailer = require('../utils/mailer');
 const UserManager = require('../user/UserManager');
+const FbHelper = require('../utils/socialMediaUtil');
 
 const ApplicationException = require('../../exceptions/ApplicationException');
 const {
@@ -57,6 +58,12 @@ class ResultManager {
       }
 
       const doc = await ResultHandler.createResult(data);
+
+      if (data.postToFb && data.postText) {
+
+        await FbHelper.createPostOnFbPage(config.fb.pageId, data.postText);
+
+      }
 
       cLog.success(`createNewResult:: Result successfully created`, doc);
 
@@ -336,6 +343,12 @@ class ResultManager {
       await ResultUtil.validateParametersToCreateResult(data);
 
       const doc = await ResultHandler.updateResult(resultId, data);
+
+      if (data.postToFb && data.postText) {
+
+        await FbHelper.createPostOnFbPage(config.fb.pageId, data.postText);
+
+      }
 
       return doc;
 

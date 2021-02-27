@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const newsSchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: false
-  },
   link: {
     type: String,
     required: false

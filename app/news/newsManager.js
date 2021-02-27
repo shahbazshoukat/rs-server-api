@@ -1,9 +1,10 @@
 const NewsHandler = require('./newsHandler');
 const NewsUtil = require('./newsUtil');
+const FbHelper = require('../utils/socialMediaUtil');
 const ApplicationException = require('../../exceptions/ApplicationException');
 const { NewsConstants, HTTPStatusCodeConstants } = require('../../constants');
 
-const { cLog } = require('../../helpers');
+const { cLog, config } = require('../../helpers');
 
 class NewsManager {
 
@@ -13,9 +14,15 @@ class NewsManager {
 
       await NewsUtil.validateParametersToCreateNews(data);
 
-      const doc = await NewsHandler.createNews(data);
+      const response = await NewsHandler.createNews(data);
 
-      return doc;
+      if (data.postToFb && data.postText) {
+
+        await FbHelper.createPostOnFbPage(config.fb.pageId, data.postText);
+
+      }
+
+      return response;
 
     } catch (error) {
 
@@ -86,6 +93,12 @@ class NewsManager {
       await NewsUtil.validateParametersToCreateNews(data);
 
       const doc = await NewsHandler.updateNews(newsId, data);
+
+      if (data.postToFb && data.postText) {
+
+        await FbHelper.createPostOnFbPage(config.fb.pageId, data.postText);
+
+      }
 
       return doc;
 

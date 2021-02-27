@@ -6,6 +6,7 @@ const DBConstants = require('./DBConstants');
 const UserConstants = require('./UserConstants');
 const CommentConstants = require('./CommentConstants');
 const NewsConstants = require('./NewsConstants');
+const MiscConstants = require('./MiscConstants')
 
 module.exports = {
   BoardConstants,
@@ -15,5 +16,6 @@ module.exports = {
   DBConstants,
   UserConstants,
   CommentConstants,
-  NewsConstants
+  NewsConstants,
+  MiscConstants
 };

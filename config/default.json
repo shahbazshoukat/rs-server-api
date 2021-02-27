@@ -43,6 +43,10 @@
             "account": "support@resultsquare.pk"
         }
     },
+    "fb": {
+        "pageId": "609476246129992",
+        "accessToken": "EAAHAzgW14qEBAHugueZBLqhq9X03SKpZAcyubJsg1WhFwKm0mIsgGSCvXOmim0YhS3sc2iSxZAOmZAyGRcLIVmuZCCK5PU8fk7dnsAoZAkagaRUUU3lZCllNKLDPlAwUiLj60n6vXGuZCHeo43sziffZBOB5TvNZAmN4jxT8WlCGcttgZDZD"
+    },
     "timeouts": {
         "invite": "1d",
         "login": "1d",

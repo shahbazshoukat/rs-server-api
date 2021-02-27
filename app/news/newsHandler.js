@@ -5,7 +5,6 @@ class NewsHandler {
   static createNews (data) {
 
     const news = new News({
-      title: data.title,
       link: data.link,
       description: data.description
     });
@@ -35,7 +34,6 @@ class NewsHandler {
     const q = { _id: newsId };
 
     const update = {
-      title: data.title,
       link: data.link,
       description: data.description
     };
