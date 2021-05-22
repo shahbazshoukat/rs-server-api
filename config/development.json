@@ -13,9 +13,15 @@
     "checkBlocked": true
   },
   "appUrl": "http://localhost:4000",
-  "allowedOrigins": ["http://resultsquare.pk","http://localhost:4200", "http://localhost:4000"],
+  "allowedOrigins": [
+    "http://resultsquare.pk", // official domain
+    "http://3.14.147.229", // ip of website instance
+    "http://3.14.147.229:80",
+    "http://3.21.127.241", // ip of admin website instance
+    "http://3.21.127.241:80"
+  ],
   "protocol": "http",
-  "host": "172.31.36.28",
+  "host": "localhost",
   "port": 3000,
   "ssl": {
     "enabled": false,
