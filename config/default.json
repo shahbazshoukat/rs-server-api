@@ -13,7 +13,7 @@
         "checkBlocked":  true
     },
     "appUrl": "http://localhost:4000",
-    "allowedOrigins": ["http://localhost:4200", "http://localhost:4000", "http://localhost:4400", "http://localhost:4300", "https://resultsquare.pk"],
+    "allowedOrigins": ["http://localhost:4200", "http://localhost:4000", "http://localhost:4300", "https://resultsquare.pk"],
     "protocol": "http",
     "host": "172.31.36.28",
     "port": 3000,
