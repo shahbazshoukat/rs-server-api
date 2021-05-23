@@ -58,7 +58,7 @@ class DatabaseHelper {
 
       // dbConnectionURL = `mongodb+srv://${dbConfig.userName}:${dbConfig.password}@${dbConfig.host}/${dbConfig.dbName}`;
 
-      dbConnectionURL = `mongodb://rs-admin:${dbConfig.password}@resultsquare-shard-00-00.sr7lv.mongodb.net:27017,resultsquare-shard-00-01.sr7lv.mongodb.net:27017,resultsquare-shard-00-02.sr7lv.mongodb.net:27017/${dbConfig.dbName}?ssl=true&replicaSet=resultsquare-shard-0&authSource=admin&retryWrites=true&w=majority`;
+      dbConnectionURL = `mongodb://${dbConfig.userName}:${dbConfig.password}@${dbConfig.replicaNodes.node1},${dbConfig.replicaNodes.node2},${dbConfig.replicaNodes.node3}/${dbConfig.dbName}?ssl=true&replicaSet=${dbConfig.replicaSet}&authSource=admin&retryWrites=true&w=majority`;
 
     }
 

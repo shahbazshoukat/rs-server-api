@@ -32,14 +32,4 @@ exports.getPublicApiToken = () => jsonwebtoken.sign({
   publicApiKey: config.get('publicApi').secretKey
 }, config.get('secretKey'));
 
-exports.getBuildUserToken = (user, ua, publicApiKey, exec) => jsonwebtoken.sign({
-  _id: user._id,
-  email: user.email,
-  ua,
-  publicApiKey,
-  exec
-}, config.get('secretKey'), {
-  expiresIn: config.timeouts.buildUser
-});
-
 exports.verify = token => jsonwebtoken.verify(token, config.get('secretKey'));

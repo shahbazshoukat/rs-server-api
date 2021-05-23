@@ -4,7 +4,7 @@
     "isLocal" : false,
     "host": "resultsquare.noabc.mongodb.net",
     "port": "27017",
-    "dbName": "resultsquareTestDB",
+    "dbName": "resultsquareDB",
     "userName": "rSaDmIn",
     "password": "2gAMDugbA06qxoe3",
     "replicaSet": "atlas-ldk02m-shard-0",
@@ -18,13 +18,17 @@
     "days": 365,
     "checkBlocked": true
   },
-  "appUrl": "http://localhost:4000",
   "allowedOrigins": [
     "http://localhost:80",
     "http://localhost:4000",
     "http://localhost:4200",
     "http://localhost:4300",
-    "http://localhost:4400"
+    "http://localhost:4400",
+    "http://resultsquare.pk", // official domain
+    "http://3.14.147.229", // ip of website instance
+    "http://3.14.147.229:80",
+    "http://3.21.127.241", // ip of admin website instance
+    "http://3.21.127.241:80"
   ],
   "protocol": "http",
   "host": "localhost",
@@ -51,7 +55,6 @@
     "invite": "1d",
     "login": "1d",
     "signup": "1d",
-    "forgotPassword": "1d",
-    "buildUser": "1d"
+    "forgotPassword": "1d"
   }
 }

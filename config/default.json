@@ -6,7 +6,13 @@
         "port": "27017",
         "dbName": "admin",
         "userName": "rs-admin",
-        "password": "IKNJYnroMnUvkTbd"
+        "password": "IKNJYnroMnUvkTbd",
+        "replicaSet": "resultsquare-shard-0",
+        "replicaNodes": {
+            "node1": "resultsquare-shard-00-00.sr7lv.mongodb.net:27017",
+            "node2": "resultsquare-shard-00-01.sr7lv.mongodb.net:27017",
+            "node3": "resultsquare-shard-00-02.sr7lv.mongodb.net:27017"
+        }
     },
     "result": {
         "days": 365,
@@ -14,7 +20,6 @@
     },
     "appUrl": "http://localhost:4000",
     "allowedOrigins": [
-        "http://localhost",
         "http://localhost:80",
         "http://localhost:4000",
         "http://localhost:4200",
