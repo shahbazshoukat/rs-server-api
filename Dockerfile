@@ -42,4 +42,4 @@ RUN npm install && npm install -g pm2
 
 EXPOSE 443
 
-CMD ["pm2-docker", "app.js", "--NODE_ENV=production", "--no-auto-exit"]
+CMD ["pm2-docker", "ecosystem.config.js", "--no-auto-exit"]
