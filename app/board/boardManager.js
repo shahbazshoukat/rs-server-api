@@ -5,6 +5,7 @@ const SectionManager = require('../section/sectionManager');
 const CommentManager = require('../comment/CommaneManager');
 const UserManager = require('../user/UserManager');
 const mailer = require('../utils/mailer');
+const GoogleDriveHandler = require('../utils/googleDriveAPI');
 
 const {
   BoardConstants,
@@ -14,7 +15,6 @@ const {
 
 const {
   cLog,
-  restClient,
   config
 } = require('../../helpers');
 
@@ -40,9 +40,11 @@ class BoardManager {
 
       }
 
-      const doc = await BoardHandler.createBoard(data);
+      const board = await BoardHandler.createBoard(data);
 
-      return doc;
+      await BoardManager.createBoardDirectoriesOnGoogleDrive(board);
+
+      return board;
 
     } catch (error) {
 
@@ -110,19 +112,61 @@ class BoardManager {
 
   }
 
-  static async getAllBoards () {
+  static async getBoardByDomain (domain) {
 
     try {
 
-      const doc = await BoardHandler.getAllBoards();
+      await BoardUtil.validateBoardDomain(domain);
 
-      if (!doc) {
+      const board = await BoardHandler.getBoardByDomain(domain);
+
+      if (!board) {
 
         throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
       }
 
-      return doc;
+      return board;
+
+    } catch (error) {
+
+      cLog.error(`getBoardByDomain:: Failed to fetch board by domain:: ${domain}`, error);
+
+      throw new ApplicationException(error.message || BoardConstants.MESSAGES.BOARD_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async getAllBoards (province) {
+
+    try {
+
+      let boards = [];
+
+      if (province) {
+
+        cLog.info(`getAllBoards:: Getting all boards for province:: ${province}`);
+
+        boards = await BoardHandler.getBoardByProvince(province);
+
+      } else {
+
+        cLog.info(`getAllBoards:: Getting all boards`);
+
+        boards = await BoardHandler.getAllBoards();
+
+      }
+
+      if (!boards || boards.length === 0) {
+
+        throw new ApplicationException(BoardConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.success(`getAllBoards:: Getting all boards, province:: ${province}, boards:: ${boards && boards.length}`);
+
+      return boards;
 
     } catch (error) {
 
@@ -379,6 +423,67 @@ class BoardManager {
       cLog.error(`removeComment:: Failed to remove comment from board:: ${boardId}, `, commentId, error);
 
       throw new ApplicationException(error.message || CommentConstants.MESSAGES.FAILED_TO_REMOVE_COMMENT, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async createBoardDirectoriesOnGoogleDrive (board) {
+
+    try {
+
+      const boardFolder = {
+        name: board.title,
+        parentId: config.googleFolderIds[board.province]
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Creating Board folder ::  ${board && board.title}`);
+
+      const boardRes = await GoogleDriveHandler.createFolder(boardFolder);
+
+      const dateSheetFolder = {
+        name: 'Date Sheets',
+        parentId: boardRes && boardRes.data && boardRes.data.id
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Creating Date Sheets folder ::  ${dateSheetFolder && dateSheetFolder.name}`);
+
+      const dateSheetRes = await GoogleDriveHandler.createFolder(dateSheetFolder);
+
+      const modelPapersFolder = {
+        name: 'Model Papers',
+        parentId: boardRes && boardRes.data && boardRes.data.id
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Creating Model Papers folder ::  ${modelPapersFolder && modelPapersFolder.name}`);
+
+      const modelPapersRes = await GoogleDriveHandler.createFolder(modelPapersFolder);
+
+      const pastPapersFolder = {
+        name: 'Past Papers',
+        parentId: boardRes && boardRes.data && boardRes.data.id
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Creating Past Papers folder ::  ${pastPapersFolder && pastPapersFolder.name}`);
+
+      const pastPapersRes = await GoogleDriveHandler.createFolder(pastPapersFolder);
+
+      const update = {
+        boardDir: boardRes && boardRes.data && boardRes.data.id,
+        dateSheetDir: dateSheetRes && dateSheetRes.data && dateSheetRes.data.id,
+        modelPapersDir: modelPapersRes && modelPapersRes.data && modelPapersRes.data.id,
+        pastPapersDir: pastPapersRes && pastPapersRes.data && pastPapersRes.data.id
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Updating folder Ids for board`);
+
+      await BoardManager.updateBoardById(board._id, { $set: update });
+
+      cLog.success(`createBoardDirectoriesOnGoogleDrive:: Board Ids successfully updated`);
+
+    } catch (error) {
+
+      cLog.error(`createBoardDirectoriesOnGoogleDrive:: Error while creating folders on google drive for board:: ${board && board.title}`, error);
 
     }
 

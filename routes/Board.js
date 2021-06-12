@@ -28,6 +28,6 @@ router.get('/boards', BoardController.getAllBoards);
 
 router.get('/boards/section/:sectionId', BoardController.getBoardsBySectionId);
 
-router.get('/boards/province/:province', BoardController.getBoardByProvince);
+// router.get('/boards/province/:province', BoardController.getBoardByProvince);
 
 module.exports = router;

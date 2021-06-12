@@ -32,12 +32,12 @@ router.get('/result-year/:sectionId/:boardId', ResultController.getResultYears);
 
 router.get('/exam-types/:sectionId/:boardId/:year', ResultController.getExamTypes);
 
-router.get('/result/:section/:board/:year/:exam', ResultController.getResult);
+router.get('/result/:section/:exam/:year', ResultController.getResult);
 
 router.post('/comment/:resultId', ResultController.addComment);
 
 router.get('/results/latest', ResultController.getLatestResults);
 
-router.get('/board-results/:boardKey', ResultController.getResultsByBoardKey);
+router.get('/board-results/:domain', ResultController.getResultsByBoardDomain);
 
 module.exports = router;

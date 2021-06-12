@@ -218,13 +218,54 @@ class ResultManager {
 
   }
 
-  static async getResult (sectionTitle, boardKey, year, examType) {
+  static async getResultsByBoardDomain (domain) {
 
     try {
 
-      cLog.info(`getResult:: Getting result section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`);
+      cLog.info(`getResultsByBoardDomain:: getting result by board domain:: ${domain}`);
 
-      await ResultUtil.validateParametersToGetResult(sectionTitle, boardKey, year, examType);
+      await ResultUtil.validateBoardDomain(domain);
+
+      const board = await BoardManager.getBoardByDomain(domain);
+
+      if (!board || !board._id) {
+
+        throw new ApplicationException(ResultConstants.MESSAGES.BOARD_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.info(`getResultsByBoardDomain:: getting results by board id:: ${board._id}`);
+
+      const results = await ResultHandler.getResultsByBoardId(board._id);
+
+      if (!results) {
+
+        throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.success(`getResultsByBoardDomain:: Successfully get results by board id:: ${board._id}`);
+
+      return {
+        results,
+        board
+      };
+
+    } catch (error) {
+
+      throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async getResult (sectionTitle, boardDomain, year, examType) {
+
+    try {
+
+      cLog.info(`getResult:: Getting result section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`);
+
+      await ResultUtil.validateParametersToGetResult(sectionTitle, boardDomain, year, examType);
 
       const section = await SectionManager.getSectionByTitle(sectionTitle);
 
@@ -234,7 +275,7 @@ class ResultManager {
 
       }
 
-      const board = await BoardManager.getBoardByKey(boardKey);
+      const board = await BoardManager.getBoardByDomain(boardDomain);
 
       if (!board || !board._id) {
 
@@ -256,7 +297,7 @@ class ResultManager {
 
       } else {
 
-        cLog.error(`getResult:: Invalid Exam type section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`);
+        cLog.error(`getResult:: Invalid Exam type section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`);
 
         throw new ApplicationException(ResultConstants.MESSAGES.INVALID_EXAM_TYPE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
@@ -270,7 +311,7 @@ class ResultManager {
 
       if (!result || !result.resultUrl) {
 
-        cLog.error(`getResult:: Result not found section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`);
+        cLog.error(`getResult:: Result not found section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`);
 
         throw new ApplicationException(ResultConstants.MESSAGES.RESULT_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
@@ -284,7 +325,7 @@ class ResultManager {
 
     } catch (error) {
 
-      cLog.error(`getResult:: Failed to fetch result section:: ${sectionTitle} board:: ${boardKey} year:: ${year} examtype:: ${examType}`, error);
+      cLog.error(`getResult:: Failed to fetch result section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`, error);
 
       throw new ApplicationException(error.message || ResultConstants.MESSAGES.RESULTS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 

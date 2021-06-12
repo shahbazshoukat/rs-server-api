@@ -8,6 +8,7 @@ const result = require('./Result');
 const section = require('./Section');
 const user = require('./User');
 const news = require('./News');
+const dateSheets = require('./DateSheet');
 const {
   config
 } = require('../helpers');
@@ -26,7 +27,7 @@ app.set('json spaces', 2);
 
 // Configure body parser for POST requests
 app.use(bodyParser.json({
-  limit: '300mb',
+  limit: '50mb',
   verify: (req, res, buf) => {
 
     req.rawBody = buf;
@@ -36,16 +37,31 @@ app.use(bodyParser.json({
 
 app.use(bodyParser.urlencoded({
   extended: true,
-  limit: '300mb',
-  parameterLimit: 1000000
+  limit: '50mb',
+  parameterLimit: 100000
 }));
 
 app.use((req, res, next) => {
 
-  const origin = req.headers.origin;
+  let origin = req.headers.origin;
+
+  if (origin && origin.length) {
+
+    req.domain = origin.substring(0, origin.indexOf('.')).replace(`${config.protocol}://`, '');
+
+    if (req.domain) {
+
+      origin = origin.replace(`${req.domain}.`, '');
+
+    }
+
+  }
+
+  cLog.info(`origin::`, req.headers.origin, 'sub domain::', req.domain, 'parsed origin::', origin);
+
   if (config.allowedOrigins.indexOf(origin) > -1) {
 
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
 
   }
 
@@ -53,10 +69,12 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token'
   );
+
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PATCH, PUT, DELETE, OPTIONS'
   );
+
   next();
 
 });
@@ -69,6 +87,7 @@ app.use('/api/', result);
 app.use('/api/', section);
 app.use('/api/', user);
 app.use('/api/', news);
+app.use('/api/', dateSheets);
 
 cLog.warn('NO ROUTE FOUND');
 

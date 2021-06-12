@@ -5,7 +5,7 @@ const {
 } = require('../../helpers');
 
 const defaultTransport = config.defaultMailTransport || 'gmail';
-const selectedTransport = config.mail.transports.get(defaultTransport);
+const selectedTransport = config.mail && config.mail.transports && config.mail.transports.get(defaultTransport);
 
 const transport = nodemailer.createTransport(selectedTransport);
 

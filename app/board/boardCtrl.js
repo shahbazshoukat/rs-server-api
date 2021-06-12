@@ -65,7 +65,7 @@ class BoardController {
 
     try {
 
-      const doc = await BoardManager.getAllBoards();
+      const doc = await BoardManager.getAllBoards(req.domain);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
 

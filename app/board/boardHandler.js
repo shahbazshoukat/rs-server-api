@@ -16,7 +16,8 @@ class BoardHandler {
       webUrl: data.webUrl,
       resultUrl: data.resultUrl,
       tags: data.tags,
-      isBlocked: data.isBlocked
+      isBlocked: data.isBlocked,
+      domain: data.domain
     });
 
     return board.save();
@@ -41,6 +42,15 @@ class BoardHandler {
 
   }
 
+  static getBoardByDomain (domain) {
+
+    const q = { domain, deleted: false };
+
+    return Board.findOne(q).populate('sections').populate('comments').lean()
+      .exec();
+
+  }
+
   static getAllBoards () {
 
     return Board.find({ deleted: false }).populate('sections').lean().exec();
@@ -51,7 +61,7 @@ class BoardHandler {
 
     const q = { sections: sectionId, deleted: false };
 
-    return Board.find(q).select('key title province city resultUrl type').lean().exec();
+    return Board.find(q).select('title province city resultUrl type domain').lean().exec();
 
   }
 
@@ -68,7 +78,7 @@ class BoardHandler {
 
     const q = { province, deleted: false };
 
-    return Board.find(q).select('title key description').lean().exec();
+    return Board.find(q).select('title description domain').lean().exec();
 
   }
 
@@ -95,7 +105,8 @@ class BoardHandler {
       type: data.type,
       webUrl: data.webUrl,
       resultUrl: data.resultUrl,
-      tags: data.tags
+      tags: data.tags,
+      domain: data.domain
     };
 
     return Board.updateOne(q, update);

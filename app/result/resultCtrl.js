@@ -97,7 +97,7 @@ class ResultController {
 
     try {
 
-      const doc = await ResultManager.getResult(req.params.section, req.params.board, req.params.year, req.params.exam);
+      const doc = await ResultManager.getResult(req.params.section, req.domain, req.params.year, req.params.exam);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc });
 
@@ -162,6 +162,22 @@ class ResultController {
     try {
 
       const doc = await ResultManager.getResultsByBoardKey(req.params.boardKey);
+
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc });
+
+    } catch (error) {
+
+      res.status(error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).json({ success: false, message: error.message || HTTPStatusCodeConstants.MESSAGES.INTERNAL_SERVER_ERROR, data: null });
+
+    }
+
+  }
+
+  static async getResultsByBoardDomain (req, res) {
+
+    try {
+
+      const doc = await ResultManager.getResultsByBoardDomain(req.params.domain);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc });
 

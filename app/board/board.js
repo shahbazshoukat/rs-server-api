@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const boardSchema = mongoose.Schema({
-
   key: {
     type: String,
     required: false
@@ -9,6 +8,10 @@ const boardSchema = mongoose.Schema({
   title: {
     type: String,
     required: false
+  },
+  domain: {
+    type: String,
+    required: true
   },
   description: {
     type: String,
@@ -74,6 +77,22 @@ const boardSchema = mongoose.Schema({
     type: Boolean,
     required: false,
     default: false
+  },
+  boardDir: {
+    type: String,
+    required: false
+  },
+  dateSheetDir: {
+    type: String,
+    required: false
+  },
+  modelPapersDir: {
+    type: String,
+    required: false
+  },
+  pastPapersDir: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: true,

@@ -62,6 +62,12 @@ class BoardUtil {
 
     }
 
+    if (!validators.isValidStr(data.domain)) {
+
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DOMAIN, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
   }
 
   static async validateBoardId (boardId) {
@@ -79,6 +85,16 @@ class BoardUtil {
     if (!validators.isValidStr(boardKey)) {
 
       throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_KEY, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static async validateBoardDomain (domain) {
+
+    if (!validators.isValidStr(domain)) {
+
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DOMAIN, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 

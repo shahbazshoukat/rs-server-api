@@ -1,58 +1,58 @@
 const BoardHandler = require('../app/board/boardHandler');
 const BoardUtil = require('../app/board/boardUtil');
-const BoardManager = require("../app/board/boardManager");
+const BoardManager = require('../app/board/boardManager');
 
 const {
-    cLog,
-    database
+  cLog,
+  database
 } = require('../helpers/index');
 
-const checkBoardsWebsites = async() => {
+const checkBoardsWebsites = async () => {
 
-    try {
+  try {
 
-        await database.connect();
+    await database.connect();
 
-        cLog.info(`checkBoardsWebsites>>>> Get List of All boards`);
+    cLog.info(`checkBoardsWebsites>>>> Get List of All boards`);
 
-        const boards = await BoardHandler.getAllBoards();
+    const boards = await BoardHandler.getAllBoards();
 
-        cLog.success(`checkBoardsWebsites>>>> Boards successfully fetched`);
+    cLog.success(`checkBoardsWebsites>>>> Boards successfully fetched`);
 
-        if (Array.isArray(boards)) {
+    if (Array.isArray(boards)) {
 
-            for (const board of boards) {
+      for (const board of boards) {
 
-                if (board) {
+        if (board) {
 
-                    try {
+          try {
 
-                        cLog.info(`checkBoardsWebsites>>>> checking website blockage for ${board && board.title}`);
+            cLog.info(`checkBoardsWebsites>>>> checking website blockage for ${board && board.title}`);
 
-                        const isBlocked = await BoardUtil.checkBlockedWebsite(board.resultUrl);
+            const isBlocked = await BoardUtil.checkBlockedWebsite(board.resultUrl);
 
-                        cLog.info(`checkBoardsWebsites>>>> website blockage status for ${board && board.title} is ${isBlocked}`);
+            cLog.info(`checkBoardsWebsites>>>> website blockage status for ${board && board.title} is ${isBlocked}`);
 
-                        await BoardManager.updateBoardById(board._id, { $set: { isBlocked: isBlocked } });
+            await BoardManager.updateBoardById(board._id, { $set: { isBlocked } });
 
-                    } catch (error) {
+          } catch (error) {
 
-                        cLog.error(`checkBoardsWebsites>>>> Error while checking website blockage status for ${board && board.title}`);
+            cLog.error(`checkBoardsWebsites>>>> Error while checking website blockage status for ${board && board.title}`);
 
-                    }
-
-                }
-
-            }
+          }
 
         }
 
-    } catch (error) {
-
-        cLog.error(`checkBoardsWebsites>>>> Error while checking website blockage status`);
+      }
 
     }
 
-}
+  } catch (error) {
+
+    cLog.error(`checkBoardsWebsites>>>> Error while checking website blockage status`);
+
+  }
+
+};
 
 checkBoardsWebsites();

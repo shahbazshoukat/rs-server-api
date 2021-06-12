@@ -1,62 +1,62 @@
 const BoardHandler = require('../app/board/boardHandler');
 const BoardUtil = require('../app/board/boardUtil');
-const BoardManager = require("../app/board/boardManager");
-const ResultManager = require("../app/result/resultManager");
-const ResultHandler = require("../app/result/resultHandler");
+const BoardManager = require('../app/board/boardManager');
+const ResultManager = require('../app/result/resultManager');
+const ResultHandler = require('../app/result/resultHandler');
 
 const {
-    cLog,
-    database
+  cLog,
+  database
 } = require('../helpers/index');
 
-const updateResultsUrl = async() => {
+const updateResultsUrl = async () => {
 
-    try {
+  try {
 
-        await database.connect();
+    await database.connect();
 
-        cLog.info(`updateResultsUrl>>>> Get List of All boards`);
+    cLog.info(`updateResultsUrl>>>> Get List of All boards`);
 
-        const boards = await BoardHandler.getAllBoards();
+    const boards = await BoardHandler.getAllBoards();
 
-        cLog.success(`updateResultsUrl>>>> Boards successfully fetched`);
+    cLog.success(`updateResultsUrl>>>> Boards successfully fetched`);
 
-        if (Array.isArray(boards)) {
+    if (Array.isArray(boards)) {
 
-            for (const board of boards) {
+      for (const board of boards) {
 
-                if (board) {
+        if (board) {
 
-                    try {
+          try {
 
-                        cLog.warn(`<<<<<<<<<<<<<<<<<UPDATING ${board && board.title}>>>>>>>>>>>>>>>>>>`);
+            cLog.warn(`<<<<<<<<<<<<<<<<<UPDATING ${board && board.title}>>>>>>>>>>>>>>>>>>`);
 
-                        cLog.info(`updateResultsUrl>>>> Updating isBlocked and resultUrl for all results of board:: ${board && board.title}`);
+            cLog.info(`updateResultsUrl>>>> Updating isBlocked and resultUrl for all results of board:: ${board && board.title}`);
 
-                        await ResultHandler.updateResultsByBoardId({ board: board._id }, { $set: { isBlocked: board.isBlocked, resultUrl: board.resultUrl } });
+            await ResultHandler.updateResultsByBoardId({ board: board._id }, { $set: { isBlocked: board.isBlocked, resultUrl: board.resultUrl } });
 
-                        cLog.success(`updateResultsUrl>>>> isBlocked and resultUrl for all results of board:: ${board && board.title} is successfully updated`);
+            cLog.success(`updateResultsUrl>>>> isBlocked and resultUrl for all results of board:: ${board && board.title} is successfully updated`);
 
-                        cLog.warn(`<<<<<<<<<<<<<<<<<${board && board.title} UPDATE FINISHED>>>>>>>>>>>>>>>>>>`);
+            cLog.warn(`<<<<<<<<<<<<<<<<<${board && board.title} UPDATE FINISHED>>>>>>>>>>>>>>>>>>`);
 
-                    } catch (error) {
+          } catch (error) {
 
-                        cLog.error(`updateResultsUrl>>>> Failed to update isBlocked and resultUrl for all results of board:: ${board && board.title}`);
+            cLog.error(`updateResultsUrl>>>> Failed to update isBlocked and resultUrl for all results of board:: ${board && board.title}`);
 
-                    }
-
-                }
-
-            }
+          }
 
         }
 
-    } catch (error) {
-
-        cLog.error(`updateResultsUrl>>>> Error while updating isBlocked and resultUrl for all results of all boards`);
+      }
 
     }
 
-}
+  } catch (error) {
+
+    cLog.error(`updateResultsUrl>>>> Error while updating isBlocked and resultUrl for all results of all boards`);
+
+  }
+
+};
 
 updateResultsUrl();

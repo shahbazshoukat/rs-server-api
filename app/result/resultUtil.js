@@ -2,6 +2,7 @@ const ApplicationException = require('../../exceptions/ApplicationException');
 
 const {
   ResultConstants,
+  BoardConstants,
   HTTPStatusCodeConstants
 } = require('../../constants');
 
@@ -83,7 +84,7 @@ class ResultUtil {
 
   }
 
-  static validateParametersToGetResult (sectionTitle, boardKey, year, examType) {
+  static validateParametersToGetResult (sectionTitle, boardDomain, year, examType) {
 
     if (!validators.isValidStr(sectionTitle)) {
 
@@ -91,9 +92,9 @@ class ResultUtil {
 
     }
 
-    if (!validators.isValidStr(boardKey)) {
+    if (!validators.isValidStr(boardDomain)) {
 
-      throw new ApplicationException(ResultConstants.MESSAGES.INVALID_BOARD, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DOMAIN, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 
@@ -126,6 +127,16 @@ class ResultUtil {
     if (!validators.isValidStr(boardKey)) {
 
       throw new ApplicationException(ResultConstants.MESSAGES.INVALID_BOARD, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
+  static validateBoardDomain (domain) {
+
+    if (!validators.isValidStr(domain)) {
+
+      throw new ApplicationException(BoardConstants.MESSAGES.INVALID_BOARD_DOMAIN, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
     }
 

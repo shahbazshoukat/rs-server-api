@@ -43,7 +43,9 @@ const BoardConstants = Object.freeze({
     INVALID_SECTION_ID: 'Invalid section id',
     INVALID_SECTION_TITLE: 'Invalid section title',
     INVALID_BOARD_KEY: 'Invalid board key',
-    SECTION_NOT_FOUND: 'Section not found'
+    INVALID_BOARD_DOMAIN: 'Invalid board domain',
+    SECTION_NOT_FOUND: 'Section not found',
+    BOARD_NOT_FOUND: 'Board not found'
   },
   BOARDS: {
     BISE_LAHORE: 'BISE-Lahore',
