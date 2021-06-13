@@ -468,11 +468,21 @@ class BoardManager {
 
       const pastPapersRes = await GoogleDriveHandler.createFolder(pastPapersFolder);
 
+      const newsFolder = {
+        name: 'News',
+        parentId: boardRes && boardRes.data && boardRes.data.id
+      };
+
+      cLog.info(`createBoardDirectoriesOnGoogleDrive:: Creating News folder ::  ${newsFolder && newsFolder.name}`);
+
+      const newsRes = await GoogleDriveHandler.createFolder(newsFolder);
+
       const update = {
         boardDir: boardRes && boardRes.data && boardRes.data.id,
         dateSheetDir: dateSheetRes && dateSheetRes.data && dateSheetRes.data.id,
         modelPapersDir: modelPapersRes && modelPapersRes.data && modelPapersRes.data.id,
-        pastPapersDir: pastPapersRes && pastPapersRes.data && pastPapersRes.data.id
+        pastPapersDir: pastPapersRes && pastPapersRes.data && pastPapersRes.data.id,
+        newsDir: newsRes && newsRes.data && newsRes.data.id
       };
 
       cLog.info(`createBoardDirectoriesOnGoogleDrive:: Updating folder Ids for board`);

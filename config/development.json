@@ -1,5 +1,6 @@
 {
   "secretKey": "pakistan_zindabad",
+  "uploadPath": "uploads/files/",
   "database": {
     "isLocal" : false,
     "host": "resultsquare.noabc.mongodb.net",
@@ -61,5 +62,13 @@
     "signup": "1d",
     "forgotPassword": "1d",
     "buildUser": "1d"
+  },
+  "googleFolderIds": {
+    "federal": "11YD-PH1sWxhwLszwLR7aquNN6HRhlQ7R",
+    "punjab": "1PecmDwPvZsIGKxg5j7ChcoXNC0gXMWqt",
+    "kpk": "1v-V-DWo42YuCEiHsKckZunAo7rnx0uXP",
+    "sindh": "1214Ni2eTSMRxSZJlzo9xQFlZn_ks04yi",
+    "balochistan": "1jzrPiOOj6i6VHgU1y0pSN6KyGpfgxOwy",
+    "ajk": "1--OuKla3okWkcuP8RVQt0ZU8DpmmH-FG"
   }
 }

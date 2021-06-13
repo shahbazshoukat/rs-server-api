@@ -1,6 +1,7 @@
 {
     "secretKey": "pakistan_zindabad",
     "uploadPath": "uploads/files/",
+    "appName": "resultsquare",
     "database": {
         "isLocal" : false,
         "host": "resultsquare-sr7lv.mongodb.net",

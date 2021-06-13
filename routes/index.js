@@ -47,9 +47,11 @@ app.use((req, res, next) => {
 
   if (origin && origin.length) {
 
-    req.domain = origin.substring(0, origin.indexOf('.')).replace(`${config.protocol}://`, '');
+    const domain = origin.substring(0, origin.indexOf('.')).replace(`${config.protocol}://`, '');
 
-    if (req.domain) {
+    if (domain && domain !== config.appName) {
+
+      req.domain = domain;
 
       origin = origin.replace(`${req.domain}.`, '');
 

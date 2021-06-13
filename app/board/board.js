@@ -93,6 +93,10 @@ const boardSchema = mongoose.Schema({
   pastPapersDir: {
     type: String,
     required: false
+  },
+  newsDir: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: true,
