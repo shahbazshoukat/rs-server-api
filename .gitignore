@@ -30,9 +30,6 @@ node_modules
 npm-debug.log
 
 #Uploads Directory
-uploads
-
-#Uploads Directory
 reports
 
 #Downloads Directory

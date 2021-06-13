@@ -1,10 +1,12 @@
 const { google } = require('googleapis');
-const path = require('path');
 const fs = require('fs');
 const ApplicationException = require('../../exceptions/ApplicationException');
 
 const config = require('config');
-const cLog = require('../../helpers/console');
+const {
+  cLog,
+  storage
+} = require('../../helpers');
 
 const {
   MiscConstants,
@@ -34,7 +36,7 @@ exports.uploadFile = async (file, parentId) => {
 
   try {
 
-    cLog.info(`uploadFile:: Uploading file to Google Drive, parent folder:: ${parentId} file:: `, file, );
+    cLog.info(`uploadFile:: Uploading file to Google Drive, parent folder:: ${parentId} file:: `, file);
 
     const response = await drive.files.create({
       requestBody: {
@@ -57,6 +59,10 @@ exports.uploadFile = async (file, parentId) => {
     cLog.error(`uploadFile:: Failed to upload file to Google Drive, parent folder:: ${parentId}, file:: `, file, 'error:: ', error);
 
     throw new ApplicationException(MiscConstants.MESSAGES.FAILED_TO_CREATE_FILE_ON_GOOGLE_DRIVE, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+  } finally {
+
+    storage.removeFilesFromDirectory(config.uploadPath);
 
   }
 

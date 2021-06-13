@@ -8,6 +8,7 @@ const validators = require('./validators');
 const restClient = require('./rest-client');
 const ssl = require('./ssl');
 const database = require('./database');
+const storage = require('./storage');
 
 module.exports = {
   config,
@@ -19,5 +20,6 @@ module.exports = {
   validators,
   restClient,
   ssl,
-  database
+  database,
+  storage
 };
