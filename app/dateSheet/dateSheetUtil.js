@@ -140,19 +140,19 @@ class DateSheetUtil {
 
     if (Number(examType) === ResultEnums.EXAM_TYPES.ANNUAL) {
 
-      return DateSheetConstants.EXAM_TYPES.ANNUAL;
+      return DateSheetConstants.EXAM_TYPES.ANNUAL.toUpperCase();
 
     } else if (Number(examType) === ResultEnums.EXAM_TYPES.SUPPLY) {
 
-      return DateSheetConstants.EXAM_TYPES.SUPPLY;
+      return DateSheetConstants.EXAM_TYPES.SUPPLY.toUpperCase();
 
     } else if (Number(examType) === ResultEnums.EXAM_TYPES.TEST) {
 
-      return DateSheetConstants.EXAM_TYPES.TEST;
+      return DateSheetConstants.EXAM_TYPES.TEST.toUpperCase();
 
     } else if (Number(examType) === ResultEnums.EXAM_TYPES.RETOTAL) {
 
-      return DateSheetConstants.EXAM_TYPES.RETOTAL;
+      return DateSheetConstants.EXAM_TYPES.RETOTAL.toUpperCase();
 
     }
 
@@ -174,7 +174,13 @@ class DateSheetUtil {
 
   }
 
-  static getDateSheetName (board, data) {
+  static getDateSheetNameAndPageId (board, data) {
+
+    if (!data || !board) {
+
+      return;
+
+    }
 
     let sections = '';
 
@@ -184,7 +190,7 @@ class DateSheetUtil {
 
         if (section && section.title && data.sections.includes(DateSheetUtil.convertObjectIdToString(section._id))) {
 
-          sections = `${sections}_${section.title}`;
+          sections = `${sections} ${section.title}`;
 
         }
 
@@ -192,7 +198,9 @@ class DateSheetUtil {
 
     }
 
-    return `Date_Sheet_For_${board && board.title.replace(' ', '_')}${sections}_${DateSheetUtil.getExamTypeText(data.examType)}_Examinations_${data.year}`;
+    data.pageId = `Date_Sheet_For_${board && board.title.replace(' ', '_')}${sections.split(' ').join('_')}_${DateSheetUtil.getExamTypeText(data.examType)}_Examinations_${data.year}`;
+
+    data.title = `${board && board.title}${sections} ${DateSheetUtil.getExamTypeText(data.examType)} Examinations ${data.year}`;
 
   }
 

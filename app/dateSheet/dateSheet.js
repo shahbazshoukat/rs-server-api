@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const dateSheetSchema = mongoose.Schema({
-  name: {
+  title: {
+    type: String,
+    required: true
+  },
+  pageId: {
     type: String,
     required: true
   },
@@ -56,10 +60,6 @@ const dateSheetSchema = mongoose.Schema({
     require: false
   },
   fileId: {
-    type: String,
-    require: false
-  },
-  fileName: {
     type: String,
     require: false
   },

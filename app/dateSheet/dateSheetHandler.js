@@ -9,7 +9,7 @@ class DateSheetHandler {
   static createDateSheet (data) {
 
     const dateSheet = new DateSheet({
-      name: data.name,
+      title: data.title,
       board: data.boardId,
       sections: data.sections,
       year: data.year,
@@ -19,7 +19,7 @@ class DateSheetHandler {
       viewUrl: data.viewUrl,
       downloadUrl: data.downloadUrl,
       fileId: data.fileId,
-      fileName: data.fileName
+      pageId: data.pageId
     });
 
     return dateSheet.save();
@@ -31,6 +31,16 @@ class DateSheetHandler {
     const q = { _id: dateSheetId };
 
     return DateSheet.findOne(q).populate('comments').populate('sections').lean()
+      .exec();
+
+  }
+
+  static getDateSheetByPageId (pageId) {
+
+    const q = { pageId };
+
+    return DateSheet.findOne(q).populate('board').populate('comments').populate('sections')
+      .lean()
       .exec();
 
   }
@@ -148,6 +158,8 @@ class DateSheetHandler {
     return DateSheet.aggregate([
       {
         $project: {
+          title: 1,
+          pageId: 1,
           year: 1,
           sections: 1,
           board: 1,
@@ -157,7 +169,7 @@ class DateSheetHandler {
       },
       {
         $match: {
-          diff_days: { $lte: config.dateSheet.days || 30 }
+          diff_days: { $lte: config.result.days || 30 }
         }
       },
       {
@@ -183,22 +195,22 @@ class DateSheetHandler {
       },
       {
         $unwind: '$board'
-      },
-      {
+      }
+      /* {
         $lookup:
             {
               from: 'sections',
-              let: { section: '$section' },
+              let: { sections: '$sections' },
               pipeline: [
-                { $match: { $expr: { $eq: ['$_id', '$$section'] } } },
+                { $match: { $expr: { $in: ['$_id', '$$sections'] } } },
                 { $project: { title: 1, type: 1 } }
               ],
-              as: 'section'
+              as: 'sections'
             }
       },
       {
-        $unwind: '$section'
-      }
+        $unwind: '$sections'
+      } */
     ]);
 
   }

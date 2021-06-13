@@ -8,6 +8,15 @@ const newsSchema = mongoose.Schema({
   description: {
     type: String,
     require: false
+  },
+  board: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Board',
+    require: false
+  },
+  province: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: true,

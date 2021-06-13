@@ -179,7 +179,7 @@ class ResultHandler {
           section: 1,
           board: 1,
           examType: 1,
-          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$announceDate'] }, 1000 * 60 * 60 * 24] } }
+          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$createdAt'] }, 1000 * 60 * 60 * 24] } }
         }
       },
       {

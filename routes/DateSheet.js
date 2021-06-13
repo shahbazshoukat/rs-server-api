@@ -40,4 +40,6 @@ router.get('/date-sheets/latest', dateSheetCtrl.getLatestDateSheets);
 
 router.get('/board-date-sheets/:domain', dateSheetCtrl.getDateSheetsByBoardDomain);
 
+router.get('/date-sheets/:title', dateSheetCtrl.getDateSheetByTitle);
+
 module.exports = router;

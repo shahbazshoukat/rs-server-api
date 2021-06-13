@@ -6,7 +6,9 @@ class NewsHandler {
 
     const news = new News({
       link: data.link,
-      description: data.description
+      description: data.description,
+      board: data.boardId,
+      province: data.province
     });
 
     return news.save();

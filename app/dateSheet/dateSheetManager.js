@@ -38,9 +38,13 @@ class DateSheetManager {
 
       await DateSheetUtil.validateParametersToCreateDateSheet(data);
 
+      const board = await BoardManager.getBoard(data.boardId);
+
+      DateSheetUtil.getDateSheetNameAndPageId(board, data);
+
       cLog.info(`createDateSheet:: Checking if date sheet already exists`);
 
-      const res = await DateSheetHandler.getDateSheet(data.sections, data.boardId, data.year, data.examType);
+      const res = await DateSheetHandler.getDateSheetByPageId(data.pageId);
 
       if (res) {
 
@@ -50,11 +54,7 @@ class DateSheetManager {
 
       }
 
-      const board = await BoardManager.getBoard(data.boardId);
-
-      data.name = DateSheetUtil.getDateSheetName(board, data);
-
-      file.filename = data.name;
+      file.filename = data.pageId;
 
       const fileResponse = await GoogleDriveHandler.uploadFile(file, board.dateSheetDir);
 
@@ -351,6 +351,36 @@ class DateSheetManager {
     } catch (error) {
 
       cLog.error(`getDateSheet:: Failed to fetch Date sheet, section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`, error);
+
+      throw new ApplicationException(error.message || DateSheetConstants.MESSAGES.DATE_SHEET_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
+
+    }
+
+  }
+
+  static async getDateSheetByTitle (title) {
+
+    try {
+
+      cLog.info(`getDateSheetByTitle:: Getting date sheet by title:: ${title}`);
+
+      const dateSheet = await DateSheetHandler.getDateSheetByPageId(title);
+
+      if (!dateSheet) {
+
+        cLog.error(`getDateSheetByTitle:: Date Sheet not found title:: ${title}`);
+
+        throw new ApplicationException(DateSheetConstants.MESSAGES.DATE_SHEET_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
+
+      }
+
+      cLog.success(`getDateSheetByTitle:: Date successfully fetched with title:: ${title}`);
+
+      return dateSheet;
+
+    } catch (error) {
+
+      cLog.error(`getDateSheetByTitle:: Failed to fetch Date sheet, title:: ${title}`, error);
 
       throw new ApplicationException(error.message || DateSheetConstants.MESSAGES.DATE_SHEET_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
