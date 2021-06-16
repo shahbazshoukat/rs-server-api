@@ -45,6 +45,16 @@ class DateSheetHandler {
 
   }
 
+  static getDateSheetByBoardAndPageId (boardId, pageId) {
+
+    const q = { board: boardId, pageId };
+
+    return DateSheet.findOne(q).populate('board').populate('comments').populate('sections')
+      .lean()
+      .exec();
+
+  }
+
   static getAllDateSheets () {
 
     return DateSheet.find().populate('board').populate('sections').lean()

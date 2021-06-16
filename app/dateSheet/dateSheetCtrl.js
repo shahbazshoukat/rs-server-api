@@ -247,7 +247,7 @@ class DateSheetCtrl {
 
     try {
 
-      const doc = await DateSheetManager.getDateSheetByTitle(req.params.title);
+      const doc = await DateSheetManager.getDateSheetByTitle(req.domain, req.params.title);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 

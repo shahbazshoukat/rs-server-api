@@ -77,6 +77,16 @@ app.use((req, res, next) => {
     'GET, POST, PATCH, PUT, DELETE, OPTIONS'
   );
 
+  res.setHeader(
+    'Cache-Control',
+    'no-store,no-cache,must-revalidate'
+  );
+
+  res.setHeader(
+    'Pragma',
+    'no-cache'
+  );
+
   next();
 
 });

@@ -45,7 +45,7 @@ class DateSheetManager {
 
       cLog.info(`createDateSheet:: Checking if date sheet already exists`);
 
-      const res = await DateSheetHandler.getDateSheetByPageId(data.pageId);
+      const res = await DateSheetHandler.getDateSheetByBoardAndPageId(board._id, data.pageId);
 
       if (res) {
 
@@ -359,29 +359,31 @@ class DateSheetManager {
 
   }
 
-  static async getDateSheetByTitle (title) {
+  static async getDateSheetByTitle (boardDomain, title) {
 
     try {
 
-      cLog.info(`getDateSheetByTitle:: Getting date sheet by title:: ${title}`);
+      cLog.info(`getDateSheetByTitle:: Getting date sheet by title:: ${title}, board :: ${boardDomain}`);
 
-      const dateSheet = await DateSheetHandler.getDateSheetByPageId(title);
+      const board = await BoardManager.getBoardByDomain(boardDomain);
+
+      const dateSheet = await DateSheetHandler.getDateSheetByBoardAndPageId(board && board._id, title);
 
       if (!dateSheet) {
 
-        cLog.error(`getDateSheetByTitle:: Date Sheet not found title:: ${title}`);
+        cLog.error(`getDateSheetByTitle:: Date Sheet not found title:: ${title}, board :: ${boardDomain}`);
 
         throw new ApplicationException(DateSheetConstants.MESSAGES.DATE_SHEET_NOT_FOUND, HTTPStatusCodeConstants.NOT_FOUND).toJson();
 
       }
 
-      cLog.success(`getDateSheetByTitle:: Date successfully fetched with title:: ${title}`);
+      cLog.success(`getDateSheetByTitle:: Date successfully fetched with title:: ${title}, board :: ${boardDomain}`);
 
       return dateSheet;
 
     } catch (error) {
 
-      cLog.error(`getDateSheetByTitle:: Failed to fetch Date sheet, title:: ${title}`, error);
+      cLog.error(`getDateSheetByTitle:: Failed to fetch Date sheet, title:: ${title}, board :: ${boardDomain}`, error);
 
       throw new ApplicationException(error.message || DateSheetConstants.MESSAGES.DATE_SHEET_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.INTERNAL_SERVER_ERROR).toJson();
 
