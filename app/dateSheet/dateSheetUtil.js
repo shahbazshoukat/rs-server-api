@@ -198,9 +198,9 @@ class DateSheetUtil {
 
     }
 
-    data.pageId = `${sections.join('_')}_${DateSheetUtil.getExamTypeText(data.examType)}_${data.year}`;
+    data.pageId = `Date_Sheet_For_${sections.join('_')}_${DateSheetUtil.getExamTypeText(data.examType)}_Exams_${data.year}`;
 
-    data.title = `${board && board.title} ${sections.join(' ')} ${DateSheetUtil.getExamTypeText(data.examType)} Examinations ${data.year}`;
+    data.title = `${board && board.title} ${sections.join(' ')} ${DateSheetUtil.getExamTypeText(data.examType)} Exams ${data.year}`;
 
   }
 
