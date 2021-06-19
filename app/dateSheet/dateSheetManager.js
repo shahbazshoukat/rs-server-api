@@ -377,6 +377,10 @@ class DateSheetManager {
 
       }
 
+      await DateSheetHandler.updateDateSheetById(dateSheet._id, { $inc: { views: 1 } });
+
+      await BoardManager.updateBoardById(board._id, { $inc: { views: 1 } });
+
       cLog.success(`getDateSheetByTitle:: Date successfully fetched with title:: ${title}, board :: ${boardDomain}`);
 
       return dateSheet;
