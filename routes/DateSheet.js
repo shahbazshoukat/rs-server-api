@@ -1,13 +1,8 @@
 const express = require('express');
 const Auth = require('../middleware/Auth');
-const Upload = require('../middleware/Upload');
-const multipart = require('connect-multiparty');
-
-const multipartMiddleware = multipart({
-  uploadDir: 'uploads'
-});
 
 const router = express.Router();
+
 const dateSheetCtrl = require('../app/dateSheet/dateSheetCtrl');
 
 router.post('/date-sheet', Auth.Authenticate, dateSheetCtrl.createDateSheet);

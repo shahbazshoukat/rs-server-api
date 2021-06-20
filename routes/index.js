@@ -9,6 +9,8 @@ const section = require('./Section');
 const user = require('./User');
 const news = require('./News');
 const dateSheets = require('./DateSheet');
+const modelPapers = require('./ModelPaper');
+
 const {
   config
 } = require('../helpers');
@@ -100,6 +102,7 @@ app.use('/api/', section);
 app.use('/api/', user);
 app.use('/api/', news);
 app.use('/api/', dateSheets);
+app.use('/api/', modelPapers);
 
 cLog.warn('NO ROUTE FOUND');
 
