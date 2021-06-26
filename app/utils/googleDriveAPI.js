@@ -17,7 +17,7 @@ const CLIENT_ID = '985847113984-sdk1a97ecaf7o96tchgafnqh3m722939.apps.googleuser
 const CLIENT_SECRET = 'poFpMOOH15yxfo_UCnx18nKI';
 const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
 
-const REFRESH_TOKEN = '1//042prxT6Q85RvCgYIARAAGAQSNwF-L9IrmcGJHQdT_IeT_b1RT38SL-wruKyL9DzO50sSJ8ayXkETuhTO91KrP3E28y-E_Q9d6xk';
+const REFRESH_TOKEN = '1//04nFXCht2hXwzCgYIARAAGAQSNwF-L9IrjGHWuiKO8Ycz-wpS4ze4PH4I8B8F9tPpZhSAuIk3NIUvoKcTUHpwovnX9QC4yPpDNiw';
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
