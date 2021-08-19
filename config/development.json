@@ -16,7 +16,7 @@
     }
   },
   "result": {
-    "days": 365,
+    "days": 182,
     "checkBlocked": true
   },
   "appUrl": "http://localhost:4000",

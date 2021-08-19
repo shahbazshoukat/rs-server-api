@@ -26,7 +26,7 @@ class DateSheetUtil {
 
     }
 
-    if (!validators.isArray(data.sections)) {
+    if (!validators.isValidId(data.sectionId)) {
 
       throw new ApplicationException(SectionConstants.MESSAGES.INVALID_SECTION_ID, HTTPStatusCodeConstants.BAD_REQUEST).toJson();
 
@@ -174,33 +174,17 @@ class DateSheetUtil {
 
   }
 
-  static getDateSheetNameAndPageId (board, data) {
+  static getDateSheetNameAndPageId (board, section, data) {
 
-    if (!data || !board) {
+    if (!data || !board || !section) {
 
       return;
 
     }
 
-    const sections = [];
+    data.pageId = `date_sheet_for_${board.domain}_${section.title}_${DateSheetUtil.getExamTypeText(data.examType)}_exams_${data.year}`;
 
-    if (board && Array.isArray(board.sections)) {
-
-      board.sections.forEach((section) => {
-
-        if (section && section.title && data.sections.includes(DateSheetUtil.convertObjectIdToString(section._id))) {
-
-          sections.push(section.title);
-
-        }
-
-      });
-
-    }
-
-    data.pageId = `${sections.join('_')}_${DateSheetUtil.getExamTypeText(data.examType)}_${data.year}`;
-
-    data.title = `${board && board.title} ${sections.join(' ')} ${DateSheetUtil.getExamTypeText(data.examType)} Examinations ${data.year}`;
+    data.title = `Date sheet for ${board && board.title} ${section.title} ${DateSheetUtil.getExamTypeText(data.examType)} exams ${data.year}`;
 
   }
 

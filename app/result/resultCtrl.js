@@ -97,7 +97,7 @@ class ResultController {
 
     try {
 
-      const doc = await ResultManager.getResult(req.params.section, req.domain, req.params.year, req.params.exam);
+      const doc = await ResultManager.getResult(req.params.section, req.params.domain, req.params.year, req.params.exam);
 
       res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc });
 

@@ -21,14 +21,16 @@ router.get('/model-papers/board/:boardKey', Auth.Authenticate, ModelPaperCtrl.ge
 
 router.get('/model-papers/:sectionTitle/:boardKey', Auth.Authenticate, ModelPaperCtrl.getModelPapersBySectionAndBoard);
 
+router.get('/board-model-papers/:domain', Auth.Authenticate, ModelPaperCtrl.getModelPapersByBoardDomain);
+
+router.get('/model-paper/:title', Auth.Authenticate, ModelPaperCtrl.getModelPaperByBoardAndPageId);
+
 // public apis
 
-router.get('/model-paper/:section/:subject', ModelPaperCtrl.getModelPaper);
+router.get('/model-paper/:domain/:section/:subject', ModelPaperCtrl.getModelPaper);
 
 router.post('/comment/:model-paperId', ModelPaperCtrl.addComment);
 
-router.get('/board-model-papers/:domain', ModelPaperCtrl.getModelPapersByBoardDomain);
-
-router.get('/model-papers/:title', ModelPaperCtrl.getModelPaperByBoardAndPageId);
+router.get('/model-papers/latest', ModelPaperCtrl.getLatestModelPapers);
 
 module.exports = router;

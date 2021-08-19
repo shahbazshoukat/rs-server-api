@@ -512,6 +512,28 @@ class ModelPaperManager {
 
   }
 
+  static async getLatestModelPapers () {
+
+    try {
+
+      cLog.info(`getLatestModelPapers:: Getting latest model papers`);
+
+      const data = await ModelPaperHandler.getLatestModelPapers();
+
+      cLog.success(`getLatestModelPapers:: Latest model papers successfully fetched`);
+
+      return data;
+
+    } catch (error) {
+
+      cLog.error(`getLatestModelPapers:: Failed to get latest model papers`, error);
+
+      throw new ApplicationException(error.message || ModelPaperConstants.MESSAGES.MODEL_PAPERS_FETCHING_FAILED, error.code || HTTPStatusCodeConstants.BAD_REQUEST).toJson();
+
+    }
+
+  }
+
 }
 
 module.exports = ModelPaperManager;

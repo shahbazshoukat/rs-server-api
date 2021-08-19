@@ -21,20 +21,18 @@ router.get('/date-sheets/board/:boardKey', Auth.Authenticate, dateSheetCtrl.getD
 
 router.get('/date-sheets/:sectionTitle/:boardKey', Auth.Authenticate, dateSheetCtrl.getDateSheetsBySectionAndBoard);
 
+router.get('/board-date-sheets/:domain', Auth.Authenticate, dateSheetCtrl.getDateSheetsByBoardDomain);
+
 // public apis
 
 router.get('/date-sheet-year/:sectionId/:boardId', dateSheetCtrl.getDateSheetYears);
 
-router.get('/exam-types/:sectionId/:boardId/:year', dateSheetCtrl.getExamTypes);
+router.get('/date-sheets/exam-types/:sectionId/:boardId/:year', dateSheetCtrl.getExamTypes);
 
-router.get('/date-sheet/:section/:exam/:year', dateSheetCtrl.getDateSheet);
+router.get('/date-sheet/:boardDomain/:section/:exam/:year', dateSheetCtrl.getDateSheet);
 
 router.post('/comment/:date-sheetId', dateSheetCtrl.addComment);
 
 router.get('/date-sheets/latest', dateSheetCtrl.getLatestDateSheets);
-
-router.get('/board-date-sheets/:domain', dateSheetCtrl.getDateSheetsByBoardDomain);
-
-router.get('/date-sheets/:title', dateSheetCtrl.getDateSheetByTitle);
 
 module.exports = router;

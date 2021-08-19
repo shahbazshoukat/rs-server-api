@@ -145,6 +145,67 @@ class ModelPaperHandler {
 
   }
 
+  static getLatestModelPapers () {
+
+    return ModelPaper.aggregate([
+      {
+        $project: {
+          title: 1,
+          pageId: 1,
+          section: 1,
+          board: 1,
+          subject: 1,
+          diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$createdAt'] }, 1000 * 60 * 60 * 24] } }
+        }
+      },
+      {
+        $match: {
+          diff_days: { $lte: config.result.days || 30 }
+        }
+      },
+      {
+        $sort: {
+          diff_days: 1
+        }
+      },
+      {
+        $lookup:
+            {
+              from: 'boards',
+              let: { board: '$board' },
+              pipeline: [
+                { $match: { $expr: { $eq: ['$_id', '$$board'] } } },
+                {
+                  $project: {
+                    title: 1, key: 1, province: 1, domain: 1
+                  }
+                }
+              ],
+              as: 'board'
+            }
+      },
+      {
+        $unwind: '$board'
+      },
+      {
+        $lookup:
+            {
+              from: 'sections',
+              let: { section: '$section' },
+              pipeline: [
+                { $match: { $expr: { $eq: ['$_id', '$$section'] } } },
+                { $project: { title: 1, type: 1 } }
+              ],
+              as: 'section'
+            }
+      },
+      {
+        $unwind: '$section'
+      }
+    ]);
+
+  }
+
 }
 
 module.exports = ModelPaperHandler;

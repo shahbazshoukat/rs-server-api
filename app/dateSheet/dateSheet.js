@@ -21,6 +21,11 @@ const dateSheetSchema = mongoose.Schema({
       required: true
     }
   ],
+  section: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Section',
+    require: false
+  },
   year: {
     type: String,
     require: false

@@ -11,7 +11,7 @@ class DateSheetHandler {
     const dateSheet = new DateSheet({
       title: data.title,
       board: data.boardId,
-      sections: data.sections,
+      section: data.sectionId,
       year: data.year,
       examType: data.examType,
       description: data.description,
@@ -30,7 +30,7 @@ class DateSheetHandler {
 
     const q = { _id: dateSheetId };
 
-    return DateSheet.findOne(q).populate('comments').populate('sections').lean()
+    return DateSheet.findOne(q).populate('comments').populate('section').lean()
       .exec();
 
   }
@@ -39,7 +39,7 @@ class DateSheetHandler {
 
     const q = { pageId };
 
-    return DateSheet.findOne(q).populate('board').populate('comments').populate('sections')
+    return DateSheet.findOne(q).populate('board').populate('comments').populate('section')
       .lean()
       .exec();
 
@@ -49,7 +49,7 @@ class DateSheetHandler {
 
     const q = { board: boardId, pageId };
 
-    return DateSheet.findOne(q).populate('board').populate('comments').populate('sections')
+    return DateSheet.findOne(q).populate('board').populate('comments').populate('section')
       .lean()
       .exec();
 
@@ -64,7 +64,7 @@ class DateSheetHandler {
 
   static getDateSheetYears (sectionId, boardId) {
 
-    const q = { board: boardId, sections: { $in: [sectionId] } };
+    const q = { board: boardId, section: { $in: [sectionId] } };
 
     return DateSheet.distinct('year', q);
 
@@ -72,7 +72,7 @@ class DateSheetHandler {
 
   static getExamTypes (sectionId, boardId, year) {
 
-    const q = { sections: { $in: [sectionId] }, board: boardId, year };
+    const q = { section: { $in: [sectionId] }, board: boardId, year };
 
     return DateSheet.distinct('examType', q);
 
@@ -82,16 +82,16 @@ class DateSheetHandler {
 
     const q = { board: boardId };
 
-    return DateSheet.find(q).sort('-year').populate('board').populate('sections')
+    return DateSheet.find(q).sort('-year').populate('board').populate('section')
       .lean()
       .exec();
 
   }
 
-  static getDateSheet (sections, boardId, year, examType) {
+  static getDateSheet (sectionId, boardId, year, examType) {
 
     const q = {
-      section: { $in: sections }, board: boardId, year, examType
+      section: sectionId, board: boardId, year, examType
     };
 
     const pop = [
@@ -104,7 +104,7 @@ class DateSheetHandler {
         select: 'title description webUrl -_id'
       },
       {
-        path: 'sections',
+        path: 'section',
         select: 'title -_id'
       }
     ];
@@ -121,7 +121,7 @@ class DateSheetHandler {
     const q = { _id: dateSheetId };
 
     const update = {
-      section: data.sections,
+      section: data.section,
       board: data.boardId,
       year: data.year,
       examType: data.examType,
@@ -154,11 +154,11 @@ class DateSheetHandler {
     const q = { section: sectionId, board: boardId };
 
     const pop = [
-      { path: 'sections', select: 'title type' },
+      { path: 'section', select: 'title type' },
       { path: 'board', select: 'title key' }
     ];
 
-    return DateSheet.find(q).select('board sections year examType').populate(pop).lean()
+    return DateSheet.find(q).select('board section year examType').populate(pop).lean()
       .exec();
 
   }
@@ -171,7 +171,7 @@ class DateSheetHandler {
           title: 1,
           pageId: 1,
           year: 1,
-          sections: 1,
+          section: 1,
           board: 1,
           examType: 1,
           diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$createdAt'] }, 1000 * 60 * 60 * 24] } }
@@ -205,22 +205,22 @@ class DateSheetHandler {
       },
       {
         $unwind: '$board'
-      }
-      /* {
+      },
+      {
         $lookup:
             {
               from: 'sections',
-              let: { sections: '$sections' },
+              let: { section: '$section' },
               pipeline: [
-                { $match: { $expr: { $in: ['$_id', '$$sections'] } } },
+                { $match: { $expr: { $eq: ['$_id', '$$section'] } } },
                 { $project: { title: 1, type: 1 } }
               ],
-              as: 'sections'
+              as: 'section'
             }
       },
       {
-        $unwind: '$sections'
-      } */
+        $unwind: '$section'
+      }
     ]);
 
   }
