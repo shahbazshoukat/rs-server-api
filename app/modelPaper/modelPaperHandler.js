@@ -1,19 +1,18 @@
-const DateSheet = require('./dateSheet');
+const ModelPaper = require('./modelPaper');
 
 const {
   config
 } = require('../../helpers');
 
-class DateSheetHandler {
+class ModelPaperHandler {
 
-  static createDateSheet (data) {
+  static createModelPaper (data) {
 
-    const dateSheet = new DateSheet({
+    const modelPaper = new ModelPaper({
       title: data.title,
       board: data.boardId,
       section: data.sectionId,
-      year: data.year,
-      examType: data.examType,
+      subject: data.subject,
       description: data.description,
       tags: data.tags,
       viewUrl: data.viewUrl,
@@ -22,76 +21,60 @@ class DateSheetHandler {
       pageId: data.pageId
     });
 
-    return dateSheet.save();
+    return modelPaper.save();
 
   }
 
-  static getDateSheetById (dateSheetId) {
+  static getModelPaperById (modelPaperId) {
 
-    const q = { _id: dateSheetId };
+    const q = { _id: modelPaperId };
 
-    return DateSheet.findOne(q).populate('comments').populate('section').lean()
+    return ModelPaper.findOne(q).populate('comments').populate('sections').lean()
       .exec();
 
   }
 
-  static getDateSheetByPageId (pageId) {
+  static getModelPaperByPageId (pageId) {
 
     const q = { pageId };
 
-    return DateSheet.findOne(q).populate('board').populate('comments').populate('section')
+    return ModelPaper.findOne(q).populate('board').populate('comments').populate('sections')
       .lean()
       .exec();
 
   }
 
-  static getDateSheetByBoardAndPageId (boardId, pageId) {
+  static getModelPaperByBoardAndPageId (boardId, pageId) {
 
     const q = { board: boardId, pageId };
 
-    return DateSheet.findOne(q).populate('board').populate('comments').populate('section')
+    return ModelPaper.findOne(q).populate('board').populate('comments').populate('sections')
       .lean()
       .exec();
 
   }
 
-  static getAllDateSheets () {
+  static getAllModelPapers () {
 
-    return DateSheet.find().populate('board').populate('sections').lean()
+    return ModelPaper.find().populate('board').populate('sections').lean()
       .exec();
 
   }
 
-  static getDateSheetYears (sectionId, boardId) {
-
-    const q = { board: boardId, section: { $in: [sectionId] } };
-
-    return DateSheet.distinct('year', q);
-
-  }
-
-  static getExamTypes (sectionId, boardId, year) {
-
-    const q = { section: { $in: [sectionId] }, board: boardId, year };
-
-    return DateSheet.distinct('examType', q);
-
-  }
-
-  static getDateSheetsByBoardId (boardId) {
+  static getModelPapersByBoardId (boardId) {
 
     const q = { board: boardId };
 
-    return DateSheet.find(q).sort('-year').populate('board').populate('section')
+    return ModelPaper.find(q).sort('-subject').populate('board').populate('section')
       .lean()
       .exec();
 
   }
 
-  static getDateSheet (sectionId, boardId, year, examType) {
+  static getModelPaper (sectionId, boardId, subject) {
 
     const q = {
-      section: sectionId, board: boardId, year, examType
+      section: sectionId, board: boardId, subject
     };
 
     const pop = [
@@ -111,69 +94,67 @@ class DateSheetHandler {
 
     const select = '-createdAt -updatedAt -views';
 
-    return DateSheet.findOne(q).select(select).populate(pop).lean()
+    return ModelPaper.findOne(q).select(select).populate(pop).lean()
       .exec();
 
   }
 
-  static updateDateSheet (dateSheetId, data) {
+  static updateModelPaper (modelPaperId, data) {
 
-    const q = { _id: dateSheetId };
+    const q = { _id: modelPaperId };
 
     const update = {
-      section: data.section,
+      section: data.sectionId,
       board: data.boardId,
-      year: data.year,
-      examType: data.examType,
+      subject: data.subject,
       description: data.description,
       tags: data.tags
     };
 
-    return DateSheet.updateOne(q, update);
+    return ModelPaper.updateOne(q, update);
 
   }
 
-  static updateDateSheetById (dateSheetId, update = {}) {
+  static updateModelPaperById (modelPaperId, update = {}) {
 
-    const q = { _id: dateSheetId };
+    const q = { _id: modelPaperId };
 
-    return DateSheet.updateOne(q, update);
-
-  }
-
-  static deleteDateSheet (dateSheetId) {
-
-    const q = { _id: dateSheetId };
-
-    return DateSheet.deleteOne(q);
+    return ModelPaper.updateOne(q, update);
 
   }
 
-  static getDateSheetsBySectionAndBoard (sectionId, boardId) {
+  static deleteModelPaper (modelPaperId) {
+
+    const q = { _id: modelPaperId };
+
+    return ModelPaper.deleteOne(q);
+
+  }
+
+  static getModelPapersBySectionAndBoard (sectionId, boardId) {
 
     const q = { section: sectionId, board: boardId };
 
     const pop = [
-      { path: 'section', select: 'title type' },
+      { path: 'sections', select: 'title type' },
       { path: 'board', select: 'title key' }
     ];
 
-    return DateSheet.find(q).select('board section year examType').populate(pop).lean()
+    return ModelPaper.find(q).select('board sections year examType').populate(pop).lean()
       .exec();
 
   }
 
-  static getLatestDateSheets () {
+  static getLatestModelPapers () {
 
-    return DateSheet.aggregate([
+    return ModelPaper.aggregate([
       {
         $project: {
           title: 1,
           pageId: 1,
-          year: 1,
           section: 1,
           board: 1,
-          examType: 1,
+          subject: 1,
           diff_days: { $abs: { $divide: [{ $subtract: [new Date(), '$createdAt'] }, 1000 * 60 * 60 * 24] } }
         }
       },
@@ -227,4 +208,4 @@ class DateSheetHandler {
 
 }
 
-module.exports = DateSheetHandler;
+module.exports = ModelPaperHandler;

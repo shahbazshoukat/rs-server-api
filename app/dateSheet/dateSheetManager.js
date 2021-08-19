@@ -41,11 +41,13 @@ class DateSheetManager {
 
       const board = await BoardManager.getBoard(data.boardId);
 
-      DateSheetUtil.getDateSheetNameAndPageId(board, data);
+      const section = await SectionManager.getSection(data.sectionId);
+
+      DateSheetUtil.getDateSheetNameAndPageId(board, section, data);
 
       cLog.info(`createDateSheet:: Checking if date sheet already exists`);
 
-      const res = await DateSheetHandler.getDateSheetByBoardAndPageId(board._id, data.pageId);
+      const res = await DateSheetHandler.getDateSheet(section._id, board._id, data.year, data.examType);
 
       if (res) {
 
@@ -333,8 +335,6 @@ class DateSheetManager {
 
       const dateSheet = await DateSheetHandler.getDateSheet([section._id], board._id, year, examType);
 
-      cLog.success(`getDateSheet:: Successfully get date sheets section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`, dateSheet);
-
       if (!dateSheet) {
 
         cLog.error(`getDateSheet:: Date Sheet not found section:: ${sectionTitle} board:: ${boardDomain} year:: ${year} examtype:: ${examType}`);
@@ -346,6 +346,8 @@ class DateSheetManager {
       await DateSheetHandler.updateDateSheetById(dateSheet._id, { $inc: { views: 1 } });
 
       await BoardManager.updateBoardById(board._id, { $inc: { views: 1 } });
+
+      cLog.success(`getDateSheet:: Successfully get date sheets section id:: ${section._id} board id:: ${board._id} year:: ${year} examType:: ${examType}`, dateSheet);
 
       return dateSheet;
 

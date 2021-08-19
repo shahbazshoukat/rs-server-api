@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const {
+  ModelPaperEnums
+} = require('../../enums');
 
-const dateSheetSchema = mongoose.Schema({
+const modelPaperSchema = mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -9,31 +12,20 @@ const dateSheetSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  subject: {
+    type: ModelPaperEnums.SUBJECT,
+    required: true
+  },
   board: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Board',
     require: false
   },
-  sections: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Section',
-      required: true
-    }
-  ],
   section: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Section',
     require: false
   },
-  year: {
-    type: String,
-    require: false
-  },
-  examType: {
-    type: Number,
-    require: false
-  }, // 0 = annual, 1 = supply, 2 = test, 3 = retotal
   description: {
     type: String,
     required: false
@@ -77,4 +69,4 @@ const dateSheetSchema = mongoose.Schema({
   versionKey: false
 });
 
-module.exports = mongoose.model('DateSheet', dateSheetSchema);
+module.exports = mongoose.model('ModelPaper', modelPaperSchema);

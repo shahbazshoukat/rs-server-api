@@ -8,6 +8,7 @@ const CommentConstants = require('./CommentConstants');
 const NewsConstants = require('./NewsConstants');
 const MiscConstants = require('./MiscConstants');
 const DateSheetConstants = require('./DateSheetConstants');
+const ModelPaperConstants = require('./ModelPaperConstants');
 
 module.exports = {
   BoardConstants,
@@ -19,5 +20,6 @@ module.exports = {
   CommentConstants,
   NewsConstants,
   MiscConstants,
-  DateSheetConstants
+  DateSheetConstants,
+  ModelPaperConstants
 };

@@ -26,18 +26,18 @@ router.get('/results/board/:boardKey', Auth.Authenticate, ResultController.getRe
 
 router.get('/results/:sectionTitle/:boardKey', Auth.Authenticate, ResultController.getResultsBySectionAndBoard);
 
+router.get('/board-results/:domain', Auth.Authenticate, ResultController.getResultsByBoardDomain);
+
 // public apis
 
 router.get('/result-year/:sectionId/:boardId', ResultController.getResultYears);
 
 router.get('/exam-types/:sectionId/:boardId/:year', ResultController.getExamTypes);
 
-router.get('/result/:section/:exam/:year', ResultController.getResult);
+router.get('/result/:domain/:section/:exam/:year', ResultController.getResult);
 
 router.post('/comment/:resultId', ResultController.addComment);
 
 router.get('/results/latest', ResultController.getLatestResults);
-
-router.get('/board-results/:domain', ResultController.getResultsByBoardDomain);
 
 module.exports = router;
