@@ -22,6 +22,8 @@ router.get('/board/section/:sectionTitle', Auth.Authenticate, BoardController.ge
 
 router.post('/board/comment/:boardId', Auth.Authenticate, BoardController.addComment);
 
+router.get('/admin/boards', Auth.Authenticate, BoardController.getAllBoards);
+
 // public apis
 
 router.get('/boards', BoardController.getAllBoards);
