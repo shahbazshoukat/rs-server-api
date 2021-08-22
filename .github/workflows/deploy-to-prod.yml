@@ -35,4 +35,13 @@ jobs:
             PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_PRIVATE_KEY }}
         run: |
             echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
-            ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_EC2_HOST_NAME }}@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
+            ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_EC2_HOST_NAME }}@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deployServer.sh"
+            rm private_key
+
+      - name: Deploy Docker Container to Prod Website EC2 instance
+        env:
+            WEBSITE_PRIVATE_KEY: ${{ secrets.AWS_PROD_WEBSITE_PRIVATE_KEY }}
+        run: |
+            echo "$WEBSITE_PRIVATE_KEY" > website_private_key && chmod 400 website_private_key
+            ssh -o StrictHostKeyChecking=no -i website_private_key ${{ secrets.AWS_EC2_HOST_NAME }}@${{ secrets.AWS_PROD_WEBSITE_INSTANCE_IP }} "bash ./deployServer.sh"
+            rm website_private_key
