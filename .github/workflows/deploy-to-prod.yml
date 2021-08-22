@@ -32,8 +32,8 @@ jobs:
           
       - name: Deploy Docker Container to Admin EC2 instance
         env:
-            PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_KEY }}
+            PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_PRIVATE_KEY }}
         run: |
-            echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+            echo "$PRIVATE_KEY" > private_key.pem && chmod 400 private_key.pem
             echo "$PRIVATE_KEY"
-            ssh -i private_key ubuntu@3.21.127.241 "bash ./deploy.sh"
+            ssh -i private_key.pem ubuntu@3.21.127.241 "bash ./deploy.sh"
