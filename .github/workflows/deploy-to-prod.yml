@@ -31,4 +31,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           
       - name: Deploy Docker Container to Admin EC2 instance
-        run: ssh -i ../../../resultsquare.pem ubuntu@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
+        run: ssh -i ../../resultsquare.pem ubuntu@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
