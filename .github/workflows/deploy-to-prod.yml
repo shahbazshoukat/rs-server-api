@@ -29,3 +29,6 @@ jobs:
           registry: docker.io
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          
+      - name: Deploy Docker Container to Admin EC2 instance
+        run: ssh -i ${{ AWS_ADMIN_DASHBOARD_INSTANCE_KEY }} ubuntu@${{ AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
