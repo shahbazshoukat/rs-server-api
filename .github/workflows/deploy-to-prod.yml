@@ -34,6 +34,5 @@ jobs:
         env:
             PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_PRIVATE_KEY }}
         run: |
-            echo "$PRIVATE_KEY" > private_key.pem && chmod 400 private_key.pem
-            echo "$PRIVATE_KEY"
-            ssh -i private_key.pem ubuntu@3.21.127.241 "bash ./deploy.sh"
+            echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+            ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@3.21.127.241 "bash ./deploy.sh"
