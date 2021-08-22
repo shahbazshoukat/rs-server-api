@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           
-      - name: Deploy Docker Container to Admin EC2 instance
+      - name: Deploy Docker Container to Admin Dashboard
         env:
             PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_PRIVATE_KEY }}
         run: |
@@ -38,7 +38,7 @@ jobs:
             ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.AWS_EC2_HOST_NAME }}@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deployServer.sh"
             rm private_key
 
-      - name: Deploy Docker Container to Prod Website EC2 instance
+      - name: Deploy Docker Container to Prod Website
         env:
             WEBSITE_PRIVATE_KEY: ${{ secrets.AWS_PROD_WEBSITE_PRIVATE_KEY }}
         run: |
