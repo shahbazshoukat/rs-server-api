@@ -32,5 +32,5 @@ jobs:
           
       - name: Deploy Docker Container to Admin EC2 instance
         run: |
-            echo "${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_KEY }}" > private_key && chmod 600 private_key
+            echo ${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_KEY }} > private_key && chmod 600 private_key
             ssh -i private_key ubuntu@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
