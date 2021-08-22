@@ -35,4 +35,5 @@ jobs:
             PRIVATE_KEY: ${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_KEY }}
         run: |
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-            ssh -i private_key ${{ secrets.AWS_EC2_HOST_NAME }}@${{ secrets.AWS_ADMIN_DASHBOARD_INSTANCE_IP }} "bash ./deploy.sh"
+            echo "$PRIVATE_KEY"
+            ssh -i private_key ubuntu@$3.21.127.241 "bash ./deploy.sh"
