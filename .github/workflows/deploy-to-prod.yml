@@ -36,4 +36,4 @@ jobs:
         run: |
             echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
             echo "$PRIVATE_KEY"
-            ssh -i private_key ubuntu@$3.21.127.241 "bash ./deploy.sh"
+            ssh -i private_key ubuntu@3.21.127.241 "bash ./deploy.sh"
