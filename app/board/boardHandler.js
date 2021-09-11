@@ -60,20 +60,17 @@ class BoardHandler {
 
   }
 
-  static getBoardsBySectionId (sectionId) {
+  static getBoardsBySectionId (sectionId, allData = false) {
 
     const q = { sections: sectionId, deleted: false };
+
+    if (allData) {
+
+      return Board.find(q).lean().exec();
+
+    }
 
     return Board.find(q).select('title province city resultUrl type domain').lean().exec();
-
-  }
-
-  static getBoardBySectionId (sectionId) {
-
-    const q = { sections: sectionId, deleted: false };
-
-    return Board.findOne(q).select('key title province city resultUrl type comments tags').populate('comments').lean()
-      .exec();
 
   }
 

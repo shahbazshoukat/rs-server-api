@@ -31,7 +31,7 @@ router.get('/date-sheets/exam-types/:sectionId/:boardId/:year', dateSheetCtrl.ge
 
 router.get('/date-sheet/:boardDomain/:section/:exam/:year', dateSheetCtrl.getDateSheet);
 
-router.post('/comment/:date-sheetId', dateSheetCtrl.addComment);
+router.post('/date-sheets/comment/add/:date-sheetId', dateSheetCtrl.addComment);
 
 router.get('/date-sheets/latest', dateSheetCtrl.getLatestDateSheets);
 

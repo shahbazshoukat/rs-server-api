@@ -45,25 +45,7 @@ app.use(bodyParser.urlencoded({
 
 app.use((req, res, next) => {
 
-  let origin = req.headers.origin;
-
-  if (origin && origin.length) {
-
-    const domain = origin.substring(0, origin.indexOf('.')).replace(`${config.protocol}://`, '');
-
-    if (domain && domain !== config.appName) {
-
-      req.domain = domain;
-
-      origin = origin.replace(`${req.domain}.`, '');
-
-    }
-
-  }
-
-  cLog.info(`origin::`, req.headers.origin, 'sub domain::', req.domain, 'parsed origin::', origin);
-
-  if (config.allowedOrigins.indexOf(origin) > -1) {
+  if (config.allowedOrigins.indexOf(req.headers.origin) > -1) {
 
     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
 
@@ -95,7 +77,6 @@ app.use((req, res, next) => {
 
 // Disable express 'powered by' headers to make server framework anonymous
 app.disable('x-powered-by');
-
 app.use('/api/', board);
 app.use('/api/', result);
 app.use('/api/', section);
@@ -105,12 +86,6 @@ app.use('/api/', dateSheets);
 app.use('/api/', modelPapers);
 
 cLog.warn('NO ROUTE FOUND');
-
-// token verification only for services callbacks
-app.use(Auth.AuthenticateCallbacks);
-
-// Auth Middleware (token + subdomain + UA verification)
-app.use(Auth.Authenticate);
 
 // 404
 app.use((req, res) => {

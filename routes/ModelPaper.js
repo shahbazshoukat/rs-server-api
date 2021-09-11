@@ -29,7 +29,7 @@ router.get('/model-paper/:title', Auth.Authenticate, ModelPaperCtrl.getModelPape
 
 router.get('/model-paper/:domain/:section/:subject', ModelPaperCtrl.getModelPaper);
 
-router.post('/comment/:model-paperId', ModelPaperCtrl.addComment);
+router.post('/model-papers/comment/add/:model-paperId', ModelPaperCtrl.addComment);
 
 router.get('/model-papers/latest', ModelPaperCtrl.getLatestModelPapers);
 

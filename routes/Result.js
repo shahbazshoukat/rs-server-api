@@ -36,7 +36,7 @@ router.get('/exam-types/:sectionId/:boardId/:year', ResultController.getExamType
 
 router.get('/result/:domain/:section/:exam/:year', ResultController.getResult);
 
-router.post('/comment/:resultId', ResultController.addComment);
+router.post('/results/comment/add/:resultId', ResultController.addComment);
 
 router.get('/results/latest', ResultController.getLatestResults);
 

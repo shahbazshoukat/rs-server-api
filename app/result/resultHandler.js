@@ -77,7 +77,7 @@ class ResultHandler {
     const pop = [
       {
         path: 'comments',
-        select: 'name text createdAt -_id'
+        select: 'name text email createdAt -_id'
       },
       {
         path: 'board',
