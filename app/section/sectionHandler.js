@@ -31,7 +31,7 @@ class SectionHandler {
 
   static getAllSections () {
 
-    return Section.find({ deleted: false }).lean().exec();
+    return Section.find({ deleted: false }).sort({ createdAt: 1 }).lean().exec();
 
   }
 

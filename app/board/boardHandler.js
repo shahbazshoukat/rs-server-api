@@ -53,7 +53,9 @@ class BoardHandler {
 
   static getAllBoards () {
 
-    return Board.find({ deleted: false }).select('-deleted -boardDir -modelPapersDir -pastPapersDir -dateSheetDir').populate('sections').lean()
+    return Board.find({ deleted: false }).select('-deleted -boardDir -modelPapersDir -pastPapersDir -dateSheetDir').populate('sections')
+      .sort({ createdAt: 1 })
+      .lean()
       .exec();
 
   }
