@@ -454,7 +454,7 @@ class ModelPaperManager {
 
             cLog.info(`addComment:: Sending comment email`);
 
-            await mailer.sendCommentEmail(user, link, data);
+            mailer.sendCommentEmail(user, link, data);
 
           } catch (error) {
 
@@ -468,7 +468,12 @@ class ModelPaperManager {
 
       cLog.success(`addComment:: Comment successfully added to modelPaperId:: ${modelPaperId} link:: ${link}, `, comment);
 
-      return comment;
+      return {
+        name: comment.name,
+        email: comment.email,
+        text: comment.text,
+        createdAt: comment.createdAt
+      };
 
     } catch (error) {
 

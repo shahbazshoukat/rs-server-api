@@ -65,9 +65,9 @@ class BoardController {
 
     try {
 
-      const doc = await BoardManager.getAllBoards(req.domain);
+      const doc = await BoardManager.getAllBoards(req.domain, req.user);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 
@@ -83,7 +83,7 @@ class BoardController {
 
       const doc = await BoardManager.getBoardsBySectionId(req.params.sectionId);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: BoardConstants.MESSAGES.BOARDS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 

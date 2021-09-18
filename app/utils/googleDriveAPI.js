@@ -27,10 +27,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-const drive = google.drive({
-  version: 'v3',
-  auth: oauth2Client
-});
+const drive = google.tagmanager('v1');
 
 exports.uploadFile = async (file, parentId) => {
 
@@ -150,3 +147,23 @@ exports.generatePublicUrl = async (fileId) => {
   }
 
 };
+
+const getSupportedApis = async () => {
+
+  try {
+
+    /// const APIS = await google.getSupportedAPIs();
+
+    const response = await drive.dom;
+
+    cLog.success(response);
+
+  } catch (error) {
+
+    cLog.error(error);
+
+  }
+
+};
+
+// getSupportedApis();

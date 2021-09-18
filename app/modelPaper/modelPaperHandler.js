@@ -80,7 +80,7 @@ class ModelPaperHandler {
     const pop = [
       {
         path: 'comments',
-        select: 'name text createdAt -_id'
+        select: 'name text email createdAt -_id'
       },
       {
         path: 'board',
@@ -92,7 +92,7 @@ class ModelPaperHandler {
       }
     ];
 
-    const select = '-createdAt -updatedAt -views';
+    const select = '-createdAt -updatedAt -views -pageId -fileId -deleted';
 
     return ModelPaper.findOne(q).select(select).populate(pop).lean()
       .exec();
@@ -151,7 +151,6 @@ class ModelPaperHandler {
       {
         $project: {
           title: 1,
-          pageId: 1,
           section: 1,
           board: 1,
           subject: 1,

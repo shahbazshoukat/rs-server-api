@@ -67,7 +67,7 @@ class ResultController {
 
       const doc = await ResultManager.getResultYears(req.params.sectionId, req.params.boardId);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULTS_YEARS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 
@@ -83,7 +83,7 @@ class ResultController {
 
       const doc = await ResultManager.getExamTypes(req.params.sectionId, req.params.boardId, req.params.year);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULTS_YEARS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 
@@ -99,7 +99,7 @@ class ResultController {
 
       const doc = await ResultManager.getResult(req.params.section, req.params.domain, req.params.year, req.params.exam);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULT_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 
@@ -215,7 +215,7 @@ class ResultController {
 
       const data = await ResultManager.addComment(req.params.resultId, req.body, link);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: CommentConstants.MESSAGES.COMMENT_SUCCESSFULLY_ADDED, data });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data });
 
     } catch (error) {
 
@@ -247,7 +247,7 @@ class ResultController {
 
       const doc = await ResultManager.getLatestResults();
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: ResultConstants.MESSAGES.RESULTS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 

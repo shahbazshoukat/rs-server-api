@@ -71,7 +71,7 @@ class DateSheetCtrl {
 
       const doc = await DateSheetManager.getDateSheetYears(req.params.sectionId, req.params.boardId);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: DateSheetConstants.MESSAGES.DATE_SHEETS_YEARS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 
@@ -185,7 +185,7 @@ class DateSheetCtrl {
 
       const data = await DateSheetManager.addComment(req.params.dateSheetId, req.body, link);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: CommentConstants.MESSAGES.COMMENT_SUCCESSFULLY_ADDED, data });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data });
 
     } catch (error) {
 

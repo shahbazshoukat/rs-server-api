@@ -138,7 +138,7 @@ class BoardManager {
 
   }
 
-  static async getAllBoards (province) {
+  static async getAllBoards (province, admin) {
 
     try {
 
@@ -154,7 +154,7 @@ class BoardManager {
 
         cLog.info(`getAllBoards:: Getting all boards`);
 
-        boards = await BoardHandler.getAllBoards();
+        boards = await BoardHandler.getAllBoards(admin);
 
       }
 

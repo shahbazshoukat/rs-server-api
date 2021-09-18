@@ -88,11 +88,11 @@ class SectionManager {
 
   }
 
-  static async getAllSections () {
+  static async getAllSections (admin) {
 
     try {
 
-      const doc = await SectionHandler.getAllSections();
+      const doc = await SectionHandler.getAllSections(admin);
 
       if (!doc) {
 

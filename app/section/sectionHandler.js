@@ -29,9 +29,12 @@ class SectionHandler {
 
   }
 
-  static getAllSections () {
+  static getAllSections (admin) {
 
-    return Section.find({ deleted: false }).sort({ createdAt: 1 }).lean().exec();
+    const select = admin ? '' : 'title';
+
+    return Section.find({ deleted: false }).sort({ createdAt: 1 }).select(select).lean()
+      .exec();
 
   }
 

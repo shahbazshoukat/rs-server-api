@@ -153,7 +153,7 @@ class ModelPaperCtrl {
 
       const data = await ModelPaperManager.addComment(req.params.modelPaperId, req.body, link);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: CommentConstants.MESSAGES.COMMENT_SUCCESSFULLY_ADDED, data });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data });
 
     } catch (error) {
 

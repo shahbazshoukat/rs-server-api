@@ -97,7 +97,7 @@ class DateSheetHandler {
     const pop = [
       {
         path: 'comments',
-        select: 'name text createdAt -_id'
+        select: 'name text email createdAt -_id'
       },
       {
         path: 'board',
@@ -109,7 +109,7 @@ class DateSheetHandler {
       }
     ];
 
-    const select = '-createdAt -updatedAt -views';
+    const select = '-createdAt -updatedAt -views -fileId -pageId -deleted';
 
     return DateSheet.findOne(q).select(select).populate(pop).lean()
       .exec();
@@ -169,7 +169,6 @@ class DateSheetHandler {
       {
         $project: {
           title: 1,
-          pageId: 1,
           year: 1,
           section: 1,
           board: 1,

@@ -68,9 +68,9 @@ class SectionController {
 
     try {
 
-      const doc = await SectionManager.getAllSections();
+      const doc = await SectionManager.getAllSections(req.user);
 
-      res.status(HTTPStatusCodeConstants.OK).json({ success: true, message: SectionConstants.MESSAGES.SECTIONS_FETCHED_SUCCESSFULLY, data: doc });
+      res.status(HTTPStatusCodeConstants.OK).json({ success: true, data: doc });
 
     } catch (error) {
 

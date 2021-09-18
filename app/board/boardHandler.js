@@ -51,9 +51,11 @@ class BoardHandler {
 
   }
 
-  static getAllBoards () {
+  static getAllBoards (admin) {
 
-    return Board.find({ deleted: false }).select('-deleted -boardDir -modelPapersDir -pastPapersDir -dateSheetDir').populate('sections')
+    const select = admin ? '' : 'title webUrl domain key';
+
+    return Board.find({ deleted: false }).select(select)
       .sort({ createdAt: 1 })
       .lean()
       .exec();
@@ -70,7 +72,7 @@ class BoardHandler {
 
     }
 
-    return Board.find(q).select('title province city resultUrl type domain').lean().exec();
+    return Board.find(q).select('title webUrl domain key').lean().exec();
 
   }
 
